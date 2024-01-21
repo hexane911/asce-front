@@ -1,0 +1,151 @@
+:root {
+  --color-bg: #0f0f0f;
+  --color-bg-light: #f3f3f3;
+  --color-black: #000;
+  --color-fg: #ffffff;
+  --color-red: #e02b1e;
+  --color-bad: #ad4545;
+  --color-good: #53ad45;
+  --wrapper-width: 1120px;
+  --radius: 32px;
+  --gradient-1: linear-gradient(92deg, #fff -11.5%, #000 147.03%);
+  --gradient-2: linear-gradient(92deg, #000 10.79%, #fff 147.03%);
+  --animation-pop: pop;
+}
+
+@font-face {
+  font-family: Manrope;
+  src: url("assets/fonts/Manrope-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: Mazzard;
+  src: url("assets/fonts/MazzardM-Medium.ttf");
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Manrope;
+}
+
+li {
+  list-style-type: none;
+}
+
+.wrapper {
+  max-width: var(--wrapper-width);
+  margin: 0 auto;
+  height: 100%;
+}
+
+.button-like {
+  height: 58px;
+  padding: 0px 30px;
+  display: flex;
+  border-radius: var(--radius);
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.gradi {
+  width: fit-content;
+  background: linear-gradient(95deg, #000 20.37%, #fff 197.32%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradi.inverse {
+  background-image: linear-gradient(92deg, #fff -11.5%, #000 147.03%);
+}
+
+.null {
+  display: none;
+}
+
+.in-cart {
+  display: flex;
+  align-items: center;
+  background: #000;
+  padding: 8px;
+  border-radius: var(--radius);
+  height: 58px;
+}
+
+.in-cart__quantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  background: white;
+  border-radius: 89px;
+  height: 100%;
+  padding: 0px 20px;
+}
+
+.in-cart__quan {
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  width: auto;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.in-cart__quan:hover {
+  filter: brightness(0.9);
+}
+
+.in-cart__quan:active {
+  filter: brightness(0.7);
+  transition: 0.1s;
+}
+
+.in-cart__quan.plus {
+  background-image: url('./assets/img/plus.svg');
+}
+
+.in-cart__quan.minus {
+  background-image: url('./assets/img/minus.svg');
+}
+
+@media (max-width: 1439px) {
+  :root {
+    --wrapper-width: 100%;
+  }
+
+  .wrapper {
+    padding: 0px 14px;
+  }
+
+  .in-cart {
+    height: 33px;
+    padding: 4px;
+  }
+  
+  .in-cart__quantity {
+    font-size: 12px;
+    padding: 0px 8px;
+  }
+  
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: translateY(30%);
+  }
+  30% {
+    opacity: 0.6;
+    transform: translateY(0%);
+  }
+  100% {
+    opacity: 1;
+  }
+}

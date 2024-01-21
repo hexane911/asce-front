@@ -1,0 +1,261 @@
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  overflow: hidden;
+  border: 1px solid black;
+  border-radius: 60px;
+  padding: 7px;
+  position: relative;
+  transition: .3s;
+}
+
+.cart-item__tools {
+  position: absolute;
+  right: 33px;
+  top: 33px;
+  display: flex;
+  gap: 10px;
+}
+
+.cart-item__delete, .cart-item__checkbox, .cart-item__open {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  transition: .3s;
+}
+
+.cart-item__delete:hover, .cart-item__checkbox:hover, .cart-item__ope:hover {
+  opacity: .7;
+}
+
+.cart-item__delete:active, .cart-item__checkbox:active, .cart-item__open:active {
+  opacity: .5;
+  transition: .1s;
+}
+
+.cart-item__open {
+  display: none;
+}
+
+.cart-item.disabled {
+  opacity: .2;
+}
+
+.cart-item__checkbox {
+  border: 1px solid black;
+}
+
+.cart-item__checkbox.checked {
+  background-image: url("../assets/img/eye.svg");
+}
+
+.cart-item__delete {
+  background-image: url("../assets/img/del.svg");
+}
+
+.cart-item__delete.disabled {
+  pointer-events: none;
+  opacity: .8;
+}
+
+.cart-item__buttons.disabled {
+  pointer-events: none;
+}
+
+.cart-item__box {
+  border-radius: 53px;
+  background: rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  aspect-ratio: 1 / 1;
+  gap: 20px;
+}
+
+.cart-item__image {
+  width: 80%;
+  height: auto;
+}
+
+.cart-item__color {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 13px 18px;
+  background: white;
+  border-radius: var(--radius);
+}
+
+.cart-item__color-text {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+  line-height: 100%;
+}
+
+.cart-item__airpods {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 13px 18px;
+  background: #F0F0F0;
+  border-radius: var(--radius);
+  width: fit-content;
+  font-size: 16px;
+  line-height: 100%;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.cart-item__title {
+    display: block;
+    text-decoration: none;
+    font-size: 32px;
+    font-family: Mazzard;
+    margin-bottom: 20px !important;
+    font-weight: 600;
+}
+
+.cart-item__delivery {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    color: #B3B3B3;
+    font-weight: 500;
+}
+
+.cart-item__buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart-item__price {
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.cart-item__delivery.mobile {
+  display: none;
+}
+
+@media (max-width: 1439px) {
+  .cart-item {
+    flex-direction: column;
+    gap: 0px;
+    border-radius: 30px;
+    padding: 4px;
+
+  }
+
+  .cart-item__box {
+    width: 100%;
+    border-radius: 26px 26px 0px 0px;
+    transition: .2s;
+    height: fit-content;
+    aspect-ratio: unset;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .cart-item__box.rounded {
+    border-radius: 26px;
+  }
+
+  .cart-item__image {
+    width: 35%;
+    max-width: 300px;
+  }
+
+
+  .cart-item__content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: .3s;
+  }
+
+  .cart-item__content.hidden {
+    height: 0 !important;
+    opacity: 0;
+    padding: 0px 24px;
+  }
+
+  .cart-item__color, .cart-item__airpods {
+    height: 30px;
+    font-size: 13px;
+    padding: 9px 14px;
+  }
+
+  .cart-item__color-text {
+    font-size: 14px;
+  }
+
+  .cart-item__airpods {
+    margin-bottom: 10px;
+  }
+
+  .cart-item__title {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .cart-item__delivery {
+    font-size: 14px;
+    white-space: initial;
+    display: none;
+  }
+
+  .cart-item__delivery.mobile {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+  }
+
+  .cart-item__price {
+    font-size: 20px;
+    
+  }
+  .cart-item__buttons {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .cart-item__tools {
+    right: 16px;
+    top: 16px;
+    gap: 6px;
+  }
+
+
+  .cart-item__checkbox, .cart-item__delete, .cart-item__open {
+    width: 25px;
+    height: 25px;
+  }
+
+  .cart-item__open {
+    position: absolute;
+    display: block;
+    left: 16px;
+    top: 16px;
+    background-image: url("../assets/img/open.svg");
+    transition: .2s;
+    transform: rotate(0deg);
+  }
+
+  .cart-item__open.hidden {
+    transform: rotate(-180deg);
+  }
+
+
+}

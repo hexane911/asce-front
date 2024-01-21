@@ -1,0 +1,21 @@
+.path {
+    color: #B3B3B3;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 70px;
+}
+
+.path .link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.path .link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 1439px) {
+    .path {
+        display: none;
+    }
+}

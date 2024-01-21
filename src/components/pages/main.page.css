@@ -1,0 +1,189 @@
+.main-page {
+  overflow: hidden;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: -50px;
+}
+
+.slider {
+  width: 100%;
+}
+
+.main-page__slider .slick-list {
+  overflow: hidden;
+}
+
+.main-page__slider .slick-track {
+  display: flex;
+}
+
+.slider-arrow {
+  position: absolute;
+  width: 17px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.slider-arrow.prev {
+  left: calc((100vw - var(--wrapper-width)) / 2);
+}
+
+.slider-arrow.next {
+  right: calc((100vw - var(--wrapper-width)) / 2);
+}
+
+.slick-dots {
+  display: flex !important;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.slick-dots > li::marker {
+  display: none;
+}
+
+.slick-dots > li > a {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+
+.slick-dots > li > ._0 {
+  background: black;
+  border: 1px solid white;
+}
+
+.slick-dots > li {
+  cursor: pointer;
+}
+
+.slick-dots > .slick-active > ._0 {
+  background: white !important;
+  border: 1px solid white;
+}
+
+.slick-dots > li > ._1 {
+  background: white;
+  border: 1px solid black;
+}
+
+.slick-dots > .slick-active > ._1 {
+  background: black !important;
+  border: 1px solid black;
+}
+
+.main-page__bottom {
+  height: 140px;
+  position: relative;
+}
+
+.main-page__bottom-wrapper {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
+  min-height: fit-content !important;
+}
+
+.main-page__card {
+  height: 171px;
+  width: 100%;
+  box-shadow: 0px 18px 62px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 60px 60px 0px 0px;
+  padding: 8px;
+  background: white;
+}
+
+.main-page__card-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 40px;
+  border: 2px dashed #7f7f7f;
+  border-radius: 52px 52px 0px 0px;
+}
+
+.main-page__topic {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 94.2%;
+  background: linear-gradient(95deg, #000 20.37%, #fff 197.32%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: Mazzard;
+}
+
+
+.main-page__icon {
+  pointer-events: none;
+}
+
+@media (max-width: 1439px) {
+  .slider-arrow {
+    display: none;
+  }
+
+  .slick-dots {
+    bottom: 108px;
+  }
+
+  .slick-dots li {
+    height: 6px;
+    width: 6px;
+  }
+
+  .slick-dots li a {
+    height: 6px;
+    width: 6px;
+  }
+
+  .main-page__bottom {
+    height: auto;
+  }
+
+  .main-page__bottom-wrapper {
+    flex-direction: column;
+    position: relative;
+    gap: 0;
+  }
+
+  .main-page__card {
+    margin-bottom: -59px;
+    padding: 6px;
+    height: 181px;
+  }
+
+  .main-page__card-container {
+    padding: 45px 32px 0px;
+
+  }
+
+  .main-page__topic, .main-page__icon {
+    margin-bottom: auto;
+    height: 50px;
+  }
+
+  .main-page__topic {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+  }
+}

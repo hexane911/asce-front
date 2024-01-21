@@ -1,0 +1,158 @@
+.slide {
+  width: 100%;
+  position: relative;
+}
+
+.slide * {
+  z-index: 2;
+}
+
+.slide.black {
+  background: #000;
+}
+
+.slide.white {
+  background: var(--color-bg-light);
+}
+
+.slide__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 191px;
+  padding-bottom: 183px;
+}
+
+.slide__illustration {
+  position: absolute;
+  left: 50%;
+  top: 42px;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.slide__image {
+  width: 387px;
+  position: relative;
+}
+
+.slide__image-container {
+  margin-bottom: 56px;
+  position: relative;
+}
+
+.slide__image-back {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(56.5px);
+}
+
+.slide__image-back.black {
+  background: white;
+  width: 166px;
+  height: 179px;
+  top: 53px;
+  border-radius: 50%;
+}
+
+.slide__image-back.white {
+  top: 173px;
+  width: 276px;
+  height: 146px;
+  background: #808080;
+  border-radius: 276px;
+}
+
+.slide__title {
+  font-size: 66px;
+  font-weight: 600;
+  margin-bottom: 143px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: Mazzard;
+}
+
+.slide__title.white {
+  background-image: var(--gradient-2);
+}
+
+.slide__title.black {
+  background-image: var(--gradient-1);
+  text-shadow: 0px 4px 57px #000;
+}
+
+.slide__link {
+  display: flex;
+  align-items: center;
+  background: white;
+  color: var(--color-black);
+  text-decoration: none;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.slide__link.white {
+  background: #000;
+  color: white;
+}
+
+.slide__compability {
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+}
+
+.slide__compability.white {
+  color: black;
+}
+
+@media (max-width: 1439px) {
+  .slide__box {
+    padding-top: 70px;
+    padding-bottom: 138px;
+  }
+
+  .slide__image-container {
+    height: 110px;
+    margin-bottom: 18px;
+  }
+
+  .slide__image {
+    height: 100%;
+    width: auto;
+  }
+
+  .slide__image-back.black {
+    width: 44px;
+    height: 48px;
+    top: 50px;
+    filter: blur(39.5px);
+  }
+
+  .slide__image-back.white {
+    width: 67px;
+    height: 48px;
+    filter: blur(26px);
+    top: 55px;
+  }
+
+  .slide__title {
+    font-size: 28px;
+    margin-bottom: 66px;
+  }
+
+  .slide__link {
+    margin-bottom: 14px;
+  }
+
+  .slide__compability {
+    font-size: 13px;
+  }
+
+  .slide__illustration {
+    top: 23px;
+    width: 112%;
+  }
+}
