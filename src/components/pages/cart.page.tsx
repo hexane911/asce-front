@@ -7,7 +7,7 @@ import Button from "../button";
 import cartIcon from "../../assets/img/cart-white.svg";
 
 const CartPage = () => {
-  const { cart, setCart } = useContext(FakeCartContext);
+  const { cart } = useContext(FakeCartContext);
 
   const [order, setOrder] = useState<
     { id: number; quantity: number; price: number; device: "AirPods 3" | "AirPods Pro" }[]

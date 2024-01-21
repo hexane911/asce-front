@@ -16,7 +16,7 @@ interface Props extends TProduct {
   animationDelay?: number;
 }
 
-const ItemCard = ({ id, price, color, in_stock, animationDelay, image_urls, in_development, product_name }: Props) => {
+const ItemCard = ({ id, price, color, in_stock, animationDelay, image_urls, in_development }: Props) => {
   const colorWords = color.split(" ");
   const navigate = useNavigate()
 

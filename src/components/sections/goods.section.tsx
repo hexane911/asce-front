@@ -9,7 +9,7 @@ import iconAppleBlack from "../../assets/img/apple-black.svg";
 import { useState } from "react";
 import { scrollTo } from "../../tools";
 import classNames from "classnames";
-import { useGetProductsQuery } from "../../redux/products.api";
+// import { useGetProductsQuery } from "../../redux/products.api";
 import { HARDCODE_PRODUCTS } from "../../constants";
 
 const GoodsSection = () => {

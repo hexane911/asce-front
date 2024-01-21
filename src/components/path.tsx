@@ -5,7 +5,6 @@ import "./path.css";
 
 const Path = () => {
   const location = useLocation();
-  let name = "";
   
 
   return (

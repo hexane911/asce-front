@@ -7,7 +7,7 @@ import { numToPrice } from "../tools";
 import { useContext, useEffect, useState } from "react";
 import { FakeCartContext } from "../App";
 import classNames from "classnames";
-import { useGetProductByIdQuery } from "../redux/products.api";
+// import { useGetProductByIdQuery } from "../redux/products.api";
 import { HARDCODE_PRODUCTS, IMG_PATH } from "../constants";
 
 type Props = {

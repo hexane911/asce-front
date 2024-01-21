@@ -10,7 +10,6 @@ import bgIllustrationWhite from "../assets/img/main-page-bgi-2.svg";
 import arrowIcon from "../assets/img/arrow-right.svg";
 import arrowIconWhite from "../assets/img/arrow-right-white.svg";
 
-import ellipseImg from '../assets/img/ellipse.svg'
 import Button from './button';
 
 type Props = {
@@ -31,7 +30,7 @@ const ArrowIcon: { [key: string]: string } = {
     black: arrowIcon,
   };
 
-const Slide = ({ variant, link }: Props) => {
+const Slide = ({ variant }: Props) => {
   const productImage = ProductImg[variant];
   const illustrationImage = BGI[variant];
 

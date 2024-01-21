@@ -48,6 +48,7 @@ const MainPage = () => {
           }}
           arrows={false}
           beforeChange={(prevSlide, nextSlide) => {
+            prevSlide
             setCurrentSlide(nextSlide);
           }}
           autoplay

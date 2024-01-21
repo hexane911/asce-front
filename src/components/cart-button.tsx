@@ -1,7 +1,7 @@
 import "./cart-button.css";
 import cartIcon from "../assets/img/cart.svg";
 import cartWhiteIcon from "../assets/img/cart-white.svg";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { FakeCartContext } from "../App";
 import { Link } from "react-router-dom";
 

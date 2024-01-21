@@ -10,7 +10,7 @@ import { BG_BY_MODEL, HARDCODE_PRODUCTS, IMG_PATH } from "../../constants";
 import classNames from "classnames";
 import { numToPrice } from "../../tools";
 import infoIcon from "../../assets/img/info-gray.svg";
-import { useGetProductsQuery } from "../../redux/products.api";
+// import { useGetProductsQuery } from "../../redux/products.api";
 import { TProduct } from "../../types";
 import { FakeCartContext } from "../../App";
 
@@ -77,7 +77,7 @@ const ProductPage = () => {
     (el) => el.id === parseInt(productId || "0")
   );
 
-  const deviceList = product ? product.devices.map((el) => el.name) : [];
+  // const deviceList = product ? product.devices.map((el) => el.name) : [];
 
   useEffect(() => {
     let pr = HARDCODE_PRODUCTS?.find((el) => el.id === parseInt(productId || "0"));
@@ -177,7 +177,10 @@ const ProductPage = () => {
               className="product__slider"
               arrows={false}
               fade
-              beforeChange={(c, n) => setCurrentSlide(n)}
+              beforeChange={(c, n) => {
+                c
+                setCurrentSlide(n)
+              }}
               ref={slider}
             >
               {imgs?.map((el, i) => (
