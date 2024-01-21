@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { FakeCartContext } from "../App";
 import classNames from "classnames";
 import { useGetProductByIdQuery } from "../redux/products.api";
-import { IMG_PATH } from "../constants";
+import { HARDCODE_PRODUCTS, IMG_PATH } from "../constants";
 
 type Props = {
   id: number;
@@ -23,7 +23,9 @@ const CartItem = ({ id, disabled, checked, setOrder, device }: Props) => {
   const [hidden, setHidden] = useState(true);
   const inCart =
     cart.find((el) => el.id === id && el.device === device)?.quantity || 0;
-  const { data: product, isLoading } = useGetProductByIdQuery(id);
+  // const { data: product, isLoading } = useGetProductByIdQuery(id);
+
+  const product = HARDCODE_PRODUCTS.find(el => el.id === id)
 
   const colorWords = product?.color.split(" ");
   useEffect(() => {
@@ -100,7 +102,7 @@ const CartItem = ({ id, disabled, checked, setOrder, device }: Props) => {
     }
   };
 
-  if (!product && !isLoading) {
+  if (!product) {
     return null;
   }
 

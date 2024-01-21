@@ -10,13 +10,14 @@ import { useState } from "react";
 import { scrollTo } from "../../tools";
 import classNames from "classnames";
 import { useGetProductsQuery } from "../../redux/products.api";
+import { HARDCODE_PRODUCTS } from "../../constants";
 
 const GoodsSection = () => {
   const [currentModel, setCurrentModel] = useState<"AirPods 3" | "AirPods Pro">(
     "AirPods 3"
   );
   const [opened, setOpened] = useState(false);
-  const { data: products, isLoading } = useGetProductsQuery();
+  // const { data: products, isLoading } = useGetProductsQuery();
 
   const handleClick = () => {
     if (opened) {
@@ -27,12 +28,10 @@ const GoodsSection = () => {
     }
   };
 
-  const filtered = products
-    ? products.filter((el) => {
+  const filtered = HARDCODE_PRODUCTS.filter((el) => {
         return el.devices.map(d => d.name).includes(currentModel);
         //@ts-ignore
-      }).sort((a, b) => a.in_development - b.in_development)
-    : [];
+      }).sort((a, b) => a.in_development - b.in_development);
 
   return (
     <section className="goods" id="goods">
@@ -65,7 +64,7 @@ const GoodsSection = () => {
           </Button>
         </div>
         <div className="goods__list">
-          {!!products && !isLoading && (
+          {
             <>
               {filtered.map((el, i) =>
                 i < 4 ? <ItemCard {...el} animationDelay={i * 80} /> : null
@@ -76,7 +75,7 @@ const GoodsSection = () => {
                 ) : null
               )}
             </>
-          )}
+          }
         </div>
         {filtered.length > 4 && (
           <Button

@@ -6,7 +6,7 @@ import iconAppleWhite from "../../assets/img/apple-white.svg";
 import iconAppleBlack from "../../assets/img/apple-black.svg";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BG_BY_MODEL, IMG_PATH } from "../../constants";
+import { BG_BY_MODEL, HARDCODE_PRODUCTS, IMG_PATH } from "../../constants";
 import classNames from "classnames";
 import { numToPrice } from "../../tools";
 import infoIcon from "../../assets/img/info-gray.svg";
@@ -64,7 +64,7 @@ const ProductPage = () => {
     navigate("/");
   }
   const { cart, setCart } = useContext(FakeCartContext);
-  const { data: products, isLoading } = useGetProductsQuery();
+  // const { data: products, isLoading } = useGetProductsQuery();
 
   const [product, setProduct] = useState<TProduct | null>(null);
   const [colors, setColors] = useState<{ id: number; colorName: string }[]>([]);
@@ -80,8 +80,8 @@ const ProductPage = () => {
   const deviceList = product ? product.devices.map((el) => el.name) : [];
 
   useEffect(() => {
-    let pr = products?.find((el) => el.id === parseInt(productId || "0"));
-    let clrs = products
+    let pr = HARDCODE_PRODUCTS?.find((el) => el.id === parseInt(productId || "0"));
+    let clrs = HARDCODE_PRODUCTS
       ?.filter((el) => !el.in_development)
       .map((el) => ({ id: el.id, colorName: el.color }));
     if (clrs) {
@@ -102,10 +102,10 @@ const ProductPage = () => {
         setInCart(0)
       }
     }
-    if (!isLoading && !products) {
-      navigate("/");
-    }
-  }, [products, isLoading, productId, cart, currentAirPodsModel]);
+    // if (!isLoading && !products) {
+    //   navigate("/");
+    // }
+  }, [productId, cart, currentAirPodsModel]);
 
 
   const [currentSlide, setCurrentSlide] = useState(0);

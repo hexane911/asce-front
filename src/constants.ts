@@ -1,3 +1,7 @@
+import { TProduct } from "./types"
+import caseBlack from './assets/img/case-black.png'
+import caseWhite from './assets/img/case-white.png'
+
 export const BG_BY_MODEL : {[key: string] : string} = {
     "matte white" : "#ffffff",
     "classic black": "#000000",
@@ -11,4 +15,68 @@ export const BG_BY_MODEL : {[key: string] : string} = {
 
 }
 
-export const IMG_PATH = `${import.meta.env.VITE_API_URL || ""}/static/`
+export const IMG_PATH = ``
+
+export const HARDCODE_PRODUCTS : TProduct[] = [
+    {
+        product_name: "MC classic black",
+        color: "classic black",
+        id: 1,
+        price: 1499,
+        image_urls: [
+            caseBlack, caseBlack, caseBlack, caseBlack
+        ],
+        devices: [
+            {
+                id: 1,
+                name: "AirPods 3"
+            },
+            {
+                id: 2,
+                name: "AirPods Pro"
+            }
+        ],
+        in_stock: true
+    },
+    {
+        product_name: "MC matte white",
+        color: "matte white",
+        id: 2,
+        price: 1499,
+        image_urls: [
+            caseWhite, caseWhite, caseWhite, caseWhite
+        ],
+        devices: [
+            {
+                id: 1,
+                name: "AirPods 3"
+            },
+            {
+                id: 2,
+                name: "AirPods Pro"
+            }
+        ],
+        in_stock: true
+    },
+    {
+        product_name: "MC classic black",
+        color: "gold pink",
+        id: 3,
+        price: 1499,
+        image_urls: [
+            caseBlack, caseBlack, caseBlack, caseBlack
+        ],
+        devices: [
+            {
+                id: 1,
+                name: "AirPods 3"
+            },
+            {
+                id: 2,
+                name: "AirPods Pro"
+            }
+        ],
+        in_development: true,
+        in_stock: true
+    },
+]
