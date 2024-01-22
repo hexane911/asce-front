@@ -50,16 +50,12 @@ export const HARDCODE_PRODUCTS : TProduct[] = [
             {
                 id: 1,
                 name: "AirPods 3"
-            },
-            {
-                id: 2,
-                name: "AirPods Pro"
             }
         ],
         in_stock: true
     },
     {
-        product_name: "MC classic black",
+        product_name: "MC gold pink",
         color: "gold pink",
         id: 3,
         price: 1499,
