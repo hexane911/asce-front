@@ -10,26 +10,18 @@ import { useGetProductsQuery } from "../../redux/products.api";
 const CartPage = () => {
   const { cart, setCart } = useContext(FakeCartContext);
   const [finalPrice, setFinalPrice] = useState(0)
-
-  // const [order, setOrder] = useState<
-  //   { id: number; quantity: number; price: number; device: "AirPods 3" | "AirPods Pro" }[]
-  // >([]);
-
-  // const finalPrice = order.reduce(
-  //   (acc, el) => (acc += el.price * el.quantity),
-  //   0
-  // );
+  const [step, setStep] = useState(0)
 
   const {data: products, isLoading} = useGetProductsQuery()
 
   useEffect(() => {
     if (products && cart.length) {
       const idsWprices = products.map(el => ({id: el.id, price: el.price}))
-      const price = idsWprices.reduce((acc, el) => {
-        let itemInCart = cart.find(ci => ci.id === el.id)
-        if (itemInCart) {
-          return acc += el.price * itemInCart.quantity
-        } 
+      const price = cart.reduce((acc, el) => {
+        let price = idsWprices.find(pr => pr.id === el.id)?.price
+        if (price) {
+          return acc += el.quantity * price
+        }
         return acc += 0
       }, 0)
       setFinalPrice(price)
@@ -40,6 +32,8 @@ const CartPage = () => {
     }
   }, [cart, products])
 
+  const sorted = [...cart].sort((a, b) => a.order - b.order)
+
 
 
   return (
@@ -47,16 +41,13 @@ const CartPage = () => {
       <div className="wrapper cart__wrapper">
         <Path />
         <div className="cart__list">
-          {cart.map((el) => (
+          {sorted.map((el) => (
             <CartItem
               device={el.device}
               id={el.id}
-              // checked={!!order.find((oi) => oi.id === el.id && oi.device === el.device)}
-              // disabled={!order.find((oi) => oi.id === el.id && oi.device === el.device)}
-              // setOrder={setOrder}
             />
           ))}
-          {!cart.length && <div className="cart__empty">Корзина пуста</div>}
+          {!sorted.length && <div className="cart__empty">Корзина пуста</div>}
         </div>
         <div className="cart__finals">
           <p className="cart__price">

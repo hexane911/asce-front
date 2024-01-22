@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
 export const FakeCartContext = createContext<{
-  cart: {device: "AirPods 3" | "AirPods Pro", id: number, quantity: number}[];
+  cart: {device: "AirPods 3" | "AirPods Pro", id: number, quantity: number, order: number}[];
   setCart: any;
 }>({
   cart: [],
@@ -12,7 +12,7 @@ export const FakeCartContext = createContext<{
 });
 
 function App() {
-  const [cart, setCart] = useState<{device: "AirPods 3" | "AirPods Pro", id: number, quantity: number}[]>([]);
+  const [cart, setCart] = useState<{device: "AirPods 3" | "AirPods Pro", id: number, quantity: number, order: number}[]>([]);
   useEffect(() => {
     let saved = localStorage.getItem("cart");
     if (saved) {

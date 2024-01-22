@@ -16,9 +16,10 @@ type Props = {
   disabled?: boolean;
   checked?: boolean;
   device: "AirPods 3" | "AirPods Pro";
+  inOrder?: boolean;
 };
 
-const CartItem = ({ id, disabled, checked, device }: Props) => {
+const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
   const { cart, setCart } = useContext(FakeCartContext);
   const [hidden, setHidden] = useState(true);
   const inCart =
@@ -37,7 +38,7 @@ const CartItem = ({ id, disabled, checked, device }: Props) => {
           (el: any) => device == el.device && product.id === el.id
         );
         if (already) {
-          let newOne = {...already};
+          let newOne = { ...already };
           newOne.quantity += 1;
           return [
             newOne,
@@ -46,9 +47,9 @@ const CartItem = ({ id, disabled, checked, device }: Props) => {
             ),
           ];
         }
-        return [...c, { id: product.id, device: device, quantity: 1 }];
+        let lastOrder = c.length ? [...c].sort((a, b) => a.order - b.order)[c.length -1].order : 0
+        return [...c, { id: product.id, device: device, quantity: 1, order: ++lastOrder}];
       });
-      // updateOrder(1)
     }
   };
 
@@ -112,9 +113,7 @@ const CartItem = ({ id, disabled, checked, device }: Props) => {
     return null;
   }
 
-  let imgs = product?.image_urls?.map(
-    (el) => IMG_PATH + el
-  );
+  let imgs = product?.image_urls?.map((el) => IMG_PATH + el);
 
   return (
     <div className={classNames("cart-item", { disabled })}>
@@ -150,15 +149,17 @@ const CartItem = ({ id, disabled, checked, device }: Props) => {
             );
           }}
         ></div> */}
-        <div
-          className={classNames("cart-item__delete")}
-          onClick={() => {
-            // setOrder((ord: { id: number; device: string }[]) => {
-            //   return ord.filter((el) => el.id != id && el.device !== device);
-            // });
-            removeFromCart(inCart);
-          }}
-        ></div>
+        {!inOrder && (
+          <div
+            className={classNames("cart-item__delete")}
+            onClick={() => {
+              // setOrder((ord: { id: number; device: string }[]) => {
+              //   return ord.filter((el) => el.id != id && el.device !== device);
+              // });
+              removeFromCart(inCart);
+            }}
+          ></div>
+        )}
       </div>
       <div className={classNames("cart-item__box", { rounded: hidden })}>
         {imgs && <img src={imgs[0]} alt="" className="cart-item__image" />}
@@ -194,11 +195,15 @@ const CartItem = ({ id, disabled, checked, device }: Props) => {
             {numToPrice(product?.price || 0)}
           </p>
           <div className="in-cart cart-item__in-cart">
-            <div className="in-cart__quan plus" onClick={addToCart}></div>
-            <div
-              className="in-cart__quan minus"
-              onClick={() => removeFromCart()}
-            ></div>
+            {!inOrder && (
+              <>
+                <div className="in-cart__quan plus" onClick={addToCart}></div>
+                <div
+                  className="in-cart__quan minus"
+                  onClick={() => removeFromCart()}
+                ></div>
+              </>
+            )}
             <div className="in-cart__quantity">{inCart}шт.</div>
           </div>
         </div>
