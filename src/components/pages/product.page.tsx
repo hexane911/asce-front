@@ -128,10 +128,8 @@ const ProductPage = () => {
             newOne,
           ];
         }
-        return [
-          ...c,
-          { id: product.id, device: currentAirPodsModel, quantity: 1 },
-        ];
+        let lastOrder = c.length ? [...c].sort((a, b) => a.order - b.order)[c.length -1].order : 0
+        return [...c, { id: product.id, device: currentAirPodsModel, quantity: 1, order: ++lastOrder}];
       });
     }
   };

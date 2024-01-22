@@ -50,6 +50,7 @@ const router = createBrowserRouter([
         element: <CartPage />,
       },
     ],
+    errorElement: <>404</>
   },
 ]);
 
