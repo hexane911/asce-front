@@ -27,9 +27,6 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
   const { data: product, isLoading } = useGetProductByIdQuery(id);
 
   const colorWords = product?.color.split(" ");
-  useEffect(() => {
-    // updateOrder();
-  }, [product]);
 
   const addToCart = () => {
     if (product) {
@@ -68,38 +65,9 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
           return [{ ...already, quantity: already.quantity - q }, ...wOcurrent];
         }
       });
-      // updateOrder(-q)
     }
   };
 
-  // const updateOrder = (quan: number = inCart) => {
-  //   if (product) {
-  //     setOrder(
-  //       (
-  //         ord: {
-  //           id: number;
-  //           quantity: number;
-  //           price: number;
-  //           device: "AirPods 3" | "AirPods Pro";
-  //         }[]
-  //       ) => {
-  //         let old = ord.find((el) => el.id === id && el.device === device);
-  //         if (old) {
-  //           let newOne = { ...old };
-  //           newOne.quantity += quan;
-  //           return [
-  //             ...ord.filter((el) => el.id != id && el.device !== device),
-  //             newOne,
-  //           ];
-  //         }
-  //         return [
-  //           ...ord,
-  //           { id: id, quantity: inCart, price: product?.price, device },
-  //         ];
-  //       }
-  //     );
-  //   }
-  // };
 
   if (!product && !isLoading) {
     return null;
@@ -116,39 +84,12 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
   let imgs = product?.image_urls?.map((el) => IMG_PATH + el);
 
   return (
-    <div className={classNames("cart-item", { disabled })}>
+    <div className={classNames("cart-item", { disabled, inOrder })}>
       <div
         className={classNames("cart-item__open", { hidden })}
         onClick={() => setHidden((s) => !s)}
       ></div>
       <div className="cart-item__tools">
-        {/* <div
-          className={classNames("cart-item__checkbox", { checked })}
-          onClick={() => {
-            setOrder(
-              (
-                ord: {
-                  id: number;
-                  quantity: number;
-                  device: "AirPods 3" | "AirPods Pro";
-                }[]
-              ) => {
-                let old = ord.find(
-                  (el) => el.id === id && el.device === device
-                );
-                if (old) {
-                  return ord.filter(
-                    (el) => el.id !== id || el.device !== device
-                  );
-                }
-                return [
-                  ...ord,
-                  { id: id, quantity: inCart, price: product?.price, device },
-                ];
-              }
-            );
-          }}
-        ></div> */}
         {!inOrder && (
           <div
             className={classNames("cart-item__delete")}

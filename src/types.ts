@@ -26,3 +26,10 @@ export type TProduct = {
     name: "AirPods 3" | "AirPods Pro"
   }[]
 };
+
+export type TBuyer = {
+  full_name: string,
+  email: string,
+  phone_number: string,
+  telegram: string
+}
