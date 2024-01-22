@@ -12,13 +12,13 @@ import { IMG_PATH } from "../constants";
 
 type Props = {
   id: number;
-  setOrder?: any;
+  // setOrder?: any;
   disabled?: boolean;
   checked?: boolean;
   device: "AirPods 3" | "AirPods Pro";
 };
 
-const CartItem = ({ id, disabled, checked, setOrder, device }: Props) => {
+const CartItem = ({ id, disabled, checked, device }: Props) => {
   const { cart, setCart } = useContext(FakeCartContext);
   const [hidden, setHidden] = useState(true);
   const inCart =
@@ -27,7 +27,7 @@ const CartItem = ({ id, disabled, checked, setOrder, device }: Props) => {
 
   const colorWords = product?.color.split(" ");
   useEffect(() => {
-    updateOrder();
+    // updateOrder();
   }, [product]);
 
   const addToCart = () => {
@@ -48,7 +48,7 @@ const CartItem = ({ id, disabled, checked, setOrder, device }: Props) => {
         }
         return [...c, { id: product.id, device: device, quantity: 1 }];
       });
-      updateOrder(1)
+      // updateOrder(1)
     }
   };
 
@@ -67,38 +67,38 @@ const CartItem = ({ id, disabled, checked, setOrder, device }: Props) => {
           return [{ ...already, quantity: already.quantity - q }, ...wOcurrent];
         }
       });
-      updateOrder(-q)
+      // updateOrder(-q)
     }
   };
 
-  const updateOrder = (quan: number = inCart) => {
-    if (product) {
-      setOrder(
-        (
-          ord: {
-            id: number;
-            quantity: number;
-            price: number;
-            device: "AirPods 3" | "AirPods Pro";
-          }[]
-        ) => {
-          let old = ord.find((el) => el.id === id && el.device === device);
-          if (old) {
-            let newOne = { ...old };
-            newOne.quantity += quan;
-            return [
-              ...ord.filter((el) => el.id != id && el.device !== device),
-              newOne,
-            ];
-          }
-          return [
-            ...ord,
-            { id: id, quantity: inCart, price: product?.price, device },
-          ];
-        }
-      );
-    }
-  };
+  // const updateOrder = (quan: number = inCart) => {
+  //   if (product) {
+  //     setOrder(
+  //       (
+  //         ord: {
+  //           id: number;
+  //           quantity: number;
+  //           price: number;
+  //           device: "AirPods 3" | "AirPods Pro";
+  //         }[]
+  //       ) => {
+  //         let old = ord.find((el) => el.id === id && el.device === device);
+  //         if (old) {
+  //           let newOne = { ...old };
+  //           newOne.quantity += quan;
+  //           return [
+  //             ...ord.filter((el) => el.id != id && el.device !== device),
+  //             newOne,
+  //           ];
+  //         }
+  //         return [
+  //           ...ord,
+  //           { id: id, quantity: inCart, price: product?.price, device },
+  //         ];
+  //       }
+  //     );
+  //   }
+  // };
 
   if (!product && !isLoading) {
     return null;
@@ -153,9 +153,9 @@ const CartItem = ({ id, disabled, checked, setOrder, device }: Props) => {
         <div
           className={classNames("cart-item__delete")}
           onClick={() => {
-            setOrder((ord: { id: number; device: string }[]) => {
-              return ord.filter((el) => el.id != id && el.device !== device);
-            });
+            // setOrder((ord: { id: number; device: string }[]) => {
+            //   return ord.filter((el) => el.id != id && el.device !== device);
+            // });
             removeFromCart(inCart);
           }}
         ></div>
