@@ -5,7 +5,6 @@ import { FakeCartContext } from "../../App";
 import CartItem from "../item.in-cart";
 import Button from "../button";
 import cartIcon from "../../assets/img/cart-white.svg";
-import { useGetProductsQuery } from "../../redux/products.api";
 import CreateOrder from "../create.order";
 import { HARDCODE_PRODUCTS } from "../../constants";
 

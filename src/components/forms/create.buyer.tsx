@@ -26,7 +26,10 @@ const CreateBuyerForm = ({ currentBuyer, setStage }: Props) => {
   });
 
   const onSubmit = (data: IBuyerForm) => {
-    console.log(data);
+    // console.log(data);
+    if (data) {
+      
+    }
   };
 
   useEffect(() => {

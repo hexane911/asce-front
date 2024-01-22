@@ -4,7 +4,7 @@ import colorIcon from "../assets/img/color-icon.svg";
 import infoIcon from "../assets/img/info-gray.svg";
 import { Link } from "react-router-dom";
 import { numToPrice } from "../tools";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { FakeCartContext } from "../App";
 import classNames from "classnames";
 // import { useGetProductByIdQuery } from "../redux/products.api";
