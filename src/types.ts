@@ -1,4 +1,4 @@
-export type MODELS =
+export type COLORS =
   | "matte white"
   | "classic black"
   | "red wine"
@@ -10,9 +10,8 @@ export type MODELS =
   | "light blue";
 
 export type TProduct = {
-  // model: MODELS;
   id: number;
-  color: MODELS;
+  color: COLORS;
   colorNameRu?: string;
   price: number;
   old_price?: number;
@@ -31,5 +30,11 @@ export type TBuyer = {
   full_name: string,
   email: string,
   phone_number: string,
-  telegram: string
+  telegram?: string
+}
+
+export type TCitySdek = {
+  region: string,
+  city: string,
+  address: string
 }

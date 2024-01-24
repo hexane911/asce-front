@@ -1,0 +1,98 @@
+.banner-page {
+  padding-top: 127px;
+  padding-bottom: 194px;
+}
+
+.banner-page .link {
+    text-decoration: none !important;
+}
+
+.banner-page__content {
+  padding: 112px 0px;
+  border-radius: 60px;
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-page__logo {
+    margin-bottom: 48px;
+    width: 232px;
+}
+
+.banner-page__title {
+    font-family: Mazzard;
+    font-weight: 600;
+    font-size: 44px;
+    margin-bottom: 12px;
+    height: fit-content;
+}
+
+.banner-page__title::after {
+    content: '';
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 9px;
+}
+
+.banner-page__title.err::after {
+    background-image: url('../../assets/img/err.svg');
+}
+
+.banner-page__title.heart::after {
+    background-image: url('../../assets/img/heart.svg');
+}
+
+.banner-page__title.err {
+    margin-bottom: 36px;
+}
+
+.banner-page__sub {
+    margin-bottom: 48px;
+    font-weight: 500;
+}
+
+
+@media (max-width: 1439px) {
+    .banner-page {
+        padding-top: 32px;
+        padding-bottom: 140px;
+    }
+    .banner-page__content {
+        padding: 65px 0px;
+        border-radius: 30px;
+    }
+
+    .banner-page__logo {
+        width: 132px;
+        margin-bottom: 42px;
+    }
+
+    .banner-page__title {
+        margin-bottom: 3px;
+        text-align: center;
+        font-size: 25px;
+        max-width: 90%;
+    }
+
+    .banner-page__title.err {
+        margin-bottom: 29px;
+    }
+
+    .banner-page__title::after {
+        width: 16px;
+        height: 16px;
+        margin-left: 6px;
+    }
+
+    .banner-page__sub {
+        text-align: center;
+        margin-bottom: 42px;
+        font-size: 14px;
+        max-width: 90%;
+    }
+}

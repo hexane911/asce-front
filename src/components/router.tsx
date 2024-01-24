@@ -13,8 +13,14 @@ import ProductPage from "./pages/product.page";
 import CartPage from "./pages/cart.page";
 import { useEffect } from "react";
 import { scrollTo } from "../tools";
+import Popup from "./popup";
+import BannerPage from "./pages/banner.page";
 
-const Page = () => {
+type PageProps = {
+  outlet?: any;
+};
+
+const Page = ({ outlet }: PageProps) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -23,8 +29,9 @@ const Page = () => {
 
   return (
     <div className="page" id="page">
+      <Popup />
       <Header />
-      <Outlet />
+      {outlet ? <>{outlet}</> : <Outlet />}
       <GoodsSection />
       <SupportSection />
       <Footer />
@@ -39,6 +46,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        index: true,
         element: <MainPage />,
       },
       {
@@ -49,8 +57,16 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <CartPage />,
       },
+      {
+        path: "/success",
+        element: <BannerPage state="success" />
+      },
+      {
+        path: "/order_error",
+        element: <BannerPage state="order-rejected" />
+      }
     ],
-    errorElement: <>404</>
+    errorElement: <Page outlet={<BannerPage state="404" />} />,
   },
 ]);
 

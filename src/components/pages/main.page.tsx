@@ -11,6 +11,7 @@ import arrowRightWhite from "../../assets/img/slider-arrow-right-white.svg";
 import qualityIcon from "../../assets/img/icon-quality.png";
 import fitIcon from "../../assets/img/icon-fit.png";
 import supportIcon from "../../assets/img/icon-support.png";
+import { useGetCitiesSdekQuery } from "../../redux/sdek.api";
 
 const MainPage = () => {
   const slider = useRef(null);
@@ -34,6 +35,7 @@ const MainPage = () => {
     if (slider.current) {
     }
   }, [slider]);
+
 
   return (
     <div className="page main-page" id="main">

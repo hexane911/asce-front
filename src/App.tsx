@@ -25,6 +25,9 @@ function App() {
     }
   }, [cart]);
 
+
+  
+
   return (
     <Provider store={store}>
       <FakeCartContext.Provider value={{ cart, setCart }}>

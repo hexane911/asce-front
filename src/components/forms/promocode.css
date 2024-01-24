@@ -1,0 +1,35 @@
+.promo__box {
+    display: flex;
+    width: 100%;
+}
+
+.promo__input {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    width: 100%;
+}
+
+.promo__button {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.promo__button img {
+    display: none;
+}
+
+
+@media (max-width: 1439px) {
+    .promo__input {
+        height: 45px;
+    }
+    .promo__button {
+        height: 45px !important;
+        font-size: 0 !important;
+        gap: 0px;
+    }
+    .promo__button img {
+        display: block;
+        width: 14px;
+    }
+}

@@ -11,6 +11,7 @@ type Props = {
   onChange?: any;
   errors?: {[key: string]: any}, 
   errorMsg? : string
+  
 
 };
 
@@ -22,14 +23,14 @@ const Input = ({
   labelToShow,
   pattern,
   errors,
-  errorMsg
+  errorMsg,
 }: Props) => {
 
     const error = errors ? errors[label] : null
 
   return (
     <div className="input__box">
-      <label className="input__label gradi">{labelToShow}</label>
+      <label className="input__label gradi">{labelToShow} {required && <span>*</span>}</label>
       <input
         {...register(label, { required, pattern })}
         placeholder={placeholder}
@@ -47,4 +48,9 @@ const Input = ({
 
 export default Input;
 
-
+export const Area = ({label, labelToShow, register, placeholder, required} : Props) => {
+  return <div className="input__box">
+      <label className="input__label gradi">{labelToShow} {required && <span>*</span>}</label>
+      <textarea {...register(label, {required})} placeholder={placeholder} className={classNames("input area")} />
+  </div>
+}

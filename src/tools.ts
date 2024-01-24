@@ -29,11 +29,36 @@ export const useOutsideClick = (callback: () => void) => {
 
 export const scrollTo = (id?: string) => {
   if (!id) {
-    window.scrollTo({top: 0, behavior: "smooth"})
-    return
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
   }
   const top = document.getElementById(id)?.offsetTop;
   if (top) {
     window.scrollTo({ top: top - 100 > 0 ? top - 100 : 0, behavior: "smooth" });
   }
+};
+
+export const formatTelephone = (tn: string): string => {
+  let arr = tn.split("").filter((c) => !!+c || c === "0");
+  
+  if (arr.length !== 11) {
+    return tn;
+  }
+
+  let final =
+    "+7 (" +
+    arr[1] +
+    arr[2] +
+    arr[3] +
+    ") " +
+    arr[4] +
+    arr[5] +
+    arr[6] +
+    " " +
+    arr[7] +
+    arr[8] +
+    " " +
+    arr[9] +
+    arr[10];
+  return final;
 };

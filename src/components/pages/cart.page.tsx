@@ -40,8 +40,8 @@ const CartPage = () => {
         <Path />
         {step === 0 ? (
             <div className="cart__list">
-              {sorted.map((el) => (
-                <CartItem device={el.device} id={el.id} />
+              {sorted.map((el, i) => (
+                <CartItem key={i} device={el.device} id={el.id} />
               ))}
               {!sorted.length && (
                 <div className="cart__empty">Корзина пуста</div>

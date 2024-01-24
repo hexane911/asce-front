@@ -13,9 +13,10 @@ type Props = {
   setStage: (arg: number) => void;
 };
 
-export interface IBuyerForm extends TBuyer {}
+export interface IBuyerForm extends TBuyer {
+}
 
-const CreateBuyerForm = ({ currentBuyer, setStage }: Props) => {
+const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
   const {
     register,
     handleSubmit,
@@ -26,7 +27,8 @@ const CreateBuyerForm = ({ currentBuyer, setStage }: Props) => {
   });
 
   const onSubmit = (data: IBuyerForm) => {
-    console.log(data);
+    setBuyer(data)
+    setStage(2)
   };
 
   useEffect(() => {

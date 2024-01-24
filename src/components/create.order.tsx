@@ -5,6 +5,8 @@ import CartItem from "./item.in-cart";
 import classNames from "classnames";
 import { TBuyer } from "../types";
 import CreateBuyerForm from "./forms/create.buyer";
+import DeliveryForm from "./forms/delivery.form";
+import OrderForm from "./forms/order.form";
 
 type Props = {
   stage: number;
@@ -50,6 +52,7 @@ const CreateOrder = ({ stage, setStage }: Props) => {
     return null;
   }
 
+
   return (
     <div className="order">
       <div className="order__list">
@@ -78,6 +81,8 @@ const CreateOrder = ({ stage, setStage }: Props) => {
             setStage={setStage}
           />
         )}
+        {stage === 2 && <DeliveryForm setStage={setStage} />}
+        {stage === 3 && <OrderForm currentBuyer={buyer} setStage={setStage} />}
       </div>
     </div>
   );
