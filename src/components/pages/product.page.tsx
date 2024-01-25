@@ -4,15 +4,16 @@ import Path from "../path";
 import "./product.page.css";
 import iconAppleWhite from "../../assets/img/apple-white.svg";
 import iconAppleBlack from "../../assets/img/apple-black.svg";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BG_BY_MODEL, IMG_PATH } from "../../constants";
 import classNames from "classnames";
 import { numToPrice } from "../../tools";
 import infoIcon from "../../assets/img/info-gray.svg";
 import { useGetProductsQuery } from "../../redux/products.api";
-import { TProduct } from "../../types";
-import { FakeCartContext } from "../../App";
+import { TCartItem, TDevice, TProduct } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../redux/cart.slice";
 
 type PagProps = {
   photos: string[];
@@ -63,21 +64,20 @@ const ProductPage = () => {
   if (!productId) {
     navigate("/");
   }
-  const { cart, setCart } = useContext(FakeCartContext);
-  const { data: products, isLoading } = useGetProductsQuery();
 
+  const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
+  const dispatch = useDispatch()
+  const { data: products, isLoading } = useGetProductsQuery();
+  const [currentAirPodsModel, setCurrentAirPodsModel] =
+  useState<TDevice>("AirPods 3");
   const [product, setProduct] = useState<TProduct | null>(null);
   const [colors, setColors] = useState<{ id: number; colorName: string }[]>([]);
-  const [inCart, setInCart] = useState(0);
-  const [currentAirPodsModel, setCurrentAirPodsModel] = useState<
-  "AirPods 3" | "AirPods Pro"
->("AirPods 3");
+  const inCart = cart.find(el => el.id === +(productId || 0) && el.device === currentAirPodsModel)?.quantity || 0
+  
 
   const currentColor = colors.find(
     (el) => el.id === parseInt(productId || "0")
   );
-
-  const deviceList = product ? product.devices.map((el) => el.name) : [];
 
   useEffect(() => {
     let pr = products?.find((el) => el.id === parseInt(productId || "0"));
@@ -90,16 +90,7 @@ const ProductPage = () => {
     if (pr) {
       setProduct(pr);
       if (pr.devices.length === 1) {
-        setCurrentAirPodsModel(pr.devices[0].name)
-      }
-      let already = cart.find(
-        (el) => el.device === currentAirPodsModel && pr!.id === el.id
-      );
-      if (already) {
-        setInCart(already.quantity);
-      }
-      else {
-        setInCart(0)
+        setCurrentAirPodsModel(pr.devices[0].name);
       }
     }
     if (!isLoading && !products) {
@@ -107,61 +98,14 @@ const ProductPage = () => {
     }
   }, [products, isLoading, productId, cart, currentAirPodsModel]);
 
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const slider = useRef(null);
-
-  const addToCart = () => {
-    if (product) {
-      setCart((c: any) => {
-        let already = c.filter(
-          (el: any) => currentAirPodsModel == el.device && product.id === el.id
-        );
-        if (already.length) {
-          let newOne = already[0];
-          newOne.quantity++;
-          return [
-            ...c.filter(
-              (el: any) =>
-                !(currentAirPodsModel === el.device && product.id === el.id)
-            ),
-            newOne,
-          ];
-        }
-        let lastOrder = c.length ? [...c].sort((a, b) => a.order - b.order)[c.length -1].order : 0
-        return [...c, { id: product.id, device: currentAirPodsModel, quantity: 1, order: ++lastOrder}];
-      });
-    }
-  };
-
-  const removeFromCart = () => {
-    if (product) {
-      
-      setCart((c: any) => {
-        let already = c.find(
-          (el: any) =>  currentAirPodsModel === el.device && product.id === el.id
-        );
-        let wOcurrent = [
-          ...c.filter(
-            (el: any) =>
-              !(el.device === currentAirPodsModel && product.id === el.id)
-          ),
-        ]
-        if (already.quantity) {
-          return [...wOcurrent, {...already, quantity: already.quantity - 1}]
-        }
-
-      });
-    }
-  };
 
   if (!product) {
     return null;
   }
 
-  let imgs = product.image_urls?.map(
-    (el) => IMG_PATH + el
-  );
+  let imgs = product.image_urls?.map((el) => IMG_PATH + el);
 
   const deviceNames = product ? product.devices.map((el) => el.name) : [];
 
@@ -266,17 +210,17 @@ const ProductPage = () => {
                 <>
                   {inCart ? (
                     <div className="product__in-cart in-cart">
-                      <div className="in-cart__quan plus" onClick={addToCart} />
+                      <div className="in-cart__quan plus" onClick={() => dispatch(addToCart({id: product.id, device: currentAirPodsModel, price: product.price}))} />
                       <div
                         className="in-cart__quan minus"
-                        onClick={removeFromCart}
+                        onClick={() => dispatch(removeFromCart({id: product.id, device: currentAirPodsModel}))}
                       />
                       <div className="in-cart__quantity">{inCart}шт.</div>
                     </div>
                   ) : (
                     <Button
                       variant="black"
-                      onClick={addToCart}
+                      onClick={() => dispatch(addToCart({id: product.id, device: currentAirPodsModel, price: product.price}))}
                       className="product__button"
                     >
                       В корзину

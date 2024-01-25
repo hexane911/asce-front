@@ -22,7 +22,7 @@ export type TProduct = {
   product_name: string;
   devices: {
     id: number,
-    name: "AirPods 3" | "AirPods Pro"
+    name: TDevice
   }[]
 };
 
@@ -37,4 +37,14 @@ export type TCitySdek = {
   region: string,
   city: string,
   address: string
+}
+
+export type TDevice = "AirPods 3" | "AirPods Pro"
+
+export type TCartItem = {
+  device: TDevice,
+  quantity: number,
+  order: number,
+  id: number,
+  price: number
 }

@@ -4,15 +4,16 @@ import colorIcon from "../assets/img/color-icon.svg";
 import infoIcon from "../assets/img/info-gray.svg";
 import { Link } from "react-router-dom";
 import { numToPrice } from "../tools";
-import { useContext, useEffect, useState } from "react";
-import { FakeCartContext } from "../App";
+import { useState } from "react";
 import classNames from "classnames";
 import { useGetProductByIdQuery } from "../redux/products.api";
 import { IMG_PATH } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../redux/cart.slice";
+import { TCartItem } from "../types";
 
 type Props = {
   id: number;
-  // setOrder?: any;
   disabled?: boolean;
   checked?: boolean;
   device: "AirPods 3" | "AirPods Pro";
@@ -20,7 +21,7 @@ type Props = {
 };
 
 const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
-  const { cart, setCart } = useContext(FakeCartContext);
+  const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const [hidden, setHidden] = useState(true);
   const inCart =
     cart.find((el) => el.id === id && el.device === device)?.quantity || 0;
@@ -28,46 +29,7 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
 
   const colorWords = product?.color.split(" ");
 
-  const addToCart = () => {
-    if (product) {
-      setCart((c: any) => {
-        let already = c.find(
-          (el: any) => device == el.device && product.id === el.id
-        );
-        if (already) {
-          let newOne = { ...already };
-          newOne.quantity += 1;
-          return [
-            newOne,
-            ...c.filter(
-              (el: any) => device !== el.device || product.id !== el.id
-            ),
-          ];
-        }
-        let lastOrder = c.length ? [...c].sort((a, b) => a.order - b.order)[c.length -1].order : 0
-        return [...c, { id: product.id, device: device, quantity: 1, order: ++lastOrder}];
-      });
-    }
-  };
-
-  const removeFromCart = (q = 1) => {
-    if (product) {
-      setCart((c: any) => {
-        let already = c.find(
-          (el: any) => device === el.device && product.id === el.id
-        );
-        let wOcurrent = [
-          ...c.filter(
-            (el: any) => el.device !== device || product.id !== el.id
-          ),
-        ];
-        if (already.quantity) {
-          return [{ ...already, quantity: already.quantity - q }, ...wOcurrent];
-        }
-      });
-    }
-  };
-
+  const dispatch = useDispatch();
 
   if (!product && !isLoading) {
     return null;
@@ -77,7 +39,7 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
     return null;
   }
 
-  if (!inCart) {
+  if (!inCart || !product) {
     return null;
   }
 
@@ -89,19 +51,16 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
         className={classNames("cart-item__open", { hidden })}
         onClick={() => setHidden((s) => !s)}
       ></div>
-      <div className="cart-item__tools">
-        {!inOrder && (
+      {!inOrder && (
+        <div className="cart-item__tools">
           <div
             className={classNames("cart-item__delete")}
             onClick={() => {
-              // setOrder((ord: { id: number; device: string }[]) => {
-              //   return ord.filter((el) => el.id != id && el.device !== device);
-              // });
-              removeFromCart(inCart);
+              removeFromCart({ id: id, device: device, deleteAll: true });
             }}
           ></div>
-        )}
-      </div>
+        </div>
+      )}
       <div className={classNames("cart-item__box", { rounded: hidden })}>
         {imgs && <img src={imgs[0]} alt="" className="cart-item__image" />}
         <div className="cart-item__color">
@@ -138,10 +97,29 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
           <div className="in-cart cart-item__in-cart">
             {!inOrder && (
               <>
-                <div className="in-cart__quan plus" onClick={addToCart}></div>
+                <div
+                  className="in-cart__quan plus"
+                  onClick={() =>
+                    dispatch(
+                      addToCart({
+                        id: id,
+                        device: device,
+                        price: product?.price,
+                      })
+                    )
+                  }
+                ></div>
                 <div
                   className="in-cart__quan minus"
-                  onClick={() => removeFromCart()}
+                  onClick={() =>
+                    dispatch(
+                      removeFromCart({
+                        id: id,
+                        device: device,
+                        deleteAll: false,
+                      })
+                    )
+                  }
                 ></div>
               </>
             )}

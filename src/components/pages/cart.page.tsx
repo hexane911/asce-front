@@ -1,15 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Path from "../path";
 import "./cart.page.css";
-import { FakeCartContext } from "../../App";
 import CartItem from "../item.in-cart";
 import Button from "../button";
 import cartIcon from "../../assets/img/cart-white.svg";
 import { useGetProductsQuery } from "../../redux/products.api";
 import CreateOrder from "../create.order";
+import { useSelector } from "react-redux";
+import { TCartItem } from "../../types";
 
 const CartPage = () => {
-  const { cart } = useContext(FakeCartContext);
+  const cart = useSelector((state : {cart : TCartItem[]}) => state.cart)
   const [finalPrice, setFinalPrice] = useState(0);
   const [step, setStep] = useState(0);
 

@@ -1,15 +1,15 @@
 import "./order.form.css";
 import "./formcommon.css";
-import { TBuyer } from "../../types";
+import { TBuyer, TCartItem } from "../../types";
 import { Area } from "./input";
 import { useForm } from "react-hook-form";
 import Promocode from "./promocode";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetProductsQuery } from "../../redux/products.api";
-import { FakeCartContext } from "../../App";
 import classNames from "classnames";
 import Button from "../button";
 import { formatTelephone } from "../../tools";
+import { useSelector } from "react-redux";
 
 type Props = {
   setStage: (arg: number) => void;
@@ -22,7 +22,7 @@ const OrderForm = ({ currentBuyer, setStage }: Props) => {
   >([]);
 
   const { data: products, isLoading } = useGetProductsQuery();
-  const { cart } = useContext(FakeCartContext);
+  const cart = useSelector((state: {cart: TCartItem[]}) => state.cart)
 
   useEffect(() => {
     if (products && cart.length) {

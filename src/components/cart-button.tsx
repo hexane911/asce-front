@@ -1,12 +1,12 @@
 import "./cart-button.css";
 import cartIcon from "../assets/img/cart.svg";
 import cartWhiteIcon from "../assets/img/cart-white.svg";
-import { useContext, useEffect, useState } from "react";
-import { FakeCartContext } from "../App";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { TCartItem } from "../types";
 
 const CartButton = () => {
-  const { cart } = useContext(FakeCartContext);
+  const cart = useSelector((state : {cart: TCartItem[]}) => state.cart)
 
   let items = cart.reduce((acc, el) => acc += el.quantity, 0);
 

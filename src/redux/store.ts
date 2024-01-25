@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { productsApi } from "./products.api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { sdekApi } from "./sdek.api";
+import cartReducer from "./cart.slice";
 
 export const store = configureStore({
   reducer: {
     [productsApi.reducerPath]: productsApi.reducer,
-    [sdekApi.reducerPath]: sdekApi.reducer
+    [sdekApi.reducerPath]: sdekApi.reducer,
+    cart: cartReducer
   },
   middleware: (gdm) => gdm().concat(productsApi.middleware).concat(sdekApi.middleware),
 });

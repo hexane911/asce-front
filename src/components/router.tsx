@@ -15,6 +15,8 @@ import { useEffect } from "react";
 import { scrollTo } from "../tools";
 import Popup from "./popup";
 import BannerPage from "./pages/banner.page";
+import { useSelector } from "react-redux";
+import { TCartItem } from "../types";
 
 type PageProps = {
   outlet?: any;
@@ -22,6 +24,14 @@ type PageProps = {
 
 const Page = ({ outlet }: PageProps) => {
   const location = useLocation();
+
+  const cart = useSelector((state: {cart: TCartItem[]}) => state.cart)
+
+  useEffect(() => {
+    if (cart.length) {
+      localStorage.setItem("cart", JSON.stringify(cart.filter(el => !!el.quantity)));
+    }
+  }, [cart]);
 
   useEffect(() => {
     scrollTo();
@@ -72,13 +82,7 @@ const router = createBrowserRouter([
 
 const Pages = () => {
   return (
-    // <>
-    //   <Header />
     <RouterProvider router={router} />
-    //   <GoodsSection />
-    //   <SupportSection />
-    //   <Footer />
-    // </>
   );
 };
 

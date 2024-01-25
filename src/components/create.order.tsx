@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./create.order.css";
-import { FakeCartContext } from "../App";
 import CartItem from "./item.in-cart";
 import classNames from "classnames";
-import { TBuyer } from "../types";
+import { TBuyer, TCartItem } from "../types";
 import CreateBuyerForm from "./forms/create.buyer";
 import DeliveryForm from "./forms/delivery.form";
 import OrderForm from "./forms/order.form";
+import { useSelector } from "react-redux";
 
 type Props = {
   stage: number;
@@ -45,7 +45,7 @@ const line = (
 );
 
 const CreateOrder = ({ stage, setStage }: Props) => {
-  const { cart } = useContext(FakeCartContext);
+  const cart = useSelector((state: {cart : TCartItem[]}) => state.cart)
   const sorted = [...cart].sort((a, b) => a.order - b.order);
   const [buyer, setBuyer] = useState<TBuyer | null>(null);
   if (stage === 0 || !cart.length) {
@@ -57,7 +57,7 @@ const CreateOrder = ({ stage, setStage }: Props) => {
     <div className="order">
       <div className="order__list">
         {sorted.map((el) => (
-          <CartItem device={el.device} id={el.id} inOrder />
+          <CartItem device={el.device} id={el.id} inOrder/>
         ))}
       </div>
       <div className="order__forms">
