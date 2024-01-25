@@ -26,19 +26,15 @@ const OrderForm = ({ currentBuyer, setStage }: Props) => {
 
   useEffect(() => {
     if (products && cart.length) {
-      const mapped = cart.map((el) => ({
-        quantity: el.quantity,
-        id: el.id,
-      }));
-      const iNps = mapped
+      const iNps = cart
         .filter((el) => !!products.find((pi) => pi.id === el.id))
         .map((el) => {
           return {
             name: `Mythical Case ${
               products.find((pi) => pi.id === el.id)?.color
             }`,
-            price: products.find((pi) => pi.id === el.id)?.price || 0,
-            device: cart.find((ci) => ci.id === el.id)?.device || "",
+            price: el.price,
+            device: el.device,
             quantity: el.quantity,
           };
         });
@@ -47,9 +43,7 @@ const OrderForm = ({ currentBuyer, setStage }: Props) => {
     }
   }, [cart, products]);
 
-  const finalPrice = itemsNprices.length
-    ? itemsNprices.reduce((acc, el) => (acc += el.price * el.quantity), 0)
-    : 0;
+  const finalPrice = cart.reduce((acc, el) => (acc += el.price * el.quantity), 0)
 
   const {
     register,

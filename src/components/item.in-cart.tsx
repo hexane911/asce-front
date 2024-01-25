@@ -10,13 +10,13 @@ import { useGetProductByIdQuery } from "../redux/products.api";
 import { IMG_PATH } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/cart.slice";
-import { TCartItem } from "../types";
+import { TCartItem, TDevice } from "../types";
 
 type Props = {
   id: number;
   disabled?: boolean;
   checked?: boolean;
-  device: "AirPods 3" | "AirPods Pro";
+  device: TDevice;
   inOrder?: boolean;
 };
 

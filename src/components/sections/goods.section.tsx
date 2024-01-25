@@ -10,9 +10,10 @@ import { useState } from "react";
 import { scrollTo } from "../../tools";
 import classNames from "classnames";
 import { useGetProductsQuery } from "../../redux/products.api";
+import { TDevice } from "../../types";
 
 const GoodsSection = () => {
-  const [currentModel, setCurrentModel] = useState<"AirPods 3" | "AirPods Pro">(
+  const [currentModel, setCurrentModel] = useState<TDevice>(
     "AirPods 3"
   );
   const [opened, setOpened] = useState(false);
