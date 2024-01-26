@@ -11,6 +11,7 @@
   --gradient-1: linear-gradient(92deg, #fff -11.5%, #000 147.03%);
   --gradient-2: linear-gradient(92deg, #000 10.79%, #fff 147.03%);
   --animation-pop: pop;
+  --animation-appear: appear;
 }
 
 @font-face {
@@ -144,6 +145,15 @@ li {
   30% {
     opacity: 0.6;
     transform: translateY(0%);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
   }
   100% {
     opacity: 1;

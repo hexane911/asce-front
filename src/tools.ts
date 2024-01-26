@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const numToPrice = (num: number): string => {
   const rest = num % 1000;
@@ -62,3 +62,24 @@ export const formatTelephone = (tn: string): string => {
     arr[10];
   return final;
 };
+
+
+export const useOnScreen = (ref : any) => {
+  const [isIntersecting, setIntersecting] = useState(false);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      setIntersecting(entry.isIntersecting);
+    },{
+      threshold: 1.0
+    }
+  );
+
+  useEffect(() => {
+    observer.observe(ref.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return isIntersecting;
+}

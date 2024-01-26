@@ -66,43 +66,34 @@ const ProductPage = () => {
   }
 
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { data: products, isLoading } = useGetProductsQuery();
   const [currentAirPodsModel, setCurrentAirPodsModel] =
-  useState<TDevice>("AirPods 3");
-  const [product, setProduct] = useState<TProduct | null>(null);
-  const [colors, setColors] = useState<{ id: number; colorName: string }[]>([]);
-  const inCart = cart.find(el => el.id === +(productId || 0) && el.device === currentAirPodsModel)?.quantity || 0
-  
+    useState<TDevice>("AirPods 3");
+  const inCart =
+    cart.find(
+      (el) => el.id === +(productId || 0) && el.device === currentAirPodsModel
+    )?.quantity || 0;
 
-  const currentColor = colors.find(
+  const product = products?.find((el) => el.id === parseInt(productId || "0"));
+  const colors = products
+    ?.filter((el) => !el.in_development)
+    .map((el) => ({ id: el.id, colorName: el.color }));
+
+  const currentColor = colors?.find(
     (el) => el.id === parseInt(productId || "0")
   );
-
   useEffect(() => {
-    let pr = products?.find((el) => el.id === parseInt(productId || "0"));
-    let clrs = products
-      ?.filter((el) => !el.in_development)
-      .map((el) => ({ id: el.id, colorName: el.color }));
-    if (clrs) {
-      setColors(clrs);
-    }
-    if (pr) {
-      setProduct(pr);
-      if (pr.devices.length === 1) {
-        setCurrentAirPodsModel(pr.devices[0].name);
-      }
-    }
     if (!isLoading && !products) {
       navigate("/");
     }
-  }, [products, isLoading, productId, cart, currentAirPodsModel]);
+  }, [products, isLoading]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slider = useRef(null);
 
   if (!product) {
-    return null;
+    return <div className="product__filler"></div>;
   }
 
   let imgs = product.image_urls?.map((el) => IMG_PATH + el);
@@ -177,7 +168,7 @@ const ProductPage = () => {
             <p className="product__name gradi">Mythical Case</p>
             <div className="product__colors">
               <div className="product__picker">
-                {colors.map((clr) => {
+                {colors?.map((clr) => {
                   return (
                     <div
                       onClick={() => navigate(`/products/${clr.id}`)}
@@ -210,17 +201,43 @@ const ProductPage = () => {
                 <>
                   {inCart ? (
                     <div className="product__in-cart in-cart">
-                      <div className="in-cart__quan plus" onClick={() => dispatch(addToCart({id: product.id, device: currentAirPodsModel, price: product.price}))} />
+                      <div
+                        className="in-cart__quan plus"
+                        onClick={() =>
+                          dispatch(
+                            addToCart({
+                              id: product.id,
+                              device: currentAirPodsModel,
+                              price: product.price,
+                            })
+                          )
+                        }
+                      />
                       <div
                         className="in-cart__quan minus"
-                        onClick={() => dispatch(removeFromCart({id: product.id, device: currentAirPodsModel}))}
+                        onClick={() =>
+                          dispatch(
+                            removeFromCart({
+                              id: product.id,
+                              device: currentAirPodsModel,
+                            })
+                          )
+                        }
                       />
                       <div className="in-cart__quantity">{inCart}шт.</div>
                     </div>
                   ) : (
                     <Button
                       variant="black"
-                      onClick={() => dispatch(addToCart({id: product.id, device: currentAirPodsModel, price: product.price}))}
+                      onClick={() =>
+                        dispatch(
+                          addToCart({
+                            id: product.id,
+                            device: currentAirPodsModel,
+                            price: product.price,
+                          })
+                        )
+                      }
                       className="product__button"
                     >
                       В корзину

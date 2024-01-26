@@ -1,6 +1,12 @@
 .product {
   padding-top: 89px;
   padding-bottom: 194px;
+  animation: var(--animation-appear) 0.8s ease;
+  animation-fill-mode: forwards;
+}
+
+.product__filler {
+  min-height: 80vh;
 }
 
 .product__content {

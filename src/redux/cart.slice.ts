@@ -22,11 +22,11 @@ export const cartSlice = createSlice({
         ];
       }
       let lastOrder = state.length
-        ? [...state].sort((a, b) => a.order - b.order)[state.length - 1].order
+        ? [...state].sort((a, b) => b.order - a.order)[state.length - 1].order
         : 0;
       return [
         ...state,
-        { id: id, device: device, quantity: 1, order: lastOrder, price: price },
+        { id: id, device: device, quantity: 1, order: lastOrder + 1, price: price },
       ];
     },
     removeFromCart: (state: TCartItem[], { payload }) => {

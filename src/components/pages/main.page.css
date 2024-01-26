@@ -6,6 +6,8 @@
   position: relative;
   width: 100%;
   margin-bottom: -50px;
+  animation: var(--animation-appear) .6s ease;
+  animation-fill-mode: forwards;
 }
 
 .slider {
