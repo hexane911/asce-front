@@ -4,7 +4,7 @@ import { TCitySdek } from "../types";
 
 export const sdekApi = createApi({
   reducerPath: "sdekApi",
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL || "/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.API_SERVICE_HOST || "/" }),
   endpoints: (builder) => ({
     getCitiesSdek: builder.query<TCitySdek[], void>({
       query: () => {

@@ -4,7 +4,7 @@ import { TProduct } from "../types";
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL || "/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.API_SERVICE_HOST || "/" }),
   endpoints: (builder) => ({
     getProducts: builder.query<TProduct[], void>({
       query: () => {
