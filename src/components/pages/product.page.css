@@ -40,7 +40,7 @@
   font-family: Mazzard;
   font-size: 44px;
   font-weight: 600;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
 }
 
 .product__price {
@@ -322,7 +322,15 @@
   font-size: 60px;
 }
 
-
+.product__to-cart {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  margin-top: 26px;
+  text-decoration: none;
+  color: black;
+}
 
 @media (max-width: 1439px) {
   .product {
@@ -390,7 +398,7 @@
   }
 
   .product__avaible, .product__soldout {
-    height: 40px;
+    height: 38px;
     padding: 0px 20px;
     font-size: 14px;
   }
@@ -401,10 +409,15 @@
   }
 
   .product__in-cart {
-    height: 40px !important; 
+    height: 38px !important; 
     padding: 5px !important;
   }
   .product__in-cart .in-cart__quantity {
     padding: 0px 12px;
+  }
+
+  .product__to-cart {
+    margin-top: 18px;
+    font-size: 14px;
   }
 }

@@ -11,6 +11,7 @@ import { TProduct } from "../types";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IMG_PATH } from "../constants";
+import classNames from "classnames";
 
 interface Props extends TProduct {
   animationDelay?: number;
@@ -27,9 +28,10 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, image_urls, in_d
 
   return (
     <div
-      className={className}
+      className={classNames(className, {in_development})}
       style={{ animationDelay: `${animationDelay || 0}ms` }}
       onAnimationEnd={() => setClassName("item")}
+      onClick={() => navigate(`/products/${id}`)}
     >
       <div className="item__container">
         <div className="item__image-box">
@@ -66,7 +68,7 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, image_urls, in_d
 
       <Button
         variant="black"
-        onClick={() => navigate(`/products/${id}`)}
+        
         className="item__cart-button"
         disabled={in_development || !in_stock}
       >

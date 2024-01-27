@@ -5,11 +5,12 @@ import "./product.page.css";
 import iconAppleWhite from "../../assets/img/apple-white.svg";
 import iconAppleBlack from "../../assets/img/apple-black.svg";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BG_BY_MODEL, IMG_PATH } from "../../constants";
 import classNames from "classnames";
 import { numToPrice } from "../../tools";
 import infoIcon from "../../assets/img/info-gray.svg";
+import cartIcon from "../../assets/img/cart.svg";
 import { useGetProductsQuery } from "../../redux/products.api";
 import { TCartItem, TDevice, TProduct } from "../../types";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,6 +95,10 @@ const ProductPage = () => {
 
   if (!product) {
     return <div className="product__filler"></div>;
+  }
+
+  if (product.in_development) {
+    navigate("/")
   }
 
   let imgs = product.image_urls?.map((el) => IMG_PATH + el);
@@ -251,6 +256,7 @@ const ProductPage = () => {
               <img src={infoIcon} alt="" className="product__delivery-icon" />
               Отправка в течение 7 дней после покупки.
             </p>
+            {!!inCart && <Link className="product__to-cart" to={"/cart"}> <img src={cartIcon} /> Перейти в корзину</Link>}
           </div>
         </div>
       </div>

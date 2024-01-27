@@ -9,6 +9,11 @@
   animation: var(--animation-pop) .7s ease;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
+  cursor: pointer;
+}
+
+.item.in_development {
+  pointer-events: none;
 }
 
 .spawned {
