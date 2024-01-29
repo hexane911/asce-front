@@ -11,4 +11,4 @@ export const BG_BY_MODEL : {[key: string] : string} = {
 
 }
 
-export const IMG_PATH = `${import.meta.env.API_URL || ""}/static/`
+export const IMG_PATH = `${import.meta.env.VITE_API_URL || ""}/static/`
