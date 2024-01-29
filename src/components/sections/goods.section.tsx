@@ -11,11 +11,10 @@ import { scrollTo } from "../../tools";
 import classNames from "classnames";
 import { useGetProductsQuery } from "../../redux/products.api";
 import { TDevice } from "../../types";
+import Loader from "../loader";
 
 const GoodsSection = () => {
-  const [currentModel, setCurrentModel] = useState<TDevice>(
-    "AirPods 3"
-  );
+  const [currentModel, setCurrentModel] = useState<TDevice>("AirPods 3");
   const [opened, setOpened] = useState(false);
   const { data: products, isLoading } = useGetProductsQuery();
 
@@ -29,10 +28,12 @@ const GoodsSection = () => {
   };
 
   const filtered = products
-    ? products.filter((el) => {
-        return el.devices.map(d => d.name).includes(currentModel);
+    ? products
+        .filter((el) => {
+          return el.devices.map((d) => d.name).includes(currentModel);
+        })
         //@ts-ignore
-      }).sort((a, b) => a.in_development - b.in_development)
+        .sort((a, b) => a.in_development - b.in_development)
     : [];
 
   return (
@@ -65,20 +66,20 @@ const GoodsSection = () => {
             AirPods Pro
           </Button>
         </div>
-        <div className="goods__list">
-          {!!products && !isLoading && (
-            <>
-              {filtered.map((el, i) =>
-                i < 4 ? <ItemCard {...el} animationDelay={i * 80} /> : null
-              )}
-              {filtered.map((el, i) =>
-                opened && i >= 4 ? (
-                  <ItemCard {...el} animationDelay={i * 80} />
-                ) : null
-              )}
-            </>
-          )}
-        </div>
+        {!!products && !isLoading && (
+          <div className="goods__list">
+            {filtered.map((el, i) =>
+              i < 4 ? <ItemCard {...el} animationDelay={i * 80} /> : null
+            )}
+            {filtered.map((el, i) =>
+              opened && i >= 4 ? (
+                <ItemCard {...el} animationDelay={i * 80} />
+              ) : null
+            )}
+          </div>
+        )}
+        {isLoading && <Loader />}
+
         {filtered.length > 4 && (
           <Button
             variant="white"

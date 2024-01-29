@@ -15,6 +15,7 @@ import { useGetProductsQuery } from "../../redux/products.api";
 import { TCartItem, TDevice, TProduct } from "../../types";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/cart.slice";
+import Loader from "../loader";
 
 type PagProps = {
   photos: string[];
@@ -93,15 +94,15 @@ const ProductPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slider = useRef(null);
 
-  if (!product) {
-    return <div className="product__filler"></div>;
+  if (!product && isLoading) {
+     return <Loader />
   }
 
-  if (product.in_development) {
-    navigate("/")
+  if (!product && !isLoading || product && product.in_development) {
+    navigate("/404")
   }
 
-  let imgs = product.image_urls?.map((el) => IMG_PATH + el);
+  let imgs = product ? product.image_urls?.map((el) => IMG_PATH + el) : [];
 
   const deviceNames = product ? product.devices.map((el) => el.name) : [];
 
