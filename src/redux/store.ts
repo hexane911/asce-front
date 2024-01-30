@@ -3,19 +3,23 @@ import { productsApi } from "./products.api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { sdekApi } from "./sdek.api";
 import cartReducer from "./cart.slice";
+import { deliveryApi } from "./delivery.api";
 
 export const store = configureStore({
   reducer: {
     [productsApi.reducerPath]: productsApi.reducer,
     [sdekApi.reducerPath]: sdekApi.reducer,
-    cart: cartReducer
+    [deliveryApi.reducerPath]: deliveryApi.reducer,
+    cart: cartReducer,
   },
-  middleware: (gdm) => gdm().concat(productsApi.middleware).concat(sdekApi.middleware),
+  middleware: (gdm) =>
+    gdm()
+      .concat(productsApi.middleware)
+      .concat(sdekApi.middleware)
+      .concat(deliveryApi.middleware),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);

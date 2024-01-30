@@ -1,0 +1,90 @@
+.picker {
+    height: 58px;
+    border: 1px solid black;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0px 21px;
+    border-radius: 92px;
+    position: relative;
+}
+
+.picker.disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.picker__input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.picker__input::placeholder {
+    color: #B3B3B3;
+}
+
+.picker__cross {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.picker__cross, .picker__icon {
+    opacity: .5;
+    transition: .3s;
+}
+
+.picker.open .picker__cross, .picker.open .picker__icon {
+    opacity: 1;
+}
+
+
+.picker__list {
+    position: absolute;
+    top: 73px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    max-height: 280px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid black;
+    z-index: 5;
+    border-radius: 30px;
+}
+
+.picker__item {
+    padding: 20px 30px;
+    font-weight: 400;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: .3s;
+}
+
+.picker__item span {
+    color: #B3B3B3;
+}
+
+
+
+.picker__item:not(:last-child) {
+    border-bottom: 1px solid black;
+}
+
+.picker__item:hover {
+    background: rgba(179, 179, 179, 0.20);;
+}
+
+.picker__shield {
+    padding: 20px 30px;
+    font-weight: 400;
+}

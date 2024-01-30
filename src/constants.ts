@@ -1,3 +1,6 @@
+import rusPostIcon from './assets/img/russian-post.svg'
+import sdekIcon from './assets/img/sdek.svg'
+
 export const BG_BY_MODEL : {[key: string] : string} = {
     "matte white" : "#ffffff",
     "classic black": "#000000",
@@ -12,3 +15,9 @@ export const BG_BY_MODEL : {[key: string] : string} = {
 }
 
 export const IMG_PATH = `${import.meta.env.VITE_API_URL || ""}/static/`
+
+export type DELIVERY_METHODS = "Почта России" | "СДЕК"
+export const DELIVERY_IMGS : {[key: string] : string} = {
+    "Почта России": rusPostIcon,
+    "СДЕК": sdekIcon
+}

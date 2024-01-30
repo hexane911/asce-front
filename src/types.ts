@@ -1,3 +1,5 @@
+import { DELIVERY_METHODS } from "./constants";
+
 export type COLORS =
   | "matte white"
   | "classic black"
@@ -21,30 +23,61 @@ export type TProduct = {
   image_urls?: string[];
   product_name: string;
   devices: {
-    id: number,
-    name: TDevice
-  }[]
+    id: number;
+    name: TDevice;
+  }[];
 };
 
 export type TBuyer = {
-  full_name: string,
-  email: string,
-  phone_number: string,
-  telegram?: string
-}
+  full_name: string;
+  email: string;
+  phone_number: string;
+  telegram?: string;
+};
 
 export type TCitySdek = {
-  region: string,
-  city: string,
-  address: string
-}
+  region: string;
+  city: string;
+  country: string;
+  code: number;
+};
 
-export type TDevice = "AirPods 3" | "AirPods Pro"
+export type TPVZSdek = {
+  code: string;
+  name: string;
+  uuid: string;
+  location: {
+    address: string;
+    full_address: string;
+    city_code: number;
+  };
+};
+
+export type TDevice = "AirPods 3" | "AirPods Pro";
 
 export type TCartItem = {
-  device: TDevice,
-  quantity: number,
-  order: number,
-  id: number,
-  price: number
-}
+  device: TDevice;
+  quantity: number;
+  order: number;
+  id: number;
+  price: number;
+};
+
+export type TDeliveryMethod = {
+  id: number;
+  name: DELIVERY_METHODS;
+  base_price: number;
+};
+
+export type TDeliveryFinal =
+  | {
+      type: "СДЕК";
+      city?: TCitySdek | null;
+      pvz?: TPVZSdek | null;
+    }
+  | {
+      type: "Почта России";
+      city?: null;
+      pvz?: null;
+    }
+  | null;

@@ -35,12 +35,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 30px;
     font-weight: 500;
-    font-size: 35px;
+    font-size: 32px;
     width: 100%;
-    margin-bottom: 70px;
-    opacity: .3;
+    border: 1px solid black;
+    padding: 75px;
+    width: 100%;
+    border-radius: 60px;
 }
+
+.cart__p-empty {
+    opacity: .5;
+}
+
+
 
 .cart__button {
     width: 100%;

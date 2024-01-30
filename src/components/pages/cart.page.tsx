@@ -8,8 +8,10 @@ import { useGetProductsQuery } from "../../redux/products.api";
 import CreateOrder from "../create.order";
 import { useSelector } from "react-redux";
 import { TCartItem } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
+  const navigate = useNavigate()
   const cart = useSelector((state : {cart : TCartItem[]}) => state.cart)
   const [finalPrice, setFinalPrice] = useState(0);
   const [step, setStep] = useState(0);
@@ -45,11 +47,14 @@ const CartPage = () => {
                 <CartItem key={i} device={el.device} id={el.id} />
               ))}
               {!sorted.length && (
-                <div className="cart__empty">Корзина пуста</div>
+                <div className="cart__empty">
+                  <p className="cart__p-empty gradi">Корзина пуста</p>
+                  <Button variant="black" onClick={() => navigate("/#goods")}>Добавить товары</Button>
+                </div>
               )}
             </div>
         ) : <CreateOrder stage={step} setStage={setStep} />}
-        {step === 0 && <div className="cart__finals">
+        {step === 0 && !!sorted.length && <div className="cart__finals">
           <p className="cart__price">
             Итоговая стоимость: <span className="filler" />{" "}
             <span className="price">{finalPrice}₽</span>

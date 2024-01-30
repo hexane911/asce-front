@@ -1,6 +1,6 @@
 import "./order.form.css";
 import "./formcommon.css";
-import { TBuyer, TCartItem } from "../../types";
+import { TBuyer, TCartItem, TDeliveryFinal } from "../../types";
 import { Area } from "./input";
 import { useForm } from "react-hook-form";
 import Promocode from "./promocode";
@@ -14,9 +14,10 @@ import { useSelector } from "react-redux";
 type Props = {
   setStage: (arg: number) => void;
   currentBuyer?: TBuyer | null;
+  delivery: TDeliveryFinal
 };
 
-const OrderForm = ({ currentBuyer, setStage }: Props) => {
+const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   const [itemsNprices, setInP] = useState<
     { name: string; price: number; device?: string; quantity: number }[]
   >([]);
@@ -88,14 +89,14 @@ const OrderForm = ({ currentBuyer, setStage }: Props) => {
         <p className="order-form__item">
           <p className="order-form__item-beginning">
             <b>Способ доставки:</b>
-            <span>Почта России</span>
+            <span>{delivery?.type}</span>
           </p>
           <div className="filler" />
           <b>323 руб.</b>
         </p>
         <p className="order-form__item col">
           <b>Пункт выдачи:</b>{" "}
-          <span>ул. Дмитрия Ульянова, 17, корп. 1, Москва</span>
+          <span>{delivery?.pvz?.location.address}, {delivery?.city?.city}</span>
         </p>
         <p className="order-form__item">
           <b>Итоговая стоимость:</b>
