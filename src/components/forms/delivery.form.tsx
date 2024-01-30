@@ -63,7 +63,9 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
       {methodsLoading && <Loader />}
 
       {!!methods && (
-        <div className="delivery__content delivery__methods">
+        <>
+        <p className="input__label gradi methods__title">Способ доставки</p>
+          <div className="delivery__content delivery__methods">
           {methods.map((el) => (
             <Method
               method={el}
@@ -72,6 +74,7 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
             />
           ))}
         </div>
+        </>
       )}
 
       <div className="form__buttons">

@@ -56,3 +56,29 @@
 .method.active .method__icon {
     filter: grayscale(0);
 }
+
+.methods__title {
+    margin-bottom: 12px;
+}
+
+@media (max-width: 1439px) {
+    .delivery__content {
+        gap: 14px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .method {
+        font-size: 13px;
+        height: 45px;
+    }
+
+    .method__icon {
+        height: 16px;
+        width: 16px;
+    }
+
+    .methods__title {
+        margin: 0 auto 17px;
+    }
+}

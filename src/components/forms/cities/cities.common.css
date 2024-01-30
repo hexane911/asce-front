@@ -59,6 +59,11 @@
     border-radius: 30px;
 }
 
+.picker__list::-webkit-scrollbar {
+    display: none;
+}
+
+
 .picker__item {
     padding: 20px 30px;
     font-weight: 400;
@@ -87,4 +92,30 @@
 .picker__shield {
     padding: 20px 30px;
     font-weight: 400;
+}
+
+@media (max-width: 1439px) {
+    .picker {
+        height: 45px;
+        gap: 7px;
+    }
+
+    .picker__icon, .picker__cross {
+        width: 12px;
+        height: 12px;
+    }
+
+    .picker__input {
+        font-size: 13px;
+    }
+
+    .picker__item, .picker__shield {
+        font-size: 13px;
+        padding: 15px 20px;
+    }
+
+    .picker__list {
+        max-height: 210px;
+        top: 48px;
+    }
 }
