@@ -58,7 +58,7 @@ const CreateOrder = ({ stage, setStage }: Props) => {
     <div className="order">
       <div className="order__list">
         {sorted.map((el) => (
-          <CartItem device={el.device} id={el.id} inOrder/>
+          <CartItem id={el.id} inOrder/>
         ))}
       </div>
       <div className="order__forms">
