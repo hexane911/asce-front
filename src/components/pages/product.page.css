@@ -403,6 +403,10 @@
     font-size: 14px;
   }
 
+  .product__button {
+    height: 38px !important;
+  }
+
   .product__delivery {
     white-space: normal;
     font-size: 14px;

@@ -12,14 +12,14 @@ type Props = {
 
 const SdekForm = ({ disabled, final, setFinal }: Props) => {
   const setCity = (city: TCitySdek) => {
-    if (final?.type === "СДЕК") {
+    if (final?.type === "СДЭК") {
       //@ts-ignore
       setFinal((f) => ({ ...f, city }));
     }
   };
 
   const setPvz = (pvz: TPVZSdek | null) => {
-    if (final?.type === "СДЕК") {
+    if (final?.type === "СДЭК") {
       //@ts-ignore
       setFinal((f) => ({ ...f, pvz }));
     }

@@ -20,12 +20,9 @@ export type TProduct = {
   inCart?: number;
   in_stock?: boolean;
   in_development?: boolean;
-  image_urls?: string[];
+  image_urls: string[];
   product_name: string;
-  devices: {
-    id: number;
-    name: TDevice;
-  }[];
+  device: "AirPods 3" | "AirPods Pro"
 };
 
 export type TBuyer = {
@@ -56,7 +53,6 @@ export type TPVZSdek = {
 export type TDevice = "AirPods 3" | "AirPods Pro";
 
 export type TCartItem = {
-  device: TDevice;
   quantity: number;
   order: number;
   id: number;
@@ -71,7 +67,7 @@ export type TDeliveryMethod = {
 
 export type TDeliveryFinal =
   | {
-      type: "СДЕК";
+      type: "СДЭК";
       city?: TCitySdek | null;
       pvz?: TPVZSdek | null;
     }

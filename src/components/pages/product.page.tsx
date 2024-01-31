@@ -70,21 +70,16 @@ const ProductPage = () => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const dispatch = useDispatch();
   const { data: products, isLoading } = useGetProductsQuery();
-  const [currentAirPodsModel, setCurrentAirPodsModel] =
-    useState<TDevice>("AirPods 3");
   const inCart =
     cart.find(
-      (el) => el.id === +(productId || 0) && el.device === currentAirPodsModel
+      (el) => el.id === +(productId || 0)
     )?.quantity || 0;
 
   const product = products?.find((el) => el.id === parseInt(productId || "0"));
   const colors = products
-    ?.filter((el) => !el.in_development)
-    .map((el) => ({ id: el.id, colorName: el.color }));
+    ?.filter((el) => !el.in_development && el.device === product?.device)
+    .map((el) => ({ id: el.id, color: el.color }))
 
-  const currentColor = colors?.find(
-    (el) => el.id === parseInt(productId || "0")
-  );
   useEffect(() => {
     if (!isLoading && !products) {
       navigate("/");
@@ -104,7 +99,10 @@ const ProductPage = () => {
 
   let imgs = product ? product.image_urls?.map((el) => IMG_PATH + el) : [];
 
-  const deviceNames = product ? product.devices.map((el) => el.name) : [];
+  const deviceNames = products?.filter(el => el.color === product?.color).map(el => ({id: el.id, device: el.device})).sort((a, b) => a.device === "AirPods 3" ? -1 : 1)
+
+  const currentColor = {id: product?.id, color: product?.color}
+
 
   return (
     <div className="product">
@@ -134,44 +132,26 @@ const ProductPage = () => {
           </div>
           <div className="product__info">
             <div className="product__models">
-              {deviceNames.includes("AirPods 3") && (
-                <Button
-                  className="product__switch switch"
-                  variant={
-                    currentAirPodsModel === "AirPods 3" ? "black" : "white"
+              {deviceNames?.map(el => {
+                return <Button
+                className="product__switch switch"
+                variant={
+                  product?.device === el.device ? "black" : "white"
+                }
+                onClick={() => navigate(`/products/${el.id}`)}
+              >
+                <img
+                  src={
+                    product?.device === el.device
+                    ? iconAppleWhite
+                    : iconAppleBlack
                   }
-                  onClick={() => setCurrentAirPodsModel("AirPods 3")}
-                >
-                  <img
-                    src={
-                      currentAirPodsModel === "AirPods 3"
-                        ? iconAppleWhite
-                        : iconAppleBlack
-                    }
-                  />
-                  AirPods 3
-                </Button>
-              )}
-              {deviceNames.includes("AirPods Pro") && (
-                <Button
-                  className="product__switch switch"
-                  variant={
-                    currentAirPodsModel === "AirPods Pro" ? "black" : "white"
-                  }
-                  onClick={() => setCurrentAirPodsModel("AirPods Pro")}
-                >
-                  <img
-                    src={
-                      currentAirPodsModel === "AirPods 3"
-                        ? iconAppleBlack
-                        : iconAppleWhite
-                    }
-                  />
-                  AirPods Pro
-                </Button>
-              )}
+                />
+                {el.device}
+              </Button>
+              })}
             </div>
-            <p className="product__name gradi">Mythical Case</p>
+            <p className="product__name gradi">{product?.product_name}</p>
             <div className="product__colors">
               <div className="product__picker">
                 {colors?.map((clr) => {
@@ -180,16 +160,16 @@ const ProductPage = () => {
                       onClick={() => navigate(`/products/${clr.id}`)}
                       className={classNames(
                         `product__color`,
-                        { active: clr.colorName === currentColor?.colorName },
-                        { black: clr.colorName === "classic black" }
+                        { active: clr.color === currentColor?.color },
+                        { black: clr.color === "classic black" }
                       )}
-                      style={{ background: BG_BY_MODEL[clr.colorName] }}
+                      style={{ background: BG_BY_MODEL[clr.color] }}
                     ></div>
                   );
                 })}
               </div>
               <div className="product__colorname">
-                {currentColor?.colorName}
+                {currentColor?.color}
               </div>
             </div>
             <p className="product__price">
@@ -213,7 +193,6 @@ const ProductPage = () => {
                           dispatch(
                             addToCart({
                               id: product.id,
-                              device: currentAirPodsModel,
                               price: product.price,
                             })
                           )
@@ -225,7 +204,6 @@ const ProductPage = () => {
                           dispatch(
                             removeFromCart({
                               id: product.id,
-                              device: currentAirPodsModel,
                             })
                           )
                         }
@@ -239,7 +217,6 @@ const ProductPage = () => {
                         dispatch(
                           addToCart({
                             id: product.id,
-                            device: currentAirPodsModel,
                             price: product.price,
                           })
                         )

@@ -17,14 +17,13 @@ interface Props extends TProduct {
   animationDelay?: number;
 }
 
-const ItemCard = ({ id, price, color, in_stock, animationDelay, image_urls, in_development }: Props) => {
+const ItemCard = ({ id, price, color, in_stock, animationDelay, device, image_urls, in_development }: Props) => {
   const colorWords = color.split(" ");
   const navigate = useNavigate()
 
   const [className, setClassName] = useState("item spawned");
 
-  
-  let imgs = image_urls?.map(el => IMG_PATH + el)
+  const imgs = image_urls.map(el => IMG_PATH + el)
 
   return (
     <div
@@ -39,7 +38,7 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, image_urls, in_d
           {in_development && <div className="item__in-development">В разработке</div>}
 
           <img
-            src={!in_development && !!imgs ? imgs[0] : inDevelopmentImg}
+            src={!in_development ? imgs[0] : inDevelopmentImg}
             alt=""
             className="item__image"
           />

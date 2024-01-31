@@ -30,7 +30,7 @@ const GoodsSection = () => {
   const filtered = products
     ? products
         .filter((el) => {
-          return el.devices.map((d) => d.name).includes(currentModel);
+          return el.device === currentModel;
         })
         //@ts-ignore
         .sort((a, b) => a.in_development - b.in_development)

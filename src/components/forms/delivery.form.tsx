@@ -43,7 +43,7 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
     useGetDeliveryMehodsQuery();
 
   const FORMS : {[key: string]: ReactNode} = {
-    "СДЕК": <SdekForm final={deliveryFinal} setFinal={setDelivery} />,
+    "СДЭК": <SdekForm final={deliveryFinal} setFinal={setDelivery} />,
     "Почта России": <SdekForm final={deliveryFinal} setFinal={setDelivery} disabled />
   }
 

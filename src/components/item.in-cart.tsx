@@ -16,15 +16,14 @@ type Props = {
   id: number;
   disabled?: boolean;
   checked?: boolean;
-  device: TDevice;
   inOrder?: boolean;
 };
 
-const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
+const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const [hidden, setHidden] = useState(true);
   const inCart =
-    cart.find((el) => el.id === id && el.device === device)?.quantity || 0;
+    cart.find((el) => el.id === id)?.quantity || 0;
   const { data: product, isLoading } = useGetProductByIdQuery(id);
 
   const colorWords = product?.color.split(" ");
@@ -56,7 +55,7 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
           <div
             className={classNames("cart-item__delete")}
             onClick={() => {
-              removeFromCart({ id: id, device: device, deleteAll: true });
+              removeFromCart({ id: id, deleteAll: true });
             }}
           ></div>
         </div>
@@ -79,7 +78,7 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
       <div className={classNames("cart-item__content", { hidden })}>
         <div className="cart-item__airpods">
           <img src={appleIcon} />
-          {device}
+          {product.device}
         </div>
         <Link to={`/products/${id}`} className="cart-item__title gradi">
           Mythical Case
@@ -103,7 +102,6 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
                     dispatch(
                       addToCart({
                         id: id,
-                        device: device,
                         price: product?.price,
                       })
                     )
@@ -115,7 +113,6 @@ const CartItem = ({ id, disabled, checked, device, inOrder }: Props) => {
                     dispatch(
                       removeFromCart({
                         id: id,
-                        device: device,
                         deleteAll: false,
                       })
                     )

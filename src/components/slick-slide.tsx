@@ -10,8 +10,8 @@ import bgIllustrationWhite from "../assets/img/main-page-bgi-2.svg";
 import arrowIcon from "../assets/img/arrow-right.svg";
 import arrowIconWhite from "../assets/img/arrow-right-white.svg";
 
-import ellipseImg from '../assets/img/ellipse.svg'
 import Button from './button';
+import { scrollTo } from '../tools';
 
 type Props = {
   variant: "black" | "white";
@@ -49,7 +49,7 @@ const Slide = ({ variant, link }: Props) => {
 
         </div>
         <p className={cn("slide__title", variant)}>Mythical Case</p>
-        <Button variant={variant === "black" ? "white" : "black"} className={cn("slide__link")}>
+        <Button variant={variant === "black" ? "white" : "black"} className={cn("slide__link")} onClick={() => scrollTo("goods")}>
           Приобрести{" "}
           <img src={ArrowIcon[variant]} alt="" className="slide__link-arrow" />
         </Button>

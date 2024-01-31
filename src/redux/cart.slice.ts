@@ -8,12 +8,12 @@ export const cartSlice = createSlice({
     : [],
   reducers: {
     addToCart: (state: TCartItem[], { payload }) => {
-      const { device, id, price } = payload;
+      const { id, price } = payload;
       let existingItem = state.find(
-        (el) => el.id === id && el.device === device
+        (el) => el.id === id
       );
       let withoutExisting = state.filter(
-        (el) => el.id != id || el.device != device
+        (el) => el.id != id
       );
       if (existingItem) {
         return [
@@ -22,20 +22,20 @@ export const cartSlice = createSlice({
         ];
       }
       let lastOrder = state.length
-        ? [...state].sort((a, b) => b.order - a.order)[state.length - 1].order
+        ? [...state].sort((a, b) => a.order - b.order)[state.length - 1].order
         : 0;
       return [
         ...state,
-        { id: id, device: device, quantity: 1, order: lastOrder + 1, price: price },
+        { id: id, quantity: 1, order: lastOrder + 1, price: price },
       ];
     },
     removeFromCart: (state: TCartItem[], { payload }) => {
-      const { device, id, deleteAll } = payload;
+      const { id, deleteAll } = payload;
       let existingItem = state.find(
-        (el) => el.id === id && el.device === device
+        (el) => el.id === id
       );
       let withoutExisting = state.filter(
-        (el) => el.id != id || el.device != device
+        (el) => el.id != id
       );
       if (!existingItem) {
         return state;

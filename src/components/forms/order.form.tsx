@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 type Props = {
   setStage: (arg: number) => void;
   currentBuyer?: TBuyer | null;
-  delivery: TDeliveryFinal
+  delivery: TDeliveryFinal;
 };
 
 const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
@@ -23,7 +23,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   >([]);
 
   const { data: products, isLoading } = useGetProductsQuery();
-  const cart = useSelector((state: {cart: TCartItem[]}) => state.cart)
+  const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
 
   useEffect(() => {
     if (products && cart.length) {
@@ -33,9 +33,8 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
           return {
             name: `Mythical Case ${
               products.find((pi) => pi.id === el.id)?.color
-            }`,
+            } (${products.find((pi) => pi.id === el.id)?.device})`,
             price: el.price,
-            device: el.device,
             quantity: el.quantity,
           };
         });
@@ -44,7 +43,10 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
     }
   }, [cart, products]);
 
-  const finalPrice = cart.reduce((acc, el) => (acc += el.price * el.quantity), 0)
+  const finalPrice = cart.reduce(
+    (acc, el) => (acc += el.price * el.quantity),
+    0
+  );
 
   const {
     register,
@@ -67,7 +69,8 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
           <b>ФИО получателя:</b> <span>{currentBuyer?.full_name}</span>
         </p>
         <p className="order-form__item col">
-          <b>Номер телефона:</b> <span>{formatTelephone(currentBuyer?.phone_number || "")}</span>
+          <b>Номер телефона:</b>{" "}
+          <span>{formatTelephone(currentBuyer?.phone_number || "")}</span>
         </p>
         <>
           {itemsNprices.map((el, i) => {
@@ -76,7 +79,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
                 <p className="order-form__item-beginning">
                   <b className={classNames({ nonfirst: i > 0 })}>Товар:</b>
                   <span>
-                    <span className="name">{el.name}</span> <br />({el.device}){" "}
+                    <span className="name">{el.name}</span> <br />{" "}
                     {!!el.quantity && `x${el.quantity}`}
                   </span>
                 </p>
@@ -96,7 +99,9 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
         </p>
         <p className="order-form__item col">
           <b>Пункт выдачи:</b>{" "}
-          <span>{delivery?.pvz?.location.address}, {delivery?.city?.city}</span>
+          <span>
+            {delivery?.pvz?.location.address}, {delivery?.city?.city}
+          </span>
         </p>
         <p className="order-form__item">
           <b>Итоговая стоимость:</b>
