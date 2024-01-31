@@ -6,7 +6,7 @@ import iconAppleWhite from "../../assets/img/apple-white.svg";
 import iconAppleBlack from "../../assets/img/apple-black.svg";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BG_BY_MODEL, IMG_PATH } from "../../constants";
+import { BG_BY_MODEL } from "../../constants";
 import classNames from "classnames";
 import { numToPrice } from "../../tools";
 import infoIcon from "../../assets/img/info-gray.svg";
@@ -97,7 +97,7 @@ const ProductPage = () => {
     navigate("/404")
   }
 
-  let imgs = product ? product.image_urls?.map((el) => IMG_PATH + el) : [];
+  let image_urls = product?.image_urls || [];
 
   const deviceNames = products?.filter(el => el.color === product?.color).map(el => ({id: el.id, device: el.device})).sort((a, b) => a.device === "AirPods 3" ? -1 : 1)
 
@@ -117,7 +117,7 @@ const ProductPage = () => {
               beforeChange={(c, n) => setCurrentSlide(n)}
               ref={slider}
             >
-              {imgs?.map((el, i) => (
+              {image_urls?.map((el, i) => (
                 <div className="product__slide">
                   {i > 0 && <div className="num">{i + 1}</div>}
                   <img src={el} alt="" className="product__image" />
@@ -127,7 +127,7 @@ const ProductPage = () => {
             <ProductPag
               currentSlide={currentSlide}
               sliderRef={slider}
-              photos={imgs!}
+              photos={image_urls!}
             />
           </div>
           <div className="product__info">

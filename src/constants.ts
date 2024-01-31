@@ -14,7 +14,6 @@ export const BG_BY_MODEL : {[key: string] : string} = {
 
 }
 
-export const IMG_PATH = `${import.meta.env.VITE_API_URL || ""}/`
 
 export type DELIVERY_METHODS = "Почта России" | "СДЭК"
 export const DELIVERY_IMGS : {[key: string] : string} = {

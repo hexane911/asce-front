@@ -7,7 +7,6 @@ import { numToPrice } from "../tools";
 import { useState } from "react";
 import classNames from "classnames";
 import { useGetProductByIdQuery } from "../redux/products.api";
-import { IMG_PATH } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/cart.slice";
 import { TCartItem, TDevice } from "../types";
@@ -42,7 +41,7 @@ const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
     return null;
   }
 
-  let imgs = product?.image_urls?.map((el) => IMG_PATH + el);
+  let imgs = product?.image_urls || []
 
   return (
     <div className={classNames("cart-item", { disabled, inOrder })}>

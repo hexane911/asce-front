@@ -10,7 +10,6 @@ import Button from "./button";
 import { TProduct } from "../types";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { IMG_PATH } from "../constants";
 import classNames from "classnames";
 
 interface Props extends TProduct {
@@ -23,7 +22,6 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, device, image_ur
 
   const [className, setClassName] = useState("item spawned");
 
-  const imgs = image_urls.map(el => IMG_PATH + el)
 
   return (
     <div
@@ -38,7 +36,7 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, device, image_ur
           {in_development && <div className="item__in-development">В разработке</div>}
 
           <img
-            src={!in_development ? imgs[0] : inDevelopmentImg}
+            src={!in_development ? image_urls[0] : inDevelopmentImg}
             alt=""
             className="item__image"
           />
