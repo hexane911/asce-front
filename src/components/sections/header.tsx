@@ -1,6 +1,6 @@
 import CartButton from "../cart-button";
 import "./header.css";
-import logo from "../../assets/img/logo.png";
+import logo from "../../assets/img/logo.svg";
 import { useState } from "react";
 import classNames from "classnames";
 

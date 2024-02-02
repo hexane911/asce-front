@@ -8,9 +8,12 @@ const Popup = () => {
   const [opened, setOpened] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("p")) {
-      setOpened(true);
-    }
+    const timeout = setTimeout(() => {
+      if (!localStorage.getItem("p")) {
+        setOpened(true)
+      }
+    }, 15000)
+    return () => clearTimeout(timeout)
   }, []);
 
   const handleClose = () => {

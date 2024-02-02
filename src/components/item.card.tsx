@@ -11,6 +11,7 @@ import { TProduct } from "../types";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
+import ImageLoader from "./image-loader";
 
 interface Props extends TProduct {
   animationDelay?: number;
@@ -35,11 +36,12 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, device, image_ur
           {!in_stock && !in_development && <div className="item__soldout">продано</div>}
           {in_development && <div className="item__in-development">В разработке</div>}
 
-          <img
+          {/* <img
             src={!in_development ? image_urls[0] : inDevelopmentImg}
             alt=""
-            className="item__image"
-          />
+            className=""
+          /> */}
+          <ImageLoader className="item__image" src={!in_development ? image_urls[0] : inDevelopmentImg}/>
         </div>
         <Link
           to={`/products/${id}`}

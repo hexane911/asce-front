@@ -1,7 +1,7 @@
 .product {
   padding-top: 89px;
   padding-bottom: 194px;
-  animation: var(--animation-appear) 0.8s ease;
+  animation: var(--animation-appear) 1s ease;
   animation-fill-mode: forwards;
 }
 

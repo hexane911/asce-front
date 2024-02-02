@@ -4,7 +4,7 @@ import "./footer.css";
 import inst from "../../assets/img/inst.svg";
 import vk from "../../assets/img/vk.svg";
 import tg from "../../assets/img/tg.svg";
-import logo from "../../assets/img/logo-footer.png";
+import logo from "../../assets/img/logo-footer.svg";
 import { Link } from "react-router-dom";
 
 const Footer = () => {

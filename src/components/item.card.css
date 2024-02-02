@@ -141,7 +141,7 @@
   color: white;
   white-space: nowrap;
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(2px);
+  font-weight: 400;
 }
 
 

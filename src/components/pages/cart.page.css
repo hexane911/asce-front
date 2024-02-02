@@ -1,6 +1,8 @@
 .cart {
     padding-top: 89px;
     padding-bottom: 194px;
+    animation: var(--animation-appear) .7s ease;
+    animation-fill-mode: forwards;
 }
 
 .cart__list {

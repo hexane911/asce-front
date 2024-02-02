@@ -16,6 +16,7 @@ import { TCartItem, TDevice, TProduct } from "../../types";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/cart.slice";
 import Loader from "../loader";
+import ImageLoader from "../image-loader";
 
 type PagProps = {
   photos: string[];
@@ -51,7 +52,8 @@ const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
           }}
         >
           {el.i > 0 && <div className="num">{el.i + 1}</div>}
-          <img src={el.el} className={`product__preview`} />
+          {/* <img src={el.el} className={`product__preview`} /> */}
+          <ImageLoader className="product__preview" src={el.el} />
         </div>
       ))}
     </div>
@@ -120,7 +122,8 @@ const ProductPage = () => {
               {image_urls?.map((el, i) => (
                 <div className="product__slide">
                   {i > 0 && <div className="num">{i + 1}</div>}
-                  <img src={el} alt="" className="product__image" />
+                  <ImageLoader src={el} className="product__image" />
+                  {/* <img src={el} alt="" className="product__image" /> */}
                 </div>
               ))}
             </Slider>

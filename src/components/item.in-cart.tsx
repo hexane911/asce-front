@@ -10,6 +10,7 @@ import { useGetProductByIdQuery } from "../redux/products.api";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/cart.slice";
 import { TCartItem, TDevice } from "../types";
+import ImageLoader from "./image-loader";
 
 type Props = {
   id: number;
@@ -60,7 +61,7 @@ const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
         </div>
       )}
       <div className={classNames("cart-item__box", { rounded: hidden })}>
-        {imgs && <img src={imgs[0]} alt="" className="cart-item__image" />}
+        {imgs && <ImageLoader className="cart-item__image" src={imgs[0]} />}
         <div className="cart-item__color">
           <img src={colorIcon} />
           <p className="cart-item__color-text">

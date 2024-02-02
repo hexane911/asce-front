@@ -28,6 +28,7 @@
 
 .header__logo-img {
   object-fit: contain;
+  max-height: 100%;
 }
 
 .header__menu {
