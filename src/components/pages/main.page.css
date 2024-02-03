@@ -35,11 +35,28 @@
 
 .slider-arrow.prev {
   left: calc((100vw - var(--wrapper-width)) / 2);
+  background-image: url("../../assets/img/slider-arrow-left.svg");
+}
+
+.slider-arrow.prev.white {
+  background-image: url('../../assets/img/slider-arrow-left-white.svg');
 }
 
 .slider-arrow.next {
   right: calc((100vw - var(--wrapper-width)) / 2);
+  background-image: url("../../assets/img/slider-arrow-right.svg");
 }
+
+.slider-arrow.next.white {
+  background-image: url('../../assets/img/slider-arrow-right-white.svg');
+}
+
+/* 
+import arrowLeft from "../../assets/img/slider-arrow-left.svg";
+import arrowRight from "../../assets/img/slider-arrow-right.svg";
+import arrowLeftWhite from "../../assets/img/slider-arrow-left-white.svg";
+import arrowRightWhite from "../../assets/img/slider-arrow-right-white.svg";
+*/
 
 .slick-dots {
   display: flex !important;

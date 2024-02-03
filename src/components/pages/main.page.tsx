@@ -3,14 +3,12 @@ import Slide from "../slick-slide";
 import "./main.page.css";
 import Slider from "react-slick";
 
-import arrowLeft from "../../assets/img/slider-arrow-left.svg";
-import arrowRight from "../../assets/img/slider-arrow-right.svg";
-import arrowLeftWhite from "../../assets/img/slider-arrow-left-white.svg";
-import arrowRightWhite from "../../assets/img/slider-arrow-right-white.svg";
+
 
 import qualityIcon from "../../assets/img/icon-quality.png";
 import fitIcon from "../../assets/img/icon-fit.png";
 import supportIcon from "../../assets/img/icon-support.png";
+import classNames from "classnames";
 
 const MainPage = () => {
   const slider = useRef(null);
@@ -58,21 +56,13 @@ const MainPage = () => {
           <Slide variant="white" link="" />
         </Slider>
         <div
-          className="slider-arrow prev"
-          style={{
-            backgroundImage: `url(${
-              currentSlide ? arrowLeftWhite : arrowLeft
-            })`,
-          }}
+          className={classNames("slider-arrow prev", {white: !!currentSlide})}
+          
           onClick={prev}
         ></div>
         <div
-          className="slider-arrow next"
-          style={{
-            backgroundImage: `url(${
-              currentSlide ? arrowRightWhite : arrowRight
-            })`,
-          }}
+          className={classNames("slider-arrow next", {white: !!currentSlide})}
+          
           onClick={next}
         ></div>
       </div>
