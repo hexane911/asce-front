@@ -304,6 +304,10 @@
   font-weight: 500;
 }
 
+.product__delivery-icon {
+  height: 22px;
+}
+
 .product .num {
   position: absolute;
   width: 100%;
