@@ -3,8 +3,6 @@ import Slide from "../slick-slide";
 import "./main.page.css";
 import Slider from "react-slick";
 
-
-
 import qualityIcon from "../../assets/img/icon-quality.png";
 import fitIcon from "../../assets/img/icon-fit.png";
 import supportIcon from "../../assets/img/icon-support.png";
@@ -33,7 +31,6 @@ const MainPage = () => {
     }
   }, [slider]);
 
-
   return (
     <div className="page main-page" id="main">
       <div className="slider-container">
@@ -56,13 +53,11 @@ const MainPage = () => {
           <Slide variant="white" link="" />
         </Slider>
         <div
-          className={classNames("slider-arrow prev", {white: !!currentSlide})}
-          
+          className={classNames("slider-arrow prev", { white: !!currentSlide })}
           onClick={prev}
         ></div>
         <div
-          className={classNames("slider-arrow next", {white: !!currentSlide})}
-          
+          className={classNames("slider-arrow next", { white: !!currentSlide })}
           onClick={next}
         ></div>
       </div>

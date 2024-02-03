@@ -72,15 +72,12 @@ const ProductPage = () => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const dispatch = useDispatch();
   const { data: products, isLoading } = useGetProductsQuery();
-  const inCart =
-    cart.find(
-      (el) => el.id === +(productId || 0)
-    )?.quantity || 0;
+  const inCart = cart.find((el) => el.id === +(productId || 0))?.quantity || 0;
 
   const product = products?.find((el) => el.id === parseInt(productId || "0"));
   const colors = products
     ?.filter((el) => !el.in_development && el.device === product?.device)
-    .map((el) => ({ id: el.id, color: el.color }))
+    .map((el) => ({ id: el.id, color: el.color }));
 
   useEffect(() => {
     if (!isLoading && !products) {
@@ -92,19 +89,35 @@ const ProductPage = () => {
   const slider = useRef(null);
 
   if (!product && isLoading) {
-     return <Loader />
+    return <Loader />;
   }
 
-  if (!product && !isLoading || product && product.in_development) {
-    navigate("/404")
+  if ((!product && !isLoading) || (product && product.in_development)) {
+    navigate("/404");
   }
 
   let image_urls = product?.image_urls || [];
 
-  const deviceNames = products?.filter(el => el.color === product?.color).map(el => ({id: el.id, device: el.device})).sort((a, b) => a.device === "AirPods 3" ? -1 : 1)
+  const deviceNames = products
+    ?.filter((el) => el.color === product?.color)
+    .map((el) => ({ id: el.id, device: el.device }))
+    .sort((a, b) => (a.device === "AirPods 3" ? -1 : 1));
 
-  const currentColor = {id: product?.id, color: product?.color}
+  const currentColor = { id: product?.id, color: product?.color };
 
+  const next = () => {
+    if (slider.current) {
+      //@ts-ignore
+      slider?.current?.slickNext();
+    }
+  };
+
+  const prev = () => {
+    if (slider.current) {
+      //@ts-ignore
+      slider?.current?.slickPrev();
+    }
+  };
 
   return (
     <div className="product">
@@ -112,21 +125,32 @@ const ProductPage = () => {
         <Path />
         <div className="product__content">
           <div className="product__left">
-            <Slider
-              className="product__slider"
-              arrows={false}
-              fade
-              beforeChange={(c, n) => setCurrentSlide(n)}
-              ref={slider}
-            >
-              {image_urls?.map((el, i) => (
-                <div className="product__slide">
-                  {i > 0 && <div className="num">{i + 1}</div>}
-                  <ImageLoader src={el} className="product__image" />
-                  {/* <img src={el} alt="" className="product__image" /> */}
-                </div>
-              ))}
-            </Slider>
+            <div className="product-slider-container">
+              <Slider
+                className="product__slider"
+                arrows={false}
+                fade
+                beforeChange={(c, n) => setCurrentSlide(n)}
+                ref={slider}
+              >
+                {image_urls?.map((el, i) => (
+                  <div className="product__slide">
+                    {i > 0 && <div className="num">{i + 1}</div>}
+                    <ImageLoader src={el} className="product__image" />
+                    {/* <img src={el} alt="" className="product__image" /> */}
+                  </div>
+                ))}
+              </Slider>
+              <div
+              className={classNames("product-arrow prev")}
+              onClick={prev}
+            ></div>
+            <div
+              className={classNames("product-arrow next")}
+              onClick={next}
+            ></div>
+            </div>
+           
             <ProductPag
               currentSlide={currentSlide}
               sliderRef={slider}
@@ -135,23 +159,23 @@ const ProductPage = () => {
           </div>
           <div className="product__info">
             <div className="product__models">
-              {deviceNames?.map(el => {
-                return <Button
-                className="product__switch switch"
-                variant={
-                  product?.device === el.device ? "black" : "white"
-                }
-                onClick={() => navigate(`/products/${el.id}`)}
-              >
-                <img
-                  src={
-                    product?.device === el.device
-                    ? iconAppleWhite
-                    : iconAppleBlack
-                  }
-                />
-                {el.device}
-              </Button>
+              {deviceNames?.map((el) => {
+                return (
+                  <Button
+                    className="product__switch switch"
+                    variant={product?.device === el.device ? "black" : "white"}
+                    onClick={() => navigate(`/products/${el.id}`)}
+                  >
+                    <img
+                      src={
+                        product?.device === el.device
+                          ? iconAppleWhite
+                          : iconAppleBlack
+                      }
+                    />
+                    {el.device}
+                  </Button>
+                );
               })}
             </div>
             <p className="product__name gradi">{product?.product_name}</p>
@@ -171,9 +195,7 @@ const ProductPage = () => {
                   );
                 })}
               </div>
-              <div className="product__colorname">
-                {currentColor?.color}
-              </div>
+              <div className="product__colorname">{currentColor?.color}</div>
             </div>
             <p className="product__price">
               <div className="product__current gradi">
@@ -237,7 +259,12 @@ const ProductPage = () => {
               <img src={infoIcon} alt="" className="product__delivery-icon" />
               Отправка в течение 7 дней после покупки.
             </p>
-            {!!inCart && <Link className="product__to-cart" to={"/cart"}> <img src={cartIcon} /> Перейти в корзину</Link>}
+            {!!inCart && (
+              <Link className="product__to-cart" to={"/cart"}>
+                {" "}
+                <img src={cartIcon} /> Перейти в корзину
+              </Link>
+            )}
           </div>
         </div>
       </div>

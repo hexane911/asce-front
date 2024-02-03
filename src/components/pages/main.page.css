@@ -33,6 +33,10 @@
   transform: translateY(-50%);
 }
 
+.product-slider-container {
+  position: relative;
+}
+
 .slider-arrow.prev {
   left: calc((100vw - var(--wrapper-width)) / 2);
   background-image: url("../../assets/img/slider-arrow-left.svg");
