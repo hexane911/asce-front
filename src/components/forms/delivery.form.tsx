@@ -8,11 +8,12 @@ import { DELIVERY_IMGS, DELIVERY_METHODS } from "../../constants";
 import classNames from "classnames";
 import Loader from "../loader";
 import SdekForm from "./cities/sdekForm";
+import PostForm from "./cities/postForm";
 
 type Props = {
   setStage: (arg: number) => void;
   setDelivery: (arg: TDeliveryFinal) => void;
-  deliveryFinal: TDeliveryFinal
+  deliveryFinal: TDeliveryFinal;
 };
 
 type MethodProps = {
@@ -38,42 +39,44 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
     null
   );
 
-
   const { data: methods, isLoading: methodsLoading } =
     useGetDeliveryMehodsQuery();
 
-  const FORMS : {[key: string]: ReactNode} = {
-    "СДЭК": <SdekForm final={deliveryFinal} setFinal={setDelivery} />,
-    "Почта России": <SdekForm final={deliveryFinal} setFinal={setDelivery} disabled />
-  }
+  const FORMS: { [key: string]: ReactNode } = {
+    СДЭК: <SdekForm final={deliveryFinal} setFinal={setDelivery} />,
+    "Почта России": <PostForm final={deliveryFinal} setFinal={setDelivery} />,
+  };
 
   useEffect(() => {
     if (currentMethod && currentMethod !== deliveryFinal?.type) {
-      setDelivery({type: currentMethod})
+      setDelivery({ type: currentMethod });
     }
-  }, [currentMethod])
-
+  }, [currentMethod]);
 
   return (
     <div className="delivery form">
       <h3 className="form__title gradi">Доставка</h3>
 
-      {!!currentMethod ? FORMS[currentMethod] : <SdekForm final={deliveryFinal} setFinal={setDelivery} disabled />}
+      {!!currentMethod ? (
+        FORMS[currentMethod]
+      ) : (
+        <SdekForm final={deliveryFinal} setFinal={setDelivery} disabled />
+      )}
 
       {methodsLoading && <Loader />}
 
       {!!methods && (
         <>
-        <p className="input__label gradi methods__title">Способ доставки</p>
+          <p className="input__label gradi methods__title">Способ доставки</p>
           <div className="delivery__content delivery__methods">
-          {methods.map((el) => (
-            <Method
-              method={el}
-              onClick={() => setCurrentMethod(el.name)}
-              active={currentMethod === el.name}
-            />
-          ))}
-        </div>
+            {methods.map((el) => (
+              <Method
+                method={el}
+                onClick={() => setCurrentMethod(el.name)}
+                active={currentMethod === el.name}
+              />
+            ))}
+          </div>
         </>
       )}
 
@@ -89,7 +92,12 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
           variant="black"
           className="form__button next"
           onClick={() => setStage(3)}
-          disabled={!deliveryFinal?.city || !deliveryFinal?.pvz}
+          disabled={
+            !deliveryFinal ||
+            (deliveryFinal.type == "СДЭК"
+              ? !deliveryFinal.city || !deliveryFinal.pvz
+              : !deliveryFinal.office || !deliveryFinal.city)
+          }
         >
           Далее
         </Button>

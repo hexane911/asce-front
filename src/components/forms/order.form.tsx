@@ -100,7 +100,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
         <p className="order-form__item col">
           <b>Пункт выдачи:</b>{" "}
           <span>
-            {delivery?.pvz?.location.address}, {delivery?.city?.city}
+           {delivery?.type === "Почта России" ? delivery.office?.full_address : delivery?.pvz?.location.address}
           </span>
         </p>
         <p className="order-form__item">

@@ -65,6 +65,19 @@ export type TDeliveryMethod = {
   base_price: number;
 };
 
+export type TCityPost = {
+  place: "string"
+}
+
+export type TPostOffice = {
+  id: number,
+  place: string,
+  region: string,
+  postal_code: string,
+  street: string,
+  full_address: string
+}
+
 export type TDeliveryFinal =
   | {
       type: "СДЭК";
@@ -73,7 +86,7 @@ export type TDeliveryFinal =
     }
   | {
       type: "Почта России";
-      city?: null;
-      pvz?: null;
+      city?: TCityPost | null;
+      office?: TPostOffice | null;
     }
   | null;

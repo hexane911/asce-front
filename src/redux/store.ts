@@ -4,19 +4,22 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { sdekApi } from "./sdek.api";
 import cartReducer from "./cart.slice";
 import { deliveryApi } from "./delivery.api";
+import { postApi } from "./post.api";
 
 export const store = configureStore({
   reducer: {
     [productsApi.reducerPath]: productsApi.reducer,
     [sdekApi.reducerPath]: sdekApi.reducer,
     [deliveryApi.reducerPath]: deliveryApi.reducer,
+    [postApi.reducerPath]: postApi.reducer,
     cart: cartReducer,
   },
   middleware: (gdm) =>
     gdm()
       .concat(productsApi.middleware)
       .concat(sdekApi.middleware)
-      .concat(deliveryApi.middleware),
+      .concat(deliveryApi.middleware)
+      .concat(postApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;
