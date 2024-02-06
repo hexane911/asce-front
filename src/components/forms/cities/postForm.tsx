@@ -13,7 +13,7 @@ type Props = {
 };
 
 const PostForm = ({ disabled, final, setFinal }: Props) => {
-  const setCity = (city: TCityPost) => {
+  const setCity = (city: TCityPost | null) => {
     if (final?.type === "Почта России") {
       //@ts-ignore
       setFinal((f) => ({ ...f, city }));
