@@ -12,19 +12,24 @@ type Props = {
   disabled?: boolean;
   currentCity?: TCityPost;
   currentPvz?: TPostOffice;
-  setPvz: (arg: TPostOffice | null) => void
+  setPvz: (arg: TPostOffice | null) => void;
 };
 
-const PostOfficePicker = ({ disabled, currentCity, setPvz, currentPvz }: Props) => {
+const PostOfficePicker = ({
+  disabled,
+  currentCity,
+  setPvz,
+  currentPvz,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [inputValue, setInputValue] = useState("");
 
   const handleClose = (e?: any) => {
     if (e) {
-        e.stopPropagation()
+      e.stopPropagation();
     }
-    setOpen(false)
+    setOpen(false);
   };
 
   const ref = useOutsideClick(handleClose);
@@ -44,9 +49,9 @@ const PostOfficePicker = ({ disabled, currentCity, setPvz, currentPvz }: Props) 
       refetch();
     }
     if (currentCity && currentPvz && currentCity.place !== currentPvz.place) {
-        setQuery("")
-        setInputValue("")
-        setPvz(null)
+      setQuery("");
+      setInputValue("");
+      setPvz(null);
     }
   }, [query, currentCity]);
 
@@ -59,10 +64,17 @@ const PostOfficePicker = ({ disabled, currentCity, setPvz, currentPvz }: Props) 
 
   useEffect(() => {
     if (currentPvz) {
-        setInputValue(currentPvz.full_address)
-        setOpen(false)
+      setInputValue(currentPvz.full_address);
+      setOpen(false);
     }
-  }, [currentPvz])
+  }, [currentPvz]);
+
+  useEffect(() => {
+    if (!currentCity) {
+      setPvz(null);
+      setInputValue("");
+    }
+  }, [currentCity]);
 
   return (
     <div className="input__box">
@@ -80,14 +92,28 @@ const PostOfficePicker = ({ disabled, currentCity, setPvz, currentPvz }: Props) 
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
         />
-        {open && <img src={crossIcon} alt="" onClick={handleClose} className="picker__cross" />}
+        {open && (
+          <img
+            src={crossIcon}
+            alt=""
+            onClick={() => {
+              setPvz(null);
+              setInputValue("");
+            }}
+            className="picker__cross"
+          />
+        )}
         {!!open && (
           <div className="picker__list">
             {!!pvzs &&
               !isLoading &&
               !isFetching &&
               pvzs.map((el) => {
-                return <div onClick={() => setPvz(el)} className="picker__item">{el.full_address}</div>
+                return (
+                  <div onClick={() => setPvz(el)} className="picker__item">
+                    {el.full_address}
+                  </div>
+                );
               })}
             {(isLoading || isFetching) && (
               <div className="picker__shield">Загружаем...</div>

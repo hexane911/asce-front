@@ -12,7 +12,7 @@ import { useGetCitiesPostQuery } from "../../../redux/post.api";
 type Props = {
   disabled?: boolean;
   currentCity?: TCityPost;
-  setCity: (arg: TCityPost) => void;
+  setCity: (arg: TCityPost | null) => void;
 };
 
 const PostCityPicker = ({ disabled, currentCity, setCity }: Props) => {
@@ -26,6 +26,11 @@ const PostCityPicker = ({ disabled, currentCity, setCity }: Props) => {
     }
     setOpen(false);
   };
+
+  const clear = () => {
+    setCity(null)
+    setInputValue("")
+  }
 
   const ref = useOutsideClick(handleClose);
 
@@ -79,7 +84,7 @@ const PostCityPicker = ({ disabled, currentCity, setCity }: Props) => {
           <img
             src={crossIcon}
             alt=""
-            onClick={handleClose}
+            onClick={clear}
             className="picker__cross"
           />
         )}

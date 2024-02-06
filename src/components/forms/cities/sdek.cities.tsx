@@ -11,7 +11,7 @@ import { TCitySdek } from "../../../types";
 type Props = {
   disabled?: boolean;
   currentCity?: TCitySdek;
-  setCity: (arg: TCitySdek) => void
+  setCity: (arg: TCitySdek | null) => void
 };
 
 const SdekCityPicker = ({ disabled, currentCity, setCity }: Props) => {
@@ -75,7 +75,7 @@ const SdekCityPicker = ({ disabled, currentCity, setCity }: Props) => {
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
         />
-        {open && <img src={crossIcon} alt="" onClick={handleClose} className="picker__cross" />}
+        {open && <img src={crossIcon} alt="" onClick={() => {setCity(null); setInputValue("")}} className="picker__cross" />}
         {!!open && (
           <div className="picker__list">
             {!!cities &&

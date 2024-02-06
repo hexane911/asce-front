@@ -64,6 +64,13 @@ const SdekPVZPicker = ({ disabled, currentCity, setPvz, currentPvz }: Props) => 
     }
   }, [currentPvz])
 
+  useEffect(() => {
+    if (!currentCity) {
+      setPvz(null)
+      setInputValue("")
+    }
+  }, [currentCity])
+
   return (
     <div className="input__box">
       <label className="input__label gradi">Пункт выдачи</label>
@@ -80,7 +87,7 @@ const SdekPVZPicker = ({ disabled, currentCity, setPvz, currentPvz }: Props) => 
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
         />
-        {open && <img src={crossIcon} alt="" onClick={handleClose} className="picker__cross" />}
+        {open && <img src={crossIcon} alt="" onClick={() => {setPvz(null); setInputValue("")}} className="picker__cross" />}
         {!!open && (
           <div className="picker__list">
             {!!pvzs &&
