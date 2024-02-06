@@ -11,7 +11,7 @@ type Props = {
 };
 
 const SdekForm = ({ disabled, final, setFinal }: Props) => {
-  const setCity = (city: TCitySdek) => {
+  const setCity = (city: TCitySdek | null) => {
     if (final?.type === "СДЭК") {
       //@ts-ignore
       setFinal((f) => ({ ...f, city }));
