@@ -19,14 +19,10 @@ app.get('*/*.(jpg|svg|png|woff|woff2|ttf)', (req, res) => {
     const urlParts = req.url.split('/')
     res.sendFile(path.join(__dirname + '/dist/static/media/' + urlParts[urlParts.length - 1]))
 })
-app.get("*.docx", (req, res) => {
-    const urlParts = req.url.split('/')
-    res.sendFile(path.join(__dirname + '/dist/' + urlParts[urlParts.length - 1]))
-})
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/dist/index.html'))
 })
 
-const port = 3000
+const port = 4000
 app.listen(port)
 console.log('App is listening on port ' + port)

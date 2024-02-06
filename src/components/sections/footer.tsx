@@ -36,10 +36,10 @@ const Footer = () => {
             <img src={logo} alt="" className="footer__logo-img" />
           </Link>
           <div className="footer__items">
-            <a href="Oferta.docx" className="footer__link">
+            <a href="Oferta.pdf" target="_blank" className="footer__link">
               Договор оферты
             </a>
-            <a href="Policy.docx" className="footer__link">
+            <a href="Policy.pdf" target="_blank" className="footer__link">
               Политика конфиденциальности
             </a>
             <p className="footer__copyright">Все права защищены 2024©</p>
