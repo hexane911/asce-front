@@ -6,6 +6,7 @@
 .promo__input {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+    border-right: none;
     width: 100%;
 }
 
@@ -14,7 +15,19 @@
     border-bottom-left-radius: 0px;
 }
 
-.promo__button img {
+.promo__input.success {
+    color: var(--color-good);
+    border-color: var(--color-good);
+    pointer-events: none;
+}
+
+.promo__button.success {
+    opacity: 1 !important;
+    background: var(--color-good);
+    pointer-events: none;
+}
+
+.promo__button .img {
     display: none;
 }
 
@@ -28,7 +41,7 @@
         font-size: 0 !important;
         gap: 0px;
     }
-    .promo__button img {
+    .promo__button .img {
         display: block;
         width: 14px;
     }

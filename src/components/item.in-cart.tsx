@@ -55,7 +55,7 @@ const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
           <div
             className={classNames("cart-item__delete")}
             onClick={() => {
-              removeFromCart({ id: id, deleteAll: true });
+              dispatch(removeFromCart({ id, deleteAll: true }))
             }}
           ></div>
         </div>
@@ -112,8 +112,7 @@ const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
                   onClick={() =>
                     dispatch(
                       removeFromCart({
-                        id: id,
-                        deleteAll: false,
+                        id: id
                       })
                     )
                   }

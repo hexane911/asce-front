@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./create.order.css";
 import CartItem from "./item.in-cart";
 import classNames from "classnames";
-import { TBuyer, TCartItem, TDeliveryFinal } from "../types";
+import { TBuyer, TBuyerForm, TCartItem, TDeliveryFinal } from "../types";
 import CreateBuyerForm from "./forms/create.buyer";
 import DeliveryForm from "./forms/delivery.form";
 import OrderForm from "./forms/order.form";
@@ -46,8 +46,8 @@ const line = (
 
 const CreateOrder = ({ stage, setStage }: Props) => {
   const cart = useSelector((state: {cart : TCartItem[]}) => state.cart)
-  const sorted = [...cart].sort((a, b) => a.order - b.order);
-  const [buyer, setBuyer] = useState<TBuyer | null>(null);
+  const sorted = [...cart].sort((a, b) => a.id - b.id);
+  const [buyer, setBuyer] = useState<{id: number}&TBuyerForm | null>(null);
   const [delivery, setDelivery] = useState<TDeliveryFinal | null>(null)
   if (stage === 0 || !cart.length) {
     return null;

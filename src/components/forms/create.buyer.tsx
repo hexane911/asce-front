@@ -1,34 +1,51 @@
-import { TBuyer } from "../../types";
+import { TBuyerForm } from "../../types";
 import Button from "../button";
 import "./create.buyer.css";
 import "./formcommon.css";
 import Input from "./input";
 import cartIcon from "../../assets/img/cart-white.svg";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  useGetBuyerQuery,
+  useLazyGetBuyerQuery,
+  useSetBuyerMutation,
+} from "../../redux/buyer.api";
+import Loader from "../loader";
 
 type Props = {
-  setBuyer: (arg: TBuyer) => void;
-  currentBuyer: TBuyer | null;
+  setBuyer: (arg: { id: number } & TBuyerForm) => void;
+  currentBuyer: ({ id: number } & TBuyerForm) | null;
   setStage: (arg: number) => void;
 };
-
-export interface IBuyerForm extends TBuyer {
-}
 
 const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<IBuyerForm>({
+  } = useForm<TBuyerForm>({
     defaultValues: currentBuyer || {},
     mode: "onChange",
   });
-
-  const onSubmit = (data: IBuyerForm) => {
-    setBuyer(data)
-    setStage(2)
+  const [createBuyer] = useSetBuyerMutation();
+  const [getExistingBuyer] = useLazyGetBuyerQuery();
+  const [loading, setLoading] = useState(false);
+  const onSubmit = (data: TBuyerForm) => {
+    setLoading(true);
+    createBuyer(data)
+      .unwrap()
+      .finally(() => {
+        getExistingBuyer({ email: data.email })
+          .unwrap()
+          .then((res) => {
+            setBuyer({ ...res });
+          })
+          .finally(() => {
+            setLoading(false)
+            setStage(2)
+          });
+      });
   };
 
   useEffect(() => {
@@ -38,6 +55,11 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form buyer-form">
       <h3 className="form__title gradi">Контактная информация</h3>
+      {loading && (
+        <div className="form__loader">
+          <Loader />
+        </div>
+      )}
       <div className="buyer-form__form">
         <Input
           register={register}
@@ -68,7 +90,7 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
           label="telegram"
           labelToShow="Telegram никнейм"
           placeholder="@username"
-          pattern={/^[@][A-z0-9_]{5,}$/}
+          pattern={/^[A-z0-9_]{5,}$/}
           errors={errors}
           errorMsg="Неверный формат никнейма"
         />
@@ -86,11 +108,16 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
           variant="black"
           onClick={() => setStage(0)}
           className="form__button"
+          disabled={loading}
         >
           <img src={cartIcon} />
           Назад
         </Button>
-        <Button variant="black" className="form__button next" disabled={!isValid}>
+        <Button
+          variant="black"
+          className="form__button next"
+          disabled={!isValid || loading}
+        >
           Далее
         </Button>
       </div>

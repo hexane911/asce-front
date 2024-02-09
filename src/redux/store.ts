@@ -5,6 +5,8 @@ import { sdekApi } from "./sdek.api";
 import cartReducer from "./cart.slice";
 import { deliveryApi } from "./delivery.api";
 import { postApi } from "./post.api";
+import { buyerApi } from "./buyer.api";
+import { promoApi } from "./promo.api";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +14,8 @@ export const store = configureStore({
     [sdekApi.reducerPath]: sdekApi.reducer,
     [deliveryApi.reducerPath]: deliveryApi.reducer,
     [postApi.reducerPath]: postApi.reducer,
+    [buyerApi.reducerPath]: buyerApi.reducer,
+    [promoApi.reducerPath]: promoApi.reducer,
     cart: cartReducer,
   },
   middleware: (gdm) =>
@@ -20,6 +24,8 @@ export const store = configureStore({
       .concat(sdekApi.middleware)
       .concat(deliveryApi.middleware)
       .concat(postApi.middleware)
+      .concat(buyerApi.middleware)
+      .concat(promoApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

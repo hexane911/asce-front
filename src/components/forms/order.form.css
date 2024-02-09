@@ -24,6 +24,10 @@
     font-weight: 700;
 }
 
+.order-form__item b.red {
+    color: #E02B1E;
+}
+
 .order-form__item br {
     display: none;
 } 

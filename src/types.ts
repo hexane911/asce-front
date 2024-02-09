@@ -25,12 +25,17 @@ export type TProduct = {
   device: "AirPods 3" | "AirPods Pro"
 };
 
-export type TBuyer = {
+export type TBuyerForm = {
   full_name: string;
   email: string;
   phone_number: string;
   telegram?: string;
 };
+
+export type TBuyer = {
+  id: number,
+  order_ids: {id: number}[]
+} & TBuyerForm
 
 export type TCitySdek = {
   region: string;
@@ -54,7 +59,6 @@ export type TDevice = "AirPods 3" | "AirPods Pro";
 
 export type TCartItem = {
   quantity: number;
-  order: number;
   id: number;
   price: number;
 };
@@ -90,3 +94,10 @@ export type TDeliveryFinal =
       office?: TPostOffice | null;
     }
   | null;
+
+
+export type TPromoCode = {
+  id: number,
+  name: string,
+  discount_percentage: number
+}

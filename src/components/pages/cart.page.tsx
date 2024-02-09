@@ -14,7 +14,7 @@ const CartPage = () => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const [step, setStep] = useState(0);
 
-  const sorted = [...cart].sort((a, b) => a.order - b.order);
+  const sorted = [...cart].sort((a, b) => a.id - b.id);
 
   const price = cart.reduce((acc, el) => (acc += el.quantity * el.price), 0);
 

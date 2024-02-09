@@ -15,8 +15,10 @@ import { useEffect } from "react";
 import { scrollTo } from "../tools";
 import Popup from "./popup";
 import BannerPage from "./pages/banner.page";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TCartItem } from "../types";
+import { useGetProductsQuery } from "../redux/products.api";
+import { setCart } from "../redux/cart.slice";
 
 type PageProps = {
   outlet?: any;
@@ -25,17 +27,34 @@ type PageProps = {
 const Page = ({ outlet }: PageProps) => {
   const location = useLocation();
 
-  const cart = useSelector((state: {cart: TCartItem[]}) => state.cart)
+  const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
+  const dispatch = useDispatch();
+  const { data: products } = useGetProductsQuery();
 
   useEffect(() => {
     if (cart.length) {
-      localStorage.setItem("cart", JSON.stringify(cart.filter(el => !!el.quantity)));
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(cart.filter((el) => !!el.quantity))
+      );
     }
   }, [cart]);
 
   useEffect(() => {
     scrollTo();
   }, [location]);
+
+  useEffect(() => {
+    if (products) {
+      let filtered = [...cart].filter((cartItem) => {
+        return !!products?.find((el) => el.id === cartItem.id);
+      });
+
+      if (filtered.length !== cart.length) {
+        dispatch(setCart(filtered));
+      }
+    }
+  }, [products]);
 
   return (
     <div className="page" id="page">
@@ -69,21 +88,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/success",
-        element: <BannerPage state="success" />
+        element: <BannerPage state="success" />,
       },
       {
         path: "/order_error",
-        element: <BannerPage state="order-rejected" />
-      }
+        element: <BannerPage state="order-rejected" />,
+      },
     ],
     errorElement: <Page outlet={<BannerPage state="404" />} />,
   },
 ]);
 
 const Pages = () => {
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default Pages;

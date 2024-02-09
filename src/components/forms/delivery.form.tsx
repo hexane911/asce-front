@@ -57,13 +57,7 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
     <div className="delivery form">
       <h3 className="form__title gradi">Доставка</h3>
 
-      {!!currentMethod ? (
-        FORMS[currentMethod]
-      ) : (
-        <SdekForm final={deliveryFinal} setFinal={setDelivery} disabled />
-      )}
-
-      {methodsLoading && <Loader />}
+      
 
       {!!methods && (
         <>
@@ -78,6 +72,14 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
             ))}
           </div>
         </>
+      )}
+
+      {methodsLoading && <Loader />}
+
+      {!!currentMethod ? (
+        FORMS[currentMethod]
+      ) : (
+        <SdekForm final={deliveryFinal} setFinal={setDelivery} disabled />
       )}
 
       <div className="form__buttons">

@@ -1,6 +1,6 @@
 import "./order.form.css";
 import "./formcommon.css";
-import { TBuyer, TCartItem, TDeliveryFinal } from "../../types";
+import { TBuyerForm, TCartItem, TDeliveryFinal } from "../../types";
 import { Area } from "./input";
 import { useForm } from "react-hook-form";
 import Promocode from "./promocode";
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 type Props = {
   setStage: (arg: number) => void;
-  currentBuyer?: TBuyer | null;
+  currentBuyer?: {id: number}&TBuyerForm | null;
   delivery: TDeliveryFinal;
 };
 
@@ -21,7 +21,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   const [itemsNprices, setInP] = useState<
     { name: string; price: number; device?: string; quantity: number }[]
   >([]);
-
+  const [discount, setDiscount] = useState<number | null>(null)
   const { data: products, isLoading } = useGetProductsQuery();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
 
@@ -62,7 +62,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
           labelToShow="Комментарий к заказу"
           register={register}
         />
-        <Promocode />
+        <Promocode discount={discount} setDiscount={setDiscount} />
       </div>
       <div className="order-form__summary">
         <p className="order-form__item col">
@@ -89,6 +89,11 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
             );
           })}
         </>
+        {!!discount && <p className="order-form__item">
+          <b className="red">Скидка по промокоду:</b>
+          <div className="filler" />
+          <b className="red">{discount}%</b>
+        </p>}
         <p className="order-form__item">
           <p className="order-form__item-beginning">
             <b>Способ доставки:</b>
@@ -103,10 +108,11 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
            {delivery?.type === "Почта России" ? delivery.office?.full_address : delivery?.pvz?.location.address}
           </span>
         </p>
+        
         <p className="order-form__item">
           <b>Итоговая стоимость:</b>
           <div className="filler" />
-          <b>{finalPrice + 323} руб.</b>
+          <b>{finalPrice - (discount ? finalPrice * (discount / 100) : 0) + 323} руб.</b>
         </p>
       </div>
       <div className="form__buttons">
