@@ -12,6 +12,14 @@
 
 .picker.disabled {
     opacity: .5;
+    cursor: not-allowed;
+}
+
+.picker.disabled * {
+    pointer-events: none;
+}
+
+.picker.disabled:active {
     pointer-events: none;
 }
 
