@@ -10,6 +10,7 @@ import {
   useGetBuyerQuery,
   useLazyGetBuyerQuery,
   useSetBuyerMutation,
+  useUpdateBuyerMutation,
 } from "../../redux/buyer.api";
 import Loader from "../loader";
 
@@ -28,29 +29,34 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
     defaultValues: currentBuyer || {},
     mode: "onChange",
   });
+  const [buyerError, setBuyerError] = useState(false);
   const [createBuyer] = useSetBuyerMutation();
+  const [updateBuyer] = useUpdateBuyerMutation();
   const [getExistingBuyer] = useLazyGetBuyerQuery();
   const [loading, setLoading] = useState(false);
   const onSubmit = (data: TBuyerForm) => {
     setLoading(true);
-    createBuyer(data)
+    getExistingBuyer({ email: data.email })
       .unwrap()
-      .finally(() => {
-        getExistingBuyer({ email: data.email })
+      .then(({ id }) =>
+        updateBuyer(data)
           .unwrap()
-          .then((res) => {
-            setBuyer({ ...res });
-          })
-          .finally(() => {
-            setLoading(false)
-            setStage(2)
-          });
+          .then((res) => setBuyer({ id, ...res }))
+          .catch(() => setBuyerError(true))
+      )
+      .catch(() =>
+        createBuyer(data)
+          .unwrap()
+          .then((res) => setBuyer({ ...res }))
+          .catch(() => setBuyerError(true))
+      )
+      .finally(() => {
+        setLoading(false);
+        if (!buyerError) {
+          setStage(2);
+        }
       });
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form buyer-form">
@@ -109,6 +115,7 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
           onClick={() => setStage(0)}
           className="form__button"
           disabled={loading}
+          type="button"
         >
           <img src={cartIcon} />
           Назад

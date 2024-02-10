@@ -11,7 +11,7 @@ export const buyerApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    setBuyer: builder.mutation<number, TBuyerForm>({
+    setBuyer: builder.mutation<TBuyer, TBuyerForm>({
         query: (payload) => {
             return {
                 url: "buyer/",
@@ -20,7 +20,7 @@ export const buyerApi = createApi({
             }
         }
     }),
-    getBuyer: builder.query<TBuyer, {email: string}>({
+    getBuyer: builder.query<{id: number}, {email: string}>({
         query: (payload) => {
             return {
                 url: "buyer/",
@@ -28,8 +28,17 @@ export const buyerApi = createApi({
                 params: payload
             }
         }
-    })
+    }),
+    updateBuyer: builder.mutation<TBuyerForm, TBuyerForm>({
+      query: (payload) => {
+          return {
+              url: "buyer/",
+              body: payload,
+              method: "PUT"
+          }
+      }
+  }),
   }),
 });
 
-export const {  useGetBuyerQuery, useSetBuyerMutation, useLazyGetBuyerQuery} = buyerApi;
+export const {  useGetBuyerQuery, useSetBuyerMutation, useLazyGetBuyerQuery, useUpdateBuyerMutation } = buyerApi;
