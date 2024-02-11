@@ -9,10 +9,9 @@ type Props = {
   required?: boolean;
   pattern?: any;
   onChange?: any;
-  errors?: {[key: string]: any}, 
-  errorMsg? : string
-  
-
+  errors?: { [key: string]: any };
+  errorMsg?: string;
+  className?: string
 };
 
 const Input = ({
@@ -24,33 +23,55 @@ const Input = ({
   pattern,
   errors,
   errorMsg,
+  className
 }: Props) => {
-
-    const error = errors ? errors[label] : null
+  const error = errors ? errors[label] : null;
 
   return (
     <div className="input__box">
-      <label className="input__label gradi">{labelToShow} {required && <span>*</span>}</label>
+      {!!labelToShow && (
+        <label className="input__label gradi">
+          {labelToShow} {required && <span>*</span>}
+        </label>
+      )}
       <input
         {...register(label, { required, pattern })}
         placeholder={placeholder}
-        className={classNames("input", {error: !!error})}
+        className={classNames("input", { error: !!error }, className)}
       />
-      {error && error.type === "required" &&
-        <p className="input__error">Пожалуйста, заполните все обязательные поля*</p>
-      }
-      {error && error.type !== "required" &&
+      {error && error.type === "required" && (
+        <p className="input__error">
+          Пожалуйста, заполните все обязательные поля*
+        </p>
+      )}
+      {error && error.type !== "required" && (
         <p className="input__error">{errorMsg}</p>
-      }
+      )}
     </div>
   );
 };
 
 export default Input;
 
-export const Area = ({label, labelToShow, register, placeholder, required} : Props) => {
-  return <div className="input__box">
-      <label className="input__label gradi">{labelToShow} {required && <span>*</span>}</label>
-      <textarea {...register(label, {required})} placeholder={placeholder} className={classNames("input area")} />
-  </div>
-}
+export const Area = ({
+  label,
+  labelToShow,
+  register,
+  placeholder,
+  required,
+}: Props) => {
+  return (
+    <div className="input__box">
+      {!!labelToShow && (
+        <label className="input__label gradi">
+          {labelToShow} {required && <span>*</span>}
+        </label>
+      )}
+      <textarea
+        {...register(label, { required })}
+        placeholder={placeholder}
+        className={classNames("input area")}
+      />
+    </div>
+  );
+};

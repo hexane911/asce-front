@@ -10,18 +10,18 @@ export const authApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    checkPW: builder.query<string, void>({
+    checkPW: builder.query<{password_required: true}, void>({
         query: () => {
             return {
-                url: "auth/is_password_required",
+                url: "auth/is_password_required/",
                 method: "GET",
             }
         }
     }),
-    auth: builder.mutation<void, {password: string}>({
+    auth: builder.mutation<{auth: boolean}, {password: string}>({
       query: (payload) => {
           return {
-              url: "buyer/",
+              url: "auth/auth/",
               body: payload,
               method: "POST"
           }

@@ -12,13 +12,15 @@ import Footer from "./sections/footer";
 import ProductPage from "./pages/product.page";
 import CartPage from "./pages/cart.page";
 import { useEffect } from "react";
-import { scrollTo } from "../tools";
+import { scrollTo, useCheckAuth } from "../tools";
 import Popup from "./popup";
 import BannerPage from "./pages/banner.page";
 import { useDispatch, useSelector } from "react-redux";
 import { TCartItem } from "../types";
 import { useGetProductsQuery } from "../redux/products.api";
 import { setCart } from "../redux/cart.slice";
+import AuthPage from "./pages/auth.page";
+import Loader from "./loader";
 
 type PageProps = {
   outlet?: any;
@@ -30,7 +32,7 @@ const Page = ({ outlet }: PageProps) => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const dispatch = useDispatch();
   const { data: products } = useGetProductsQuery();
-
+  const {authNeeded, authSuccess, isCheckingPw} = useCheckAuth()
   useEffect(() => {
     if (cart.length) {
       localStorage.setItem(
@@ -55,6 +57,15 @@ const Page = ({ outlet }: PageProps) => {
       }
     }
   }, [products]);
+
+  if (isCheckingPw) {
+    return <Loader />
+  }
+
+  if (authNeeded.password_required && !authSuccess) {
+    return <AuthPage />
+  }
+
 
   return (
     <div className="page" id="page">

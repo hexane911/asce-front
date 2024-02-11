@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { TDeliveryFinal } from "./types";
 import { useLazyCalculatePriceSdekQuery } from "./redux/sdek.api";
+import { useAuthMutation, useCheckPWQuery } from "./redux/auth.api";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export const numToPrice = (num: number): string => {
   const rest = num % 1000;
@@ -107,4 +110,30 @@ export const useGetDeliveryPrice = (delivery: TDeliveryFinal, cases_amount: numb
 
   return {deliveryPrice, isPriceLoading}
 
+}
+
+export const useCheckAuth = () => {
+  const [auth] = useAuthMutation()
+  const [authSuccess, setAuthSuccess] = useState(false)
+  const {data: authNeeded, isLoading: isCheckingPw} = useCheckPWQuery()
+  const [cookies] = useCookies()
+  
+  useEffect(() => {
+    if (authNeeded?.password_required && cookies.auth) {
+      auth({password: cookies.auth}).unwrap().then((res) => {
+        if (res.auth) {
+          setAuthSuccess(res.auth)
+        }
+      })
+    }
+  }, [cookies, authNeeded])
+
+  if (!authNeeded || isCheckingPw) {
+    return {authNeeded: {password_required: false}, authSuccess: true}
+  }
+
+  
+
+
+  return {authNeeded, authSuccess, isCheckingPw}
 }
