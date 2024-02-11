@@ -62,7 +62,7 @@ const Page = ({ outlet }: PageProps) => {
     return <Loader />
   }
 
-  if (authNeeded.password_required && !authSuccess) {
+  if (authNeeded?.password_required && !authSuccess) {
     return <AuthPage />
   }
 
