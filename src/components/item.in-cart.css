@@ -44,7 +44,15 @@
   transition: .3s;
 }
 
-.cart-item__delete:hover, .cart-item__checkbox:hover, .cart-item__ope:hover {
+.cart-item__delete circle {
+  transition: .3s;
+}
+
+.cart-item__delete:hover circle {
+  fill: var(--color-red);
+}
+
+.cart-item__checkbox:hover, .cart-item__ope:hover {
   opacity: .7;
 }
 
@@ -69,9 +77,7 @@
   background-image: url("../assets/img/eye.svg");
 }
 
-.cart-item__delete {
-  background-image: url("../assets/img/del.svg");
-}
+
 
 .cart-item__delete.disabled {
   pointer-events: none;

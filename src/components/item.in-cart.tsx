@@ -52,12 +52,12 @@ const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
       ></div>
       {!inOrder && (
         <div className="cart-item__tools">
-          <div
+          <DelIcon
             className={classNames("cart-item__delete")}
             onClick={() => {
               dispatch(removeFromCart({ id, deleteAll: true }))
             }}
-          ></div>
+          ></DelIcon>
         </div>
       )}
       <div className={classNames("cart-item__box", { rounded: hidden })}>
@@ -130,5 +130,20 @@ const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
     </div>
   );
 };
+
+type IconProps = {
+  onClick: any,
+  className: any
+}
+
+const DelIcon = ({className, onClick} : IconProps) => {
+  return <svg className={className} onClick={onClick} width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="del">
+  <circle id="Ellipse 13" cx="19" cy="19" r="19" fill="#B3B3B3"/>
+  <path id="Vector" d="M22.6369 13V11.5C22.6369 10.6727 21.9845 10 21.1823 10H16.8184C16.0162 10 15.3638 10.6727 15.3638 11.5V13H11V14.5H12.1957L13.4343 25.9982C13.5572 27.139 14.4896 28 15.6031 28H22.37C23.4835 28 24.4159 27.1397 24.5381 25.9982L25.7767 14.5H27V13H22.6369ZM16.8184 11.5H21.1823V13H16.8184V11.5ZM21.8783 22.4072L20.8499 23.4678L19.0004 21.5605L17.1508 23.4678L16.1224 22.4072L17.972 20.5L16.1224 18.5927L17.1508 17.5323L19.0004 19.4395L20.8499 17.5323L21.8783 18.5927L20.0288 20.5L21.8783 22.4072Z" fill="white"/>
+  </g>
+  </svg>
+  
+}
 
 export default CartItem;
