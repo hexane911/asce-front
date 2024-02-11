@@ -5,7 +5,7 @@ import Slider from "react-slick";
 
 import qualityIcon from "../../assets/img/icon-quality.png";
 import fitIcon from "../../assets/img/icon-fit.png";
-import supportIcon from "../../assets/img/icon-support.png";
+import tactileIcon from "../../assets/img/icon-tactile.png";
 import classNames from "classnames";
 
 const MainPage = () => {
@@ -82,9 +82,9 @@ const MainPage = () => {
           <div className="main-page__card">
             <div className="main-page__card-container">
               <p className="main-page__topic">
-                Прямая <br /> поддержка
+                Тактильно <br /> приятный
               </p>
-              <img src={supportIcon} alt="" className="main-page__icon" />
+              <img src={tactileIcon} alt="" className="main-page__icon" />
             </div>
           </div>
         </div>

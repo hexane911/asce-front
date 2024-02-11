@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { TDeliveryFinal } from "./types";
+import { useLazyCalculatePriceSdekQuery } from "./redux/sdek.api";
 
 export const numToPrice = (num: number): string => {
   const rest = num % 1000;
@@ -82,4 +84,27 @@ export const useOnScreen = (ref : any) => {
   }, []);
 
   return isIntersecting;
+}
+
+
+export const useGetDeliveryPrice = (delivery: TDeliveryFinal, cases_amount: number, skip?: boolean) => {
+  const [deliveryPrice, setPrice] = useState(0)
+  const [isPriceLoading, setLoading] = useState(false)
+  const [getSdekPrice] = useLazyCalculatePriceSdekQuery()
+
+  useEffect(() => {
+    if (!skip) {
+      setLoading(true)
+      if (delivery?.type === "СДЭК" && delivery.pvz) {
+        getSdekPrice({cases_amount, to_postal_code: +delivery.pvz.location.postal_code}).unwrap().then(res => setPrice(res.total_sum)).finally(() => setLoading(false))
+      }
+      if (delivery?.type === "Почта России") {
+        setPrice(323)
+        setLoading(false)
+      }
+    }
+  }, [delivery, cases_amount, skip])
+
+  return {deliveryPrice, isPriceLoading}
+
 }

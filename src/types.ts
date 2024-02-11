@@ -22,7 +22,7 @@ export type TProduct = {
   in_development?: boolean;
   image_urls: string[];
   product_name: string;
-  device: "AirPods 3" | "AirPods Pro"
+  device: "AirPods 3" | "AirPods Pro";
 };
 
 export type TBuyerForm = {
@@ -33,9 +33,9 @@ export type TBuyerForm = {
 };
 
 export type TBuyer = {
-  id: number,
-  order_ids: {id: number}[]
-} & TBuyerForm
+  id: number;
+  order_ids: { id: number }[];
+} & TBuyerForm;
 
 export type TCitySdek = {
   region: string;
@@ -52,6 +52,7 @@ export type TPVZSdek = {
     address: string;
     full_address: string;
     city_code: number;
+    postal_code: string;
   };
 };
 
@@ -70,17 +71,17 @@ export type TDeliveryMethod = {
 };
 
 export type TCityPost = {
-  place: "string"
-}
+  place: "string";
+};
 
 export type TPostOffice = {
-  id: number,
-  place: string,
-  region: string,
-  postal_code: string,
-  street: string,
-  full_address: string
-}
+  id: number;
+  place: string;
+  region: string;
+  postal_code: string;
+  street: string;
+  full_address: string;
+};
 
 export type TDeliveryFinal =
   | {
@@ -95,9 +96,9 @@ export type TDeliveryFinal =
     }
   | null;
 
-
 export type TPromoCode = {
-  id: number,
-  name: string,
-  discount_percentage: number
-}
+  id: number;
+  name: string;
+  discount_percentage?: number;
+  absolute_value_discount?: number;
+};

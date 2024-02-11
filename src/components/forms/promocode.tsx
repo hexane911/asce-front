@@ -5,10 +5,11 @@ import "./promocode.css";
 import checkmark from "../../assets/img/checkmark-white.svg";
 import { useLazyGetPromocodeQuery } from "../../redux/promo.api";
 import classNames from "classnames";
+import { TPromoCode } from "../../types";
 
 type Props = {
-  setDiscount: (arg: number) => void;
-  discount?: number | null;
+  setDiscount: (arg: TPromoCode) => void;
+  discount?: TPromoCode | null;
 };
 
 const Promocode = ({ setDiscount, discount }: Props) => {
@@ -23,7 +24,7 @@ const Promocode = ({ setDiscount, discount }: Props) => {
       getPromocode({ promo_code_name: code })
         .unwrap()
         .then((res) => {
-          setDiscount(res.discount_percentage);
+          setDiscount(res);
         })
         .catch(() => setFailed(true))
         .finally(() => setLoading(false));

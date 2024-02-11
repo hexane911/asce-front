@@ -9,6 +9,7 @@
     cursor: pointer;
     min-width: fit-content;
     text-decoration: none;
+    transition: .3s;
 }
 
 .cart-button__icon {
@@ -30,6 +31,7 @@
     color: var(--color-fg);
     justify-content: center;
     align-items: center;
+    transition: .3s;
 }
 
 .cart-button__mobile {
@@ -46,12 +48,24 @@
     background: var(--color-red);
 }
 
+.cart-button:hover {
+    background: #d2d2d2;
+}
+
+.cart-button:hover .cart-button__items {
+    background: var(--color-bad);
+    color: #d2d2d2;
+}
+
 @media (max-width: 1439px) {
     .cart-button {
         padding: 0 !important;
         background: none;
         margin-left: auto;
         height: fit-content !important;
+    }
+    .cart-button:hover {
+        background: none;
     }
 
     .cart-button__icon, .cart-button__items, .cart-button__title {

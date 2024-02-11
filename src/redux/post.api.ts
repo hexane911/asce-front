@@ -15,13 +15,11 @@ export const postApi = createApi({
       TCityPost[],
       { limit: number; search_string: string }
     >({
-      query: (payload) => {
+      query: (params) => {
         return {
           url: "/post_office/find_city",
           method: "GET",
-          params: {
-            ...payload,
-          },
+          params
         };
       },
     }),
@@ -30,13 +28,11 @@ export const postApi = createApi({
       address: string,
       limit: number 
     }>({
-      query: (payload) => {
+      query: (params) => {
         return {
           url: "/post_office/find_pvz",
           method: "GET",
-          params: {
-            ...payload
-          }
+          params
         }
       }
     })

@@ -15,13 +15,11 @@ export const sdekApi = createApi({
       TCitySdek[],
       { limit: number; search_string: string }
     >({
-      query: (payload) => {
+      query: (params) => {
         return {
           url: "/sdek/find_city",
           method: "GET",
-          params: {
-            ...payload,
-          },
+          params
         };
       },
     }),
@@ -30,17 +28,24 @@ export const sdekApi = createApi({
       address: string,
       limit: number 
     }>({
-      query: (payload) => {
+      query: (params) => {
         return {
           url: "/sdek/find_pvz",
           method: "GET",
-          params: {
-            ...payload
-          }
+          params
+        }
+      }
+    }),
+    calculatePriceSdek: builder.query<{total_sum: number}, {to_postal_code: number, cases_amount:number}>({
+      query: (params) => {
+        return {
+          url: "/sdek/calculate_price",
+          method: "GET",
+          params
         }
       }
     })
   }),
 });
 
-export const { useGetCitiesSdekQuery, useGetPVZSdekQuery } = sdekApi;
+export const { useGetCitiesSdekQuery, useGetPVZSdekQuery, useCalculatePriceSdekQuery, useLazyCalculatePriceSdekQuery } = sdekApi;
