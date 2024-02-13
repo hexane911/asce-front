@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { TCityPost, TPostOffice } from "../types";
+import { url } from "node:inspector";
 
 export const postApi = createApi({
   reducerPath: "postApi",
@@ -19,24 +20,36 @@ export const postApi = createApi({
         return {
           url: "/post_office/find_city",
           method: "GET",
-          params
+          params,
         };
       },
     }),
-    getPostOffice: builder.query<TPostOffice[], {
-      place: string,
-      address: string,
-      limit: number 
-    }>({
+    getPostOffice: builder.query<
+      TPostOffice[],
+      {
+        place: string;
+        address: string;
+        limit: number;
+      }
+    >({
       query: (params) => {
         return {
           url: "/post_office/find_pvz",
           method: "GET",
-          params
-        }
-      }
-    })
+          params,
+        };
+      },
+    }),
+    calculatePricePost: builder.query<{delivery_price_in_rub: number}, { to_postal_code: number, cases_amount: number }>({
+      query: (params) => {
+        return {
+          url: "/post_office/calculate_price",
+          method: "GET",
+          params,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetCitiesPostQuery, useGetPostOfficeQuery } = postApi;
+export const { useGetCitiesPostQuery, useGetPostOfficeQuery, useLazyCalculatePricePostQuery } = postApi;

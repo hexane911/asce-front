@@ -4,6 +4,7 @@ import { useLazyCalculatePriceSdekQuery } from "./redux/sdek.api";
 import { useAuthMutation, useCheckPWQuery } from "./redux/auth.api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useLazyCalculatePricePostQuery } from "./redux/post.api";
 
 export const numToPrice = (num: number): string => {
   const rest = num % 1000;
@@ -45,7 +46,7 @@ export const scrollTo = (id?: string) => {
 
 export const formatTelephone = (tn: string): string => {
   let arr = tn.split("").filter((c) => !!+c || c === "0");
-  
+
   if (arr.length !== 11) {
     return tn;
   }
@@ -68,14 +69,27 @@ export const formatTelephone = (tn: string): string => {
   return final;
 };
 
+export const formatLessThanRuble = (price: number) => {
+  let cops = price % 1;
+  if (cops) {
+    if (!(cops % 0.1)) {
+      return `${price}0`;
+    } else {
+      return `${price}`;
+    }
+  }
 
-export const useOnScreen = (ref : any) => {
+  return price.toString()
+};
+
+export const useOnScreen = (ref: any) => {
   const [isIntersecting, setIntersecting] = useState(false);
   const observer = new IntersectionObserver(
     ([entry]) => {
       setIntersecting(entry.isIntersecting);
-    },{
-      threshold: 1.0
+    },
+    {
+      threshold: 1.0,
     }
   );
 
@@ -87,59 +101,77 @@ export const useOnScreen = (ref : any) => {
   }, []);
 
   return isIntersecting;
-}
+};
 
-
-export const useGetDeliveryPrice = (delivery: TDeliveryFinal, cases_amount: number, skip?: boolean) => {
-  const [deliveryPrice, setPrice] = useState(0)
-  const [isPriceLoading, setLoading] = useState(false)
-  const [getSdekPrice] = useLazyCalculatePriceSdekQuery()
+export const useGetDeliveryPrice = (
+  delivery: TDeliveryFinal,
+  cases_amount: number,
+  skip?: boolean
+) => {
+  const [deliveryPrice, setPrice] = useState(0);
+  const [priceStr, setPriceStr] = useState("")
+  const [isPriceLoading, setLoading] = useState(false);
+  const [getSdekPrice] = useLazyCalculatePriceSdekQuery();
+  const [getPostPrice] = useLazyCalculatePricePostQuery();
 
   useEffect(() => {
     if (!skip) {
-      setLoading(true)
+      setLoading(true);
       if (delivery?.type === "СДЭК" && delivery.pvz) {
-        getSdekPrice({cases_amount, to_postal_code: +delivery.pvz.location.postal_code}).unwrap().then(res => setPrice(res.total_sum)).finally(() => setLoading(false))
+        getSdekPrice({
+          cases_amount,
+          to_postal_code: +delivery.pvz.location.postal_code,
+        })
+          .unwrap()
+          .then((res) => {
+            setPrice(res.total_sum)
+            setPriceStr(formatLessThanRuble(res.total_sum))
+          })
+          .finally(() => setLoading(false));
       }
-      if (delivery?.type === "Почта России") {
-        setPrice(323)
-        setLoading(false)
+      if (delivery?.type === "Почта России" && delivery.office) {
+        getPostPrice({
+          cases_amount,
+          to_postal_code: +delivery.office.postal_code,
+        })
+          .unwrap()
+          .then((res) => {
+            setPrice(res.delivery_price_in_rub);
+            setPriceStr(formatLessThanRuble(res.delivery_price_in_rub))
+          })
+          .finally(() => setLoading(false));
       }
     }
-  }, [delivery, cases_amount, skip])
+  }, [delivery, cases_amount, skip]);
 
-  return {deliveryPrice, isPriceLoading}
-
-}
+  return { deliveryPrice, isPriceLoading, deliveryPriceStr: priceStr };
+};
 
 export const useCheckAuth = () => {
-  const [auth] = useAuthMutation()
-  const [authSuccess, setAuthSuccess] = useState(false)
-  const {data: authNeeded, isLoading: isCheckingPw} = useCheckPWQuery()
-  const [cookies] = useCookies()
-  
+  const [auth] = useAuthMutation();
+  const [authSuccess, setAuthSuccess] = useState(false);
+  const { data: authNeeded, isLoading: isCheckingPw } = useCheckPWQuery();
+  const [cookies] = useCookies();
+
   useEffect(() => {
     if (authNeeded?.password_required && cookies.auth) {
-      auth({password: cookies.auth}).unwrap().then((res) => {
-        if (res.auth) {
-          setAuthSuccess(res.auth)
-        }
-      })
+      auth({ password: cookies.auth })
+        .unwrap()
+        .then((res) => {
+          if (res.auth) {
+            setAuthSuccess(res.auth);
+          }
+        });
     }
-  }, [cookies, authNeeded])
+  }, [cookies, authNeeded]);
 
   if (isCheckingPw) {
-    return {authNeeded: {password_required: true}, authSuccess: false}
+    return { authNeeded: { password_required: true }, authSuccess: false };
   }
 
   if (!isCheckingPw && !authNeeded) {
-    return {authNeeded: {password_required: false}, authSuccess: true}
+    return { authNeeded: { password_required: false }, authSuccess: true };
   }
 
-  
-
-  
-
-
-  return {authNeeded, authSuccess, isCheckingPw}
-}
+  return { authNeeded, authSuccess, isCheckingPw };
+};

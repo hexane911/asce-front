@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useGetProductsQuery } from "../../redux/products.api";
 import classNames from "classnames";
 import Button from "../button";
-import { formatTelephone, useGetDeliveryPrice } from "../../tools";
+import { formatLessThanRuble, formatTelephone, useGetDeliveryPrice } from "../../tools";
 import { useSelector } from "react-redux";
 import { useCalculatePriceSdekQuery } from "../../redux/sdek.api";
 import { skip } from "node:test";
@@ -27,7 +27,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   const [discount, setDiscount] = useState<TPromoCode | null>(null);
   const { data: products, isLoading } = useGetProductsQuery();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
-  const { deliveryPrice, isPriceLoading } = useGetDeliveryPrice(
+  const { deliveryPrice, isPriceLoading, deliveryPriceStr } = useGetDeliveryPrice(
     delivery,
     itemsNprices.reduce((acc, el) => (acc += el.quantity), 0),
     !cart.length
@@ -131,7 +131,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
                 <span>{delivery?.type}</span>
               </p>
               <div className="filler" />
-              <b>{deliveryPrice} руб.</b>
+              <b>{deliveryPriceStr} руб.</b>
             </p>
             <p className="order-form__item col">
               <b>Пункт выдачи:</b>{" "}
@@ -145,7 +145,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
             <p className="order-form__item">
               <b>Итоговая стоимость:</b>
               <div className="filler" />
-              <b>{finalPrice + deliveryPrice} руб.</b>
+              <b>{formatLessThanRuble(finalPrice + deliveryPrice)} руб.</b>
             </p>
           </div>
         </>

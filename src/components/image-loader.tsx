@@ -10,10 +10,6 @@ type Props = {
 const ImageLoader = ({ src, className }: Props) => {
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    setLoaded(false)
-  }, [src])
-
   return (
     <>
       {!loaded && <Loader small />}
