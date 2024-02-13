@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "./loader";
 
 type Props = {
@@ -9,6 +9,11 @@ type Props = {
 
 const ImageLoader = ({ src, className }: Props) => {
   const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(false)
+  }, [src])
+
   return (
     <>
       {!loaded && <Loader small />}
