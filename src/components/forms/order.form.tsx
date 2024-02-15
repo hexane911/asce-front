@@ -4,15 +4,19 @@ import { TBuyerForm, TCartItem, TDeliveryFinal, TPromoCode } from "../../types";
 import { Area } from "./input";
 import { useForm } from "react-hook-form";
 import Promocode from "./promocode";
-import { useEffect, useState } from "react";
-import { useGetProductsQuery } from "../../redux/products.api";
+import { useState } from "react";
 import classNames from "classnames";
 import Button from "../button";
-import { formatLessThanRuble, formatTelephone, useGetDeliveryPrice } from "../../tools";
+import {
+  formatLessThanRuble,
+  formatTelephone,
+  useGetDeliveryPrice,
+  useGetItemsWithPrices,
+} from "../../tools";
 import { useSelector } from "react-redux";
-import { useCalculatePriceSdekQuery } from "../../redux/sdek.api";
-import { skip } from "node:test";
 import Loader from "../loader";
+import { useCreateOrderMutation } from "../../redux/order.api";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   setStage: (arg: number) => void;
@@ -21,34 +25,20 @@ type Props = {
 };
 
 const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
-  const [itemsNprices, setInP] = useState<
-    { name: string; price: number; device?: string; quantity: number }[]
-  >([]);
   const [discount, setDiscount] = useState<TPromoCode | null>(null);
-  const { data: products, isLoading } = useGetProductsQuery();
+  const { itemsNprices, productsLoading } = useGetItemsWithPrices();
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderError, setOrderError] = useState(false);
+  const navigate = useNavigate();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
-  const { deliveryPrice, isPriceLoading, deliveryPriceStr } = useGetDeliveryPrice(
-    delivery,
-    itemsNprices.reduce((acc, el) => (acc += el.quantity), 0),
-    !cart.length
-  );
-  useEffect(() => {
-    if (products && cart.length) {
-      const iNps = cart
-        .filter((el) => !!products.find((pi) => pi.id === el.id))
-        .map((el) => {
-          return {
-            name: `Mythical Case ${
-              products.find((pi) => pi.id === el.id)?.color
-            } (${products.find((pi) => pi.id === el.id)?.device})`,
-            price: el.price,
-            quantity: el.quantity,
-          };
-        });
+  const { deliveryPrice, isPriceLoading, deliveryPriceStr } =
+    useGetDeliveryPrice(
+      delivery,
+      itemsNprices.reduce((acc, el) => (acc += el.quantity), 0),
+      !cart.length
+    );
 
-      setInP(iNps);
-    }
-  }, [cart, products]);
+  const [createOrder] = useCreateOrderMutation();
 
   const productsPrice = cart.reduce(
     (acc, el) => (acc += el.price * el.quantity),
@@ -62,19 +52,65 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
     }
     if (discount.discount_percentage) {
       finalPrice -= (discount.discount_percentage / 100) * finalPrice;
-      finalPrice = Math.floor(finalPrice)
+      finalPrice = Math.floor(finalPrice);
     }
   }
 
-  const totalLoading = isLoading || isPriceLoading;
+  const totalLoading = productsLoading || isPriceLoading || orderLoading;
 
   const {
     register,
     handleSubmit,
     formState: { isValid },
-  } = useForm();
+  } = useForm<{ comment?: string }>();
+
+  const onSubmit = ({ comment }: { comment?: string }) => {
+    if (delivery && productsPrice && deliveryPrice && currentBuyer) {
+      setOrderError(false);
+      setOrderLoading(true);
+      let point_of_delivery = "";
+
+      switch (delivery.type) {
+        case "Почта России":
+          if (delivery.office) {
+            point_of_delivery = delivery.office.postal_code;
+          }
+          break;
+        case "СДЭК":
+          if (delivery.pvz) {
+            point_of_delivery = delivery.pvz.code;
+          }
+          break;
+      }
+
+      let productsToSend: number[] = [];
+
+      cart.forEach((el) => {
+        productsToSend = productsToSend.concat(Array(el.quantity).fill(el.id));
+      });
+
+      createOrder({
+        comment: comment || "",
+        buyer_id: currentBuyer.id,
+        delivery_method_id: delivery.id,
+        delivery_price: deliveryPrice,
+        full_price: finalPrice,
+        point_of_delivery,
+        products_price: productsPrice,
+        applied_promo_code_id: discount ? discount.id : null,
+        product_ids: productsToSend,
+      })
+        .unwrap()
+        .then((res) => {
+          setOrderLoading(false);
+          navigate("/success");
+        })
+        .catch((err) => setOrderError(true))
+        .finally(() => setOrderLoading(false));
+    }
+  };
   return (
-    <form onSubmit={handleSubmit(() => {})} className="order-form form">
+    <form onSubmit={handleSubmit(onSubmit)} className="order-form form">
       <h3 className="form__title gradi">Оформить заказ</h3>
       {totalLoading ? (
         <Loader />
@@ -168,6 +204,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
           Оформить заказ
         </Button>
       </div>
+      {!!orderError && <div className="form__error">Не удалось оформить заказ. Пожалуйста, попробуйте позже.</div>}
     </form>
   );
 };

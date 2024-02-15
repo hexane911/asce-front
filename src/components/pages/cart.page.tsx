@@ -25,7 +25,7 @@ const CartPage = () => {
         {step === 0 ? (
           <div className="cart__list">
             {sorted.map((el, i) => (
-              <CartItem key={i} id={el.id} />
+              <CartItem key={i} animationDelay={i * 80} id={el.id} />
             ))}
             {!sorted.length && (
               <div className="cart__empty">

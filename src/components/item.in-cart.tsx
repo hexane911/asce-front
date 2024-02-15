@@ -17,10 +17,12 @@ type Props = {
   disabled?: boolean;
   checked?: boolean;
   inOrder?: boolean;
+  animationDelay?: number; 
 };
 
-const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
+const CartItem = ({ id, disabled, checked, inOrder, animationDelay }: Props) => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
+  const [classname, setClassname] = useState("cart-item spawned")
   const [hidden, setHidden] = useState(true);
   const inCart =
     cart.find((el) => el.id === id)?.quantity || 0;
@@ -45,7 +47,7 @@ const CartItem = ({ id, disabled, checked, inOrder }: Props) => {
   let imgs = product?.image_urls || []
 
   return (
-    <div className={classNames("cart-item", { disabled, inOrder })}>
+    <div className={classNames(classname, { disabled, inOrder })} style={{animationDelay: `${animationDelay || 0}ms`}} onAnimationEnd={() => setClassname("cart-item")}>
       <div
         className={classNames("cart-item__open", { hidden })}
         onClick={() => setHidden((s) => !s)}

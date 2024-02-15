@@ -18,7 +18,7 @@ export type TProduct = {
   price: number;
   old_price?: number;
   inCart?: number;
-  in_stock?: boolean;
+  in_stock_amount: number;
   in_development?: boolean;
   image_urls: string[];
   product_name: string;
@@ -50,7 +50,7 @@ export type TPVZSdek = {
   uuid: string;
   location: {
     address: string;
-    full_address: string;
+    address_full: string;
     city_code: number;
     postal_code: string;
   };
@@ -86,11 +86,13 @@ export type TPostOffice = {
 export type TDeliveryFinal =
   | {
       type: "СДЭК";
+      id: number;
       city?: TCitySdek | null;
       pvz?: TPVZSdek | null;
     }
   | {
       type: "Почта России";
+      id: number;
       city?: TCityPost | null;
       office?: TPostOffice | null;
     }

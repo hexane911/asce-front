@@ -8,6 +8,7 @@ import { postApi } from "./post.api";
 import { buyerApi } from "./buyer.api";
 import { promoApi } from "./promo.api";
 import { authApi } from "./auth.api";
+import { orderApi } from "./order.api";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     [buyerApi.reducerPath]: buyerApi.reducer,
     [promoApi.reducerPath]: promoApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
     cart: cartReducer,
   },
   middleware: (gdm) =>
@@ -29,6 +31,7 @@ export const store = configureStore({
       .concat(buyerApi.middleware)
       .concat(promoApi.middleware)
       .concat(authApi.middleware)
+      .concat(orderApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

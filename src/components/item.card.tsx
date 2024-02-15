@@ -17,7 +17,7 @@ interface Props extends TProduct {
   animationDelay?: number;
 }
 
-const ItemCard = ({ id, price, color, in_stock, animationDelay, device, image_urls, in_development }: Props) => {
+const ItemCard = ({ id, price, color, in_stock_amount, animationDelay, device, image_urls, in_development }: Props) => {
   const colorWords = color.split(" ");
   const navigate = useNavigate()
 
@@ -33,7 +33,7 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, device, image_ur
     >
       <div className="item__container">
         <div className="item__image-box">
-          {!in_stock && !in_development && <div className="item__soldout">продано</div>}
+          {!in_stock_amount && !in_development && <div className="item__soldout">продано</div>}
           {in_development && <div className="item__in-development">В разработке</div>}
 
           {/* <img
@@ -69,11 +69,11 @@ const ItemCard = ({ id, price, color, in_stock, animationDelay, device, image_ur
         variant="black"
         
         className="item__cart-button"
-        disabled={in_development || !in_stock}
+        disabled={in_development || !in_stock_amount}
       >
         {in_development && "В разработке"}
-        {!in_stock && !in_development &&  "Продано"}
-        {!in_development && in_stock && (
+        {!in_stock_amount && !in_development &&  "Продано"}
+        {!in_development && in_stock_amount && (
           <>
             Приобрести <img src={arrow} alt="" />
           </>

@@ -49,7 +49,7 @@ const Page = ({ outlet }: PageProps) => {
   useEffect(() => {
     if (products) {
       let filtered = [...cart].filter((cartItem) => {
-        return !!products?.find((el) => el.id === cartItem.id);
+        return !!products?.find((el) => el.id === cartItem.id && !!el.in_stock_amount);
       });
 
       if (filtered.length !== cart.length) {

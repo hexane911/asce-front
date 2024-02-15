@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { TDeliveryFinal } from "./types";
+import { TCartItem, TDeliveryFinal } from "./types";
 import { useLazyCalculatePriceSdekQuery } from "./redux/sdek.api";
 import { useAuthMutation, useCheckPWQuery } from "./redux/auth.api";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useLazyCalculatePricePostQuery } from "./redux/post.api";
+import { useSelector } from "react-redux";
+import { useGetProductsQuery } from "./redux/products.api";
 
 export const numToPrice = (num: number): string => {
   const rest = num % 1000;
@@ -79,7 +81,7 @@ export const formatLessThanRuble = (price: number) => {
     }
   }
 
-  return price.toString()
+  return price.toString();
 };
 
 export const useOnScreen = (ref: any) => {
@@ -109,7 +111,7 @@ export const useGetDeliveryPrice = (
   skip?: boolean
 ) => {
   const [deliveryPrice, setPrice] = useState(0);
-  const [priceStr, setPriceStr] = useState("")
+  const [priceStr, setPriceStr] = useState("");
   const [isPriceLoading, setLoading] = useState(false);
   const [getSdekPrice] = useLazyCalculatePriceSdekQuery();
   const [getPostPrice] = useLazyCalculatePricePostQuery();
@@ -124,8 +126,8 @@ export const useGetDeliveryPrice = (
         })
           .unwrap()
           .then((res) => {
-            setPrice(res.total_sum)
-            setPriceStr(formatLessThanRuble(res.total_sum))
+            setPrice(res.total_sum);
+            setPriceStr(formatLessThanRuble(res.total_sum));
           })
           .finally(() => setLoading(false));
       }
@@ -137,7 +139,7 @@ export const useGetDeliveryPrice = (
           .unwrap()
           .then((res) => {
             setPrice(res.delivery_price_in_rub);
-            setPriceStr(formatLessThanRuble(res.delivery_price_in_rub))
+            setPriceStr(formatLessThanRuble(res.delivery_price_in_rub));
           })
           .finally(() => setLoading(false));
       }
@@ -174,4 +176,35 @@ export const useCheckAuth = () => {
   }
 
   return { authNeeded, authSuccess, isCheckingPw };
+};
+
+export const useGetItemsWithPrices = () => {
+  const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
+  const { data: products, isLoading: productsLoading } = useGetProductsQuery();
+  const [itemsNprices, setInPs] = useState<
+    { name: string; price: number; quantity: number }[]
+  >([]);
+
+  useEffect(() => {
+    if (products && cart.length) {
+      const iNps = cart
+        .filter((el) => !!products.find((pi) => pi.id === el.id))
+        .map((el) => {
+          let foundProduct = products.find((pi) => (pi.id === el.id));
+          if (!foundProduct) {
+            return null;
+          }
+          return {
+            name: `${foundProduct.product_name} ${foundProduct.color} (${foundProduct.device})`,
+            price: foundProduct.price,
+            quantity: el.quantity,
+          };
+        })
+        .filter(el => !!el)
+
+      setInPs(iNps as { name: string; price: number; quantity: number }[]);
+    }
+  }, [productsLoading, products, cart]);
+
+  return {itemsNprices, productsLoading}
 };

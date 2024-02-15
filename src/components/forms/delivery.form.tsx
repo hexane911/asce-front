@@ -35,7 +35,7 @@ const Method = ({ method, onClick, active }: MethodProps) => {
 };
 
 const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
-  const [currentMethod, setCurrentMethod] = useState<DELIVERY_METHODS | null>(
+  const [currentMethod, setCurrentMethod] = useState<{id: number, type: DELIVERY_METHODS} | null>(
     null
   );
 
@@ -48,8 +48,8 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
   };
 
   useEffect(() => {
-    if (currentMethod && currentMethod !== deliveryFinal?.type) {
-      setDelivery({ type: currentMethod });
+    if (currentMethod && currentMethod.type !== deliveryFinal?.type) {
+      setDelivery({ type: currentMethod.type, id: currentMethod.id });
     }
   }, [currentMethod]);
 
@@ -66,8 +66,8 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
             {methods.map((el) => (
               <Method
                 method={el}
-                onClick={() => setCurrentMethod(el.name)}
-                active={currentMethod === el.name}
+                onClick={() => setCurrentMethod({id: el.id, type: el.name})}
+                active={currentMethod?.type === el.name}
               />
             ))}
           </div>
@@ -77,7 +77,7 @@ const DeliveryForm = ({ setStage, deliveryFinal, setDelivery }: Props) => {
       {methodsLoading && <Loader />}
 
       {!!currentMethod ? (
-        FORMS[currentMethod]
+        FORMS[currentMethod.type]
       ) : (
         <SdekForm final={deliveryFinal} setFinal={setDelivery} disabled />
       )}

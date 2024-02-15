@@ -142,15 +142,15 @@ const ProductPage = () => {
                 ))}
               </Slider>
               <div
-              className={classNames("product-arrow prev")}
-              onClick={prev}
-            ></div>
-            <div
-              className={classNames("product-arrow next")}
-              onClick={next}
-            ></div>
+                className={classNames("product-arrow prev")}
+                onClick={prev}
+              ></div>
+              <div
+                className={classNames("product-arrow next")}
+                onClick={next}
+              ></div>
             </div>
-           
+
             <ProductPag
               currentSlide={currentSlide}
               sliderRef={slider}
@@ -206,22 +206,26 @@ const ProductPage = () => {
               )}
             </p>
             <div className="product__buttons">
-              {!product?.in_stock ? (
+              {!product?.in_stock_amount ? (
                 <div className="product__soldout">Нет в наличии</div>
               ) : (
                 <>
-                  {inCart ? (
+                  {inCart && product ? (
                     <div className="product__in-cart in-cart">
                       <div
-                        className="in-cart__quan plus"
-                        onClick={() =>
-                          dispatch(
-                            addToCart({
-                              id: product.id,
-                              price: product.price,
-                            })
-                          )
-                        }
+                        className={classNames("in-cart__quan plus", {
+                          disabled: product.in_stock_amount <= inCart,
+                        })}
+                        onClick={() => {
+                          if (product.in_stock_amount > inCart) {
+                            dispatch(
+                              addToCart({
+                                id: product.id,
+                                price: product.price,
+                              })
+                            );
+                          }
+                        }}
                       />
                       <div
                         className="in-cart__quan minus"

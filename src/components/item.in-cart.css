@@ -8,6 +8,13 @@
   padding: 7px;
   position: relative;
   transition: .3s;
+  animation: var(--animation-popHorizontal) .4s ease;
+  animation-fill-mode: forwards;
+
+}
+
+.cart-item.spawned {
+  opacity: 0;
 }
 
 .cart-item.inOrder {
@@ -166,6 +173,17 @@
 
 .cart-item__delivery.mobile {
   display: none;
+}
+
+@keyframes popHorizontal {
+  0% {
+    opacity: 0;
+    transform: translateX(30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
 }
 
 @media (max-width: 1439px) {
