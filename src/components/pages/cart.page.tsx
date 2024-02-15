@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Path from "../path";
 import "./cart.page.css";
 import CartItem from "../item.in-cart";
@@ -8,18 +8,25 @@ import CreateOrder from "../create.order";
 import { useSelector } from "react-redux";
 import { TCartItem } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { scrollTo } from "../../tools";
 
 const CartPage = () => {
   const navigate = useNavigate();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const [step, setStep] = useState(0);
 
+  useEffect(() => {
+    if (step === 0) {
+      scrollTo("cart")
+    }
+  }, [step])
+
   const sorted = [...cart].sort((a, b) => a.id - b.id);
 
   const price = cart.reduce((acc, el) => (acc += el.quantity * el.price), 0);
 
   return (
-    <section className="cart">
+    <section className="cart" id="cart">
       <div className="wrapper cart__wrapper">
         <Path />
         {step === 0 ? (
