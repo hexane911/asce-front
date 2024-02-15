@@ -12,8 +12,8 @@ import classNames from "classnames";
 const SupportSection = () => {
   const supportRef = useRef(null)
   const emailRef = useRef(null)
-  const {isSeen: supportSeen} = useOnScreen(supportRef, 0.25) 
-  const {isSeen: emailSeen} = useOnScreen(emailRef, 0.8) 
+  const {isSeen: supportSeen} = useOnScreen(supportRef, 0.1) 
+  const {isSeen: emailSeen} = useOnScreen(emailRef, 0.5) 
   return (
     <section className="support">
       <div ref={supportRef} className={"support__wrapper wrapper"}>
