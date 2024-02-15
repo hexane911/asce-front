@@ -6,8 +6,8 @@ import Button from "../button";
 
 import iconAppleWhite from "../../assets/img/apple-white.svg";
 import iconAppleBlack from "../../assets/img/apple-black.svg";
-import { useState } from "react";
-import { scrollTo } from "../../tools";
+import { useRef, useState } from "react";
+import { scrollTo, useOnScreen } from "../../tools";
 import classNames from "classnames";
 import { useGetProductsQuery } from "../../redux/products.api";
 import { TDevice } from "../../types";
@@ -15,6 +15,10 @@ import Loader from "../loader";
 
 const GoodsSection = () => {
   const [currentModel, setCurrentModel] = useState<TDevice>("AirPods 3");
+  const goodsRef = useRef(null)
+  const titleRef = useRef(null)
+  const {isSeen: titleSeen} = useOnScreen(titleRef)
+  const {isSeen: goodsSeen} = useOnScreen(goodsRef, 0.2)
   const [opened, setOpened] = useState(false);
   const { data: products, isLoading } = useGetProductsQuery();
 
@@ -37,9 +41,9 @@ const GoodsSection = () => {
     : [];
 
   return (
-    <section className="goods" id="goods">
-      <div className="wrapper goods__wrapper">
-        <div className="goods__top">
+    <section className={"goods"} id="goods">
+      <div className={"wrapper goods__wrapper"}>
+        <div className={classNames("goods__top", {refHidden: !titleSeen})} ref={titleRef}>
           <h2 className="goods__title">Ассортимент</h2>
           <Button
             className="goods__switch switch"
@@ -67,7 +71,7 @@ const GoodsSection = () => {
           </Button>
         </div>
         {!!products && !isLoading && (
-          <div className="goods__list">
+          <div className={classNames("goods__list", {refHidden: !goodsSeen})} ref={goodsRef}>
             {filtered.map((el, i) =>
               i < 4 ? <ItemCard {...el} animationDelay={i * 80} /> : null
             )}

@@ -84,14 +84,18 @@ export const formatLessThanRuble = (price: number) => {
   return price.toString();
 };
 
-export const useOnScreen = (ref: any) => {
+export const useOnScreen = (ref: any, threshold=1) => {
   const [isIntersecting, setIntersecting] = useState(false);
+  const [isSeen, setIsSeen] = useState(false);
   const observer = new IntersectionObserver(
     ([entry]) => {
       setIntersecting(entry.isIntersecting);
+      if (entry.isIntersecting && !isSeen) {
+        setIsSeen(true);
+      }
     },
     {
-      threshold: 1.0,
+      threshold
     }
   );
 
@@ -102,7 +106,7 @@ export const useOnScreen = (ref: any) => {
     };
   }, []);
 
-  return isIntersecting;
+  return { isIntersecting, isSeen };
 };
 
 export const useGetDeliveryPrice = (
@@ -190,7 +194,7 @@ export const useGetItemsWithPrices = () => {
       const iNps = cart
         .filter((el) => !!products.find((pi) => pi.id === el.id))
         .map((el) => {
-          let foundProduct = products.find((pi) => (pi.id === el.id));
+          let foundProduct = products.find((pi) => pi.id === el.id);
           if (!foundProduct) {
             return null;
           }
@@ -200,11 +204,11 @@ export const useGetItemsWithPrices = () => {
             quantity: el.quantity,
           };
         })
-        .filter(el => !!el)
+        .filter((el) => !!el);
 
       setInPs(iNps as { name: string; price: number; quantity: number }[]);
     }
   }, [productsLoading, products, cart]);
 
-  return {itemsNprices, productsLoading}
+  return { itemsNprices, productsLoading };
 };

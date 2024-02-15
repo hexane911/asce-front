@@ -6,12 +6,19 @@ import vk from "../../assets/img/vk.svg";
 import tg from "../../assets/img/tg.svg";
 import logo from "../../assets/img/logo-footer.svg";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { useOnScreen } from "../../tools";
+import classNames from "classnames";
 
 const Footer = () => {
+  const topRef = useRef(null)
+  const bottomRef = useRef(null)
+  const {isSeen: isTopSeen} = useOnScreen(topRef, 0.5)
+  const {isSeen: isBottomSeen} = useOnScreen(bottomRef, 0.5)
   return (
     <footer className="footer" id="footer">
       <div className="footer__top">
-        <div className="wrapper footer__top-wrapper">
+        <div className={classNames("wrapper footer__top-wrapper", {refHidden: !isTopSeen})} ref={topRef}>
           <a href="https://t.me/AsceApparel">
             <Button className="footer__button" variant="white">
               <img src={tg} /> t.me/AsceApparel
@@ -30,7 +37,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer__bottom">
-        <div className="wrapper footer__bottom-wrapper">
+        <div className={classNames("wrapper footer__bottom-wrapper", {refHidden: !isBottomSeen})} ref={bottomRef}>
           <Link to={"/"} className="footer__logo">
             {" "}
             <img src={logo} alt="" className="footer__logo-img" />

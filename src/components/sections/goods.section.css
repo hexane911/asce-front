@@ -1,6 +1,11 @@
 .goods {
   padding: 65px 0px;
   background: var(--color-bg-light);
+  transition: .3s;
+}
+
+.goods.hidden {
+  opacity: 0;
 }
 
 .goods__wrapper {
@@ -15,6 +20,7 @@
   width: 100%;
   gap: 20px;
   margin-bottom: 71px;
+  transition: .3s;
 }
 
 .goods__top {
@@ -23,6 +29,7 @@
   margin-bottom: 63px;
   gap: 10px;
   align-items: center;
+  transition: .3s;
 }
 
 .goods__title {

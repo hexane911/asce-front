@@ -40,6 +40,11 @@ li {
   max-width: var(--wrapper-width);
   margin: 0 auto;
   height: 100%;
+  transition: .5s;
+}
+
+.refHidden {
+  opacity: 0;
 }
 
 .button-like {
