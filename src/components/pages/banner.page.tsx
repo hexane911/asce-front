@@ -1,6 +1,6 @@
 import "./banner.page.css";
 
-import logo from "../../assets/img/logo-big-black.png";
+import logo from "../../assets/img/logo-big-black.svg";
 import Button from "../button";
 import arrow from "../../assets/img/arrow-right-white.svg";
 import heart from "../../assets/img/heart.svg";

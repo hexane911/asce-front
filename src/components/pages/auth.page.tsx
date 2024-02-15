@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import logo from "../../assets/img/logo-big-black.png";
+import logo from "../../assets/img/logo-big-black.svg";
 import Input from "../forms/input";
 import { useAuthMutation } from "../../redux/auth.api";
 import { useState } from "react";

@@ -48,6 +48,10 @@
     border-bottom-left-radius: 0px !important;
 }
 
+.auth__logo {
+    width: 232px;
+}
+
 
 @media (max-width: 1439px) {
     .auth__box {
