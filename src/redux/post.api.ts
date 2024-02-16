@@ -40,7 +40,7 @@ export const postApi = createApi({
         };
       },
     }),
-    calculatePricePost: builder.query<{delivery_price_in_rub: number}, { to_postal_code: number, cases_amount: number }>({
+    calculatePricePost: builder.query<{delivery_price_in_rub: number, errors?: string[]}, { to_postal_code: number, cases_amount: number }>({
       query: (params) => {
         return {
           url: "/post_office/calculate_price",

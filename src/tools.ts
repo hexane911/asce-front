@@ -119,6 +119,8 @@ export const useGetDeliveryPrice = (
   const [isPriceLoading, setLoading] = useState(false);
   const [getSdekPrice] = useLazyCalculatePriceSdekQuery();
   const [getPostPrice] = useLazyCalculatePricePostQuery();
+  const [deliveryError, setDeliveryError] = useState(false)
+
 
   useEffect(() => {
     if (!skip) {
@@ -132,7 +134,7 @@ export const useGetDeliveryPrice = (
           .then((res) => {
             setPrice(res.total_sum);
             setPriceStr(formatLessThanRuble(res.total_sum));
-          })
+          }).catch(() => setDeliveryError(true))
           .finally(() => setLoading(false));
       }
       if (delivery?.type === "Почта России" && delivery.office) {
@@ -142,15 +144,19 @@ export const useGetDeliveryPrice = (
         })
           .unwrap()
           .then((res) => {
+            if (res.errors && res.errors.includes("TARIFF_ERROR")) {
+              setDeliveryError(true)
+              return
+            }
             setPrice(res.delivery_price_in_rub);
             setPriceStr(formatLessThanRuble(res.delivery_price_in_rub));
-          })
+          }).catch(() => setDeliveryError(true))
           .finally(() => setLoading(false));
       }
     }
   }, [delivery, cases_amount, skip]);
 
-  return { deliveryPrice, isPriceLoading, deliveryPriceStr: priceStr };
+  return { deliveryPrice, isPriceLoading, deliveryPriceStr: priceStr, deliveryError };
 };
 
 export const useCheckAuth = () => {
@@ -158,6 +164,7 @@ export const useCheckAuth = () => {
   const [authSuccess, setAuthSuccess] = useState(false);
   const { data: authNeeded, isLoading: isCheckingPw } = useCheckPWQuery();
   const [cookies] = useCookies();
+
 
   useEffect(() => {
     if (authNeeded?.password_required && cookies.auth) {

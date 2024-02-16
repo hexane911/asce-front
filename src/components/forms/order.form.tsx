@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import Loader from "../loader";
 import { useCreateOrderMutation } from "../../redux/order.api";
 import { useNavigate } from "react-router-dom";
+import DeliveryErrorModal from "../delivery.error.modal";
 
 type Props = {
   setStage: (arg: number) => void;
@@ -31,7 +32,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   const [orderError, setOrderError] = useState(false);
   const navigate = useNavigate();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
-  const { deliveryPrice, isPriceLoading, deliveryPriceStr } =
+  const { deliveryPrice, isPriceLoading, deliveryPriceStr, deliveryError } =
     useGetDeliveryPrice(
       delivery,
       itemsNprices.reduce((acc, el) => (acc += el.quantity), 0),
@@ -112,7 +113,8 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="order-form form">
       <h3 className="form__title gradi">Оформить заказ</h3>
-      {totalLoading ? (
+      <DeliveryErrorModal isOpen={deliveryError} onClick={() => setStage(2)} />
+      {totalLoading || deliveryError ? (
         <Loader />
       ) : (
         <>

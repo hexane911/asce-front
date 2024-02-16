@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { TCartItem } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { scrollTo } from "../../tools";
+import DeliveryErrorModal from "../delivery.error.modal";
 
 const CartPage = () => {
   const navigate = useNavigate();
