@@ -132,7 +132,8 @@
 
 
 .product__image {
-  width: 265px;
+  width: auto;
+  height: 100%;
 }
 
 .product__colors {
@@ -207,15 +208,19 @@
 }
 
 .product__preview {
-  max-width: 50%;
-  
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .product__preview-box {
   display: flex;
+  overflow: hidden;
   justify-content: center;
-  position: relative;
   align-items: center;
+  /* height: 146px; */
+  /* height: 86px; */
+  position: relative;
   background: #F3F3F3;
   aspect-ratio: 145 / 85;
   border-radius: 60px;

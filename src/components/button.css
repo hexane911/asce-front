@@ -47,6 +47,10 @@
   background: white;
 }
 
+.button.switch.white:hover {
+  background: #bfbfbf;
+}
+
 .button:disabled {
   opacity: 0.7;
   pointer-events: none;

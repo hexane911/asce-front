@@ -58,9 +58,6 @@
     font-weight: 800;
 }
 
-.item__image {
-  width: 100%;
-}
 
 .item__color-icon {
   pointer-events: none;
@@ -109,6 +106,21 @@
 .item__image-box {
   position: relative;
   margin-bottom: 19px;
+  max-width: 196px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 136px;
+}
+
+.item__image.in_development {
+  width: 100%;
+}
+
+.item__image {
+  width: 210%;
 }
 
 .item__soldout {

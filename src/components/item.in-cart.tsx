@@ -63,7 +63,9 @@ const CartItem = ({ id, disabled, checked, inOrder, animationDelay }: Props) => 
         </div>
       )}
       <div className={classNames("cart-item__box", { rounded: hidden })}>
+        <div className="cart-item__image-box">
         {imgs && <ImageLoader className="cart-item__image" src={imgs[0]} />}
+        </div>
         <div className="cart-item__color">
           <img src={colorIcon} />
           <p className="cart-item__color-text">

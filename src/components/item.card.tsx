@@ -41,7 +41,7 @@ const ItemCard = ({ id, price, color, in_stock_amount, animationDelay, device, i
             alt=""
             className=""
           /> */}
-          <ImageLoader className="item__image" src={!in_development ? image_urls[0] : inDevelopmentImg}/>
+          <ImageLoader className={classNames("item__image", {in_development})} src={!in_development ? image_urls[0] : inDevelopmentImg}/>
         </div>
         <Link
           to={`/products/${id}`}

@@ -4,8 +4,8 @@ import Path from "../path";
 import "./product.page.css";
 import iconAppleWhite from "../../assets/img/apple-white.svg";
 import iconAppleBlack from "../../assets/img/apple-black.svg";
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useReducer, useRef, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BG_BY_MODEL } from "../../constants";
 import classNames from "classnames";
 import { numToPrice } from "../../tools";
@@ -26,7 +26,8 @@ type PagProps = {
 
 const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
   const [classN, setClassN] = useState("product__preview-box spawned");
-
+  const location = useLocation()
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const goTo = (index: number) => {
     setClassN("product__preview-box spawned");
     sliderRef?.current?.slickGoTo(index);
@@ -35,6 +36,11 @@ const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
   useEffect(() => {
     setClassN("product__preview-box spawned");
   }, [currentSlide, photos]);
+
+  useEffect(() => {
+    forceUpdate()
+  }, [location])
+
   const filtered = photos
     .map((el, i) => ({ el, i }))
     .filter((obj) => obj.i !== currentSlide);
@@ -51,9 +57,9 @@ const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
             setClassN("product__preview-box");
           }}
         >
-          {el.i > 0 && <div className="num">{el.i + 1}</div>}
-          {/* <img src={el.el} className={`product__preview`} /> */}
           <ImageLoader className="product__preview" src={el.el} />
+          
+           {/* <img src={el.el} alt="" className="product__preview" /> */}
         </div>
       ))}
     </div>
@@ -135,7 +141,6 @@ const ProductPage = () => {
               >
                 {image_urls?.map((el, i) => (
                   <div className="product__slide">
-                    {i > 0 && <div className="num">{i + 1}</div>}
                     <ImageLoader src={el} className="product__image" />
                     {/* <img src={el} alt="" className="product__image" /> */}
                   </div>
