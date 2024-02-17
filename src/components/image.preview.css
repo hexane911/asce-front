@@ -20,3 +20,10 @@
     width: 70vw; 
     max-width: 70vw;  
 }
+
+@media (max-width: 1439px) {
+    .image-preview__photo {
+        width: 95vw;
+        max-width: 95vw;
+    }
+}
