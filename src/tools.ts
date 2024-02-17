@@ -9,6 +9,9 @@ import { useSelector } from "react-redux";
 import { useGetProductsQuery } from "./redux/products.api";
 
 export const numToPrice = (num: number): string => {
+  if (num < 1000) {
+    return num.toString() + "₽"
+  }
   const rest = num % 1000;
   const thousands = (num - rest) / 1000;
 

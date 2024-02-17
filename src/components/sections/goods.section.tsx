@@ -15,10 +15,10 @@ import Loader from "../loader";
 
 const GoodsSection = () => {
   const [currentModel, setCurrentModel] = useState<TDevice>("AirPods 3");
-  const goodsRef = useRef(null)
-  const titleRef = useRef(null)
-  const {isSeen: titleSeen} = useOnScreen(titleRef)
-  const {isSeen: goodsSeen} = useOnScreen(goodsRef, 0.2)
+  const goodsRef = useRef(null);
+  const titleRef = useRef(null);
+  const { isSeen: titleSeen } = useOnScreen(titleRef);
+  const { isSeen: goodsSeen } = useOnScreen(goodsRef, 0.2);
   const [opened, setOpened] = useState(false);
   const { data: products, isLoading } = useGetProductsQuery();
 
@@ -43,7 +43,10 @@ const GoodsSection = () => {
   return (
     <section className={"goods"} id="goods">
       <div className={"wrapper goods__wrapper"}>
-        <div className={classNames("goods__top", {refHidden: !titleSeen})} ref={titleRef}>
+        <div
+          className={classNames("goods__top", { refHidden: !titleSeen })}
+          ref={titleRef}
+        >
           <h2 className="goods__title">Ассортимент</h2>
           <Button
             className="goods__switch switch"
@@ -70,18 +73,23 @@ const GoodsSection = () => {
             AirPods Pro
           </Button>
         </div>
-        {!!products && !isLoading && (
-          <div className={classNames("goods__list", {refHidden: !goodsSeen})} ref={goodsRef}>
-            {filtered.map((el, i) =>
-              i < 4 ? <ItemCard {...el} animationDelay={i * 80} /> : null
-            )}
-            {filtered.map((el, i) =>
-              opened && i >= 4 ? (
-                <ItemCard {...el} animationDelay={i * 80} />
-              ) : null
-            )}
-          </div>
-        )}
+        <div
+          className={classNames("goods__list", { refHidden: !goodsSeen })}
+          ref={goodsRef}
+        >
+          {!!products && !isLoading && (
+            <>
+              {filtered.map((el, i) =>
+                i < 4 ? <ItemCard {...el} animationDelay={i * 80} /> : null
+              )}
+              {filtered.map((el, i) =>
+                opened && i >= 4 ? (
+                  <ItemCard {...el} animationDelay={i * 80} />
+                ) : null
+              )}
+            </>
+          )}
+        </div>
         {isLoading && <Loader />}
 
         {filtered.length > 4 && (

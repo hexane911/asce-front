@@ -1,6 +1,11 @@
 .slide {
   width: 100%;
+  transition: .3s;
   position: relative;
+}
+
+.slide.wait{
+  opacity: 0;
 }
 
 .slide * {

@@ -12,6 +12,7 @@ import arrowIconWhite from "../assets/img/arrow-right-white.svg";
 
 import Button from './button';
 import { scrollTo } from '../tools';
+import { useState } from 'react';
 
 type Props = {
   variant: "black" | "white";
@@ -34,9 +35,10 @@ const ArrowIcon: { [key: string]: string } = {
 const Slide = ({ variant, link }: Props) => {
   const productImage = ProductImg[variant];
   const illustrationImage = BGI[variant];
+  const [wait, setWait] = useState(true)
 
   return (
-    <div className={cn("slide", variant)}>
+    <div className={cn("slide", variant, {wait})}>
       <img src={illustrationImage} alt="" className="slide__illustration" />
       <div className="slide__box">
         <div className="slide__image-container">
@@ -45,7 +47,7 @@ const Slide = ({ variant, link }: Props) => {
           : 
           <div className="slide__image-back white"></div>
         }
-        <img src={productImage} alt="" className="slide__image" />
+        <img src={productImage} alt="" className="slide__image" onLoad={() => setWait(false)}/>
 
         </div>
         <p className={cn("slide__title", variant)}>Mythical Case</p>

@@ -33,7 +33,7 @@ const Page = ({ outlet }: PageProps) => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const dispatch = useDispatch();
   const { data: products } = useGetProductsQuery();
-  const {authNeeded, authSuccess, isCheckingPw} = useCheckAuth()
+  const { authNeeded, authSuccess, isCheckingPw } = useCheckAuth();
   useEffect(() => {
     if (cart.length) {
       localStorage.setItem(
@@ -49,24 +49,22 @@ const Page = ({ outlet }: PageProps) => {
 
   useEffect(() => {
     if (products) {
-      let filtered = [...cart].filter((cartItem) => {
-        return !!products?.find((el) => el.id === cartItem.id && !!el.in_stock_amount);
+      const newCart = cart.filter((el) => {
+        return !!products.find(
+          (pr) => pr.id === el.id && pr.in_stock_amount >= el.quantity
+        );
       });
-
-      if (filtered.length !== cart.length) {
-        dispatch(setCart(filtered));
-      }
+      dispatch(setCart(newCart))
     }
   }, [products]);
 
   if (isCheckingPw) {
-    return <Loader />
+    return <Loader />;
   }
 
   if (authNeeded?.password_required && !authSuccess) {
-    return <AuthPage />
+    return <AuthPage />;
   }
-
 
   return (
     <div className="page" id="page">
@@ -100,8 +98,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/order/:orderId",
-        element: <OrderPage />
-      }
+        element: <OrderPage />,
+      },
     ],
     errorElement: <Page outlet={<BannerPage state="404" />} />,
   },
