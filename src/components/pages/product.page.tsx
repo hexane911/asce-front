@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/cart.slice";
 import Loader from "../loader";
 import ImageLoader from "../image-loader";
+import ImagePreview from "../image.preview";
 
 type PagProps = {
   photos: string[];
@@ -79,7 +80,7 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const { data: products, isLoading } = useGetProductsQuery();
   const inCart = cart.find((el) => el.id === +(productId || 0))?.quantity || 0;
-
+  const [isPreviewOpen, setPreviewOpen] = useState(false)
   const product = products?.find((el) => el.id === parseInt(productId || "0"));
   const colors = products
     ?.filter((el) => !el.in_development && el.device === product?.device)
@@ -127,6 +128,7 @@ const ProductPage = () => {
 
   return (
     <div className="product">
+      <ImagePreview src={image_urls[currentSlide] || ""} isOpen={isPreviewOpen} onClose={setPreviewOpen} />
       <div className="wrapper product__wrapper">
         <Path />
         <div className="product__content">
@@ -140,7 +142,9 @@ const ProductPage = () => {
                 ref={slider}
               >
                 {image_urls?.map((el, i) => (
-                  <div className="product__slide">
+                  <div className="product__slide" onClick={() => {
+                    setPreviewOpen(true)
+                  }}>
                     <ImageLoader src={el} className="product__image" />
                     {/* <img src={el} alt="" className="product__image" /> */}
                   </div>
