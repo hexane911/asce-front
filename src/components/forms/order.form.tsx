@@ -15,9 +15,13 @@ import {
 } from "../../tools";
 import { useSelector } from "react-redux";
 import Loader from "../loader";
-import { useCreateOrderMutation } from "../../redux/order.api";
+import {
+  useCreateOrderMutation,
+  useCreatePaymentMutation,
+} from "../../redux/order.api";
 import { useNavigate } from "react-router-dom";
 import DeliveryErrorModal from "../delivery.error.modal";
+import { useCookies } from "react-cookie";
 
 type Props = {
   setStage: (arg: number) => void;
@@ -30,6 +34,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   const { itemsNprices, productsLoading } = useGetItemsWithPrices();
   const [orderLoading, setOrderLoading] = useState(false);
   const [orderError, setOrderError] = useState(false);
+  const [cookies, setCookies] = useCookies()
   const navigate = useNavigate();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const { deliveryPrice, isPriceLoading, deliveryPriceStr, deliveryError } =
@@ -40,6 +45,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
     );
 
   const [createOrder] = useCreateOrderMutation();
+  const [createPayment] = useCreatePaymentMutation();
 
   const productsPrice = cart.reduce(
     (acc, el) => (acc += el.price * el.quantity),
@@ -67,6 +73,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
 
   const onSubmit = ({ comment }: { comment?: string }) => {
     if (delivery && productsPrice && deliveryPrice && currentBuyer) {
+      setCookies("b", currentBuyer.id, {expires: new Date(Date.now() + 1000 * 60 * 30)})
       setOrderError(false);
       setOrderLoading(true);
       let point_of_delivery = "";
@@ -104,7 +111,17 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
         .unwrap()
         .then((res) => {
           setOrderLoading(false);
-          navigate("/success");
+          if (res.id) {
+            createPayment({
+              amount: finalPrice,
+              desc: itemsNprices.map(el => el.name).join("; "),
+              payment: res.id.toString(),
+            })
+              .unwrap()
+              .then((res) => window.open(res.payment_url, "_self"))
+              .catch((err) => setOrderError(true))
+              .finally(() => setOrderLoading(false));
+          }
         })
         .catch((err) => setOrderError(true))
         .finally(() => setOrderLoading(false));
@@ -206,7 +223,11 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
           Оформить заказ
         </Button>
       </div>
-      {!!orderError && <div className="form__error">Не удалось оформить заказ. Пожалуйста, попробуйте позже.</div>}
+      {!!orderError && (
+        <div className="form__error">
+          Не удалось оформить заказ. Пожалуйста, попробуйте позже.
+        </div>
+      )}
     </form>
   );
 };

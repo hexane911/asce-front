@@ -21,6 +21,7 @@ import { useGetProductsQuery } from "../redux/products.api";
 import { setCart } from "../redux/cart.slice";
 import AuthPage from "./pages/auth.page";
 import Loader from "./loader";
+import OrderPage from "./pages/order.page";
 
 type PageProps = {
   outlet?: any;
@@ -98,13 +99,9 @@ const router = createBrowserRouter([
         element: <CartPage />,
       },
       {
-        path: "/success",
-        element: <BannerPage state="success" />,
-      },
-      {
-        path: "/order_error",
-        element: <BannerPage state="order-rejected" />,
-      },
+        path: "/order/:orderId",
+        element: <OrderPage />
+      }
     ],
     errorElement: <Page outlet={<BannerPage state="404" />} />,
   },

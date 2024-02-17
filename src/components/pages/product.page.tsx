@@ -169,7 +169,7 @@ const ProductPage = () => {
                   <Button
                     className="product__switch switch"
                     variant={product?.device === el.device ? "black" : "white"}
-                    onClick={() => navigate(`/products/${el.id}`)}
+                    onClick={() => navigate(`/products/${el.id}`, {})}
                   >
                     <img
                       src={
