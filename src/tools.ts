@@ -150,7 +150,11 @@ export const useGetDeliveryPrice = (
             }
             setPrice(res.delivery_price_in_rub);
             setPriceStr(formatLessThanRuble(res.delivery_price_in_rub));
-          }).catch(() => setDeliveryError(true))
+          }).catch((err) => {
+            if (err.status !== 400) {
+              setDeliveryError(true)
+            }
+          })
           .finally(() => setLoading(false));
       }
     }
