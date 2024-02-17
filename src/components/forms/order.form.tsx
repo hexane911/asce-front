@@ -114,7 +114,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
           if (res.id) {
             createPayment({
               amount: finalPrice,
-              desc: itemsNprices.map(el => el.name).join("; "),
+              desc: itemsNprices.map(el => `${el.name} x${el.quantity}`).join("; "),
               payment: res.id.toString(),
             })
               .unwrap()
