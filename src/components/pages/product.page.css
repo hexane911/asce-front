@@ -440,8 +440,8 @@
   }
 
   .product__image {
-    max-width: 80%;
-    object-fit: contain;
+    object-fit: cover;
+    min-width: 100%;
   }
 
   .product-arrow {
