@@ -90,7 +90,10 @@ const ProductPage = () => {
     if (!isLoading && !products) {
       navigate("/");
     }
-  }, [products, isLoading]);
+    if (product?.in_development) {
+      navigate("/")
+    }
+  }, [products, isLoading, product]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slider = useRef(null);

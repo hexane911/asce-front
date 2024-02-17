@@ -39,6 +39,11 @@
   background: transparent;
 }
 
+/* .form__button.next:disabled {
+  background: #000;
+  opacity: .7;
+} */
+
 .form__button.next::after {
   position: absolute;
   opacity: 0;
@@ -52,7 +57,9 @@
   content: "";
   display: block;
 }
-
+.form__button.next:disabled::after {
+  display: none;
+}
 .form__button.next:hover::after {
   opacity: 1;
 }

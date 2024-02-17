@@ -29,7 +29,7 @@ const ItemCard = ({ id, price, color, in_stock_amount, animationDelay, device, i
       className={classNames(className, {in_development})}
       style={{ animationDelay: `${animationDelay || 0}ms` }}
       onAnimationEnd={() => setClassName("item")}
-      onClick={() => navigate(`/products/${id}`)}
+      onClick={() => in_development ? null : navigate(`/products/${id}`)}
     >
       <div className="item__container">
         <div className="item__image-box">

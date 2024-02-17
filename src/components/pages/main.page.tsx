@@ -66,7 +66,7 @@ const MainPage = () => {
           <div className="main-page__card">
             <div className="main-page__card-container">
               <p className="main-page__topic">
-                Высокое <br /> качество
+                Премиум <br /> качество
               </p>
               <img src={qualityIcon} alt="" className="main-page__icon" />
             </div>
