@@ -77,9 +77,6 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
 
   const onSubmit = ({ comment }: { comment?: string }) => {
     if (delivery && productsPrice && deliveryPrice && currentBuyer) {
-      setCookies("b", currentBuyer.id, {
-        expires: new Date(Date.now() + 1000 * 60 * 30),
-      });
       setOrderError(false);
       setOrderLoading(true);
       let point_of_delivery = "";

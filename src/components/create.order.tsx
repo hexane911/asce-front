@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./create.order.css";
 import CartItem from "./item.in-cart";
 import classNames from "classnames";
@@ -7,6 +7,7 @@ import CreateBuyerForm from "./forms/create.buyer";
 import DeliveryForm from "./forms/delivery.form";
 import OrderForm from "./forms/order.form";
 import { useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 
 type Props = {
   stage: number;
@@ -48,10 +49,17 @@ const CreateOrder = ({ stage, setStage }: Props) => {
   const cart = useSelector((state: {cart : TCartItem[]}) => state.cart)
   const sorted = [...cart].sort((a, b) => a.id - b.id);
   const [buyer, setBuyer] = useState<{id: number}&TBuyerForm | null>(null);
+  const [cookies, setCookies] = useCookies()
   const [delivery, setDelivery] = useState<TDeliveryFinal | null>(null)
   if (stage === 0 || !cart.length) {
     return null;
   }
+
+  useEffect(() => {
+    if (buyer && buyer.id) {
+      setCookies("b", buyer.id, {})
+    }
+  }, [buyer])
 
 
   return (
