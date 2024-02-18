@@ -45,7 +45,12 @@ const Page = ({ outlet }: PageProps) => {
   }, [cart]);
 
   useEffect(() => {
-    scrollTo();
+    if (location.hash) {
+      const id = location.hash.replace("#", "")
+      scrollTo(id)
+    } else {
+      scrollTo()
+    }
   }, [location]);
 
   useEffect(() => {
