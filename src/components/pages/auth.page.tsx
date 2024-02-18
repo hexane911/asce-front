@@ -25,7 +25,7 @@ const AuthPage = () => {
       .then((res) => {
         if (res.auth === true) {
           setCookie("auth", data.password, {expires: new Date(Date.now() + 1000 * 60 * 30)});
-          navigate("/")
+          // navigate("/")
         } else {
           setAuthErr("Неверный пароль.");
         }

@@ -100,6 +100,10 @@ const router = createBrowserRouter([
         path: "/order/:orderId",
         element: <OrderPage />,
       },
+      {
+        path: "/order_success",
+        element: <BannerPage state="success" />
+      }
     ],
     errorElement: <Page outlet={<BannerPage state="404" />} />,
   },
