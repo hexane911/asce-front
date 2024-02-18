@@ -39,6 +39,7 @@ const AuthPage = () => {
     return null
   }
 
+
   return (
     <div className="auth">
       <div className="wrapper auth__wrapper">

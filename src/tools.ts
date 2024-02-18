@@ -186,7 +186,7 @@ export const useCheckAuth = () => {
   }, [cookies, authNeeded]);
 
   if (isCheckingPw) {
-    return { authNeeded: { password_required: true }, authSuccess: false };
+    return { authNeeded: { password_required: false }, authSuccess: false };
   }
 
   if (!isCheckingPw && !authNeeded) {
