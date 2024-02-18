@@ -42,7 +42,7 @@ const Popup = () => {
               <div className="popup__feature">Информация о дропах</div>
             </div>
             <p className="popup__title gradi">Подпишись на наш Telegram канал</p>
-            <Button variant="black" className="popup__button">
+            <Button variant="black" className="popup__button" onClick={() => window.open("https://t.me/asceapparel")}>
               Подписаться
             </Button>
           </div>

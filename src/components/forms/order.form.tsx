@@ -4,7 +4,7 @@ import { TBuyerForm, TCartItem, TDeliveryFinal, TPromoCode } from "../../types";
 import { Area } from "./input";
 import { useForm } from "react-hook-form";
 import Promocode from "./promocode";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classNames from "classnames";
 import Button from "../button";
 import {
@@ -22,6 +22,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DeliveryErrorModal from "../delivery.error.modal";
 import { useCookies } from "react-cookie";
+import { useGetProductsQuery } from "../../redux/products.api";
 
 type Props = {
   setStage: (arg: number) => void;
@@ -32,9 +33,11 @@ type Props = {
 const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   const [discount, setDiscount] = useState<TPromoCode | null>(null);
   const { itemsNprices, productsLoading } = useGetItemsWithPrices();
+  const { refetch: refetchProducts, isFetching: refetchingProducts } =
+    useGetProductsQuery();
   const [orderLoading, setOrderLoading] = useState(false);
   const [orderError, setOrderError] = useState(false);
-  const [cookies, setCookies] = useCookies()
+  const [cookies, setCookies] = useCookies();
   const navigate = useNavigate();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const { deliveryPrice, isPriceLoading, deliveryPriceStr, deliveryError } =
@@ -63,7 +66,8 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
     }
   }
 
-  const totalLoading = productsLoading || isPriceLoading || orderLoading;
+  const totalLoading =
+    productsLoading || isPriceLoading || orderLoading || refetchingProducts;
 
   const {
     register,
@@ -73,7 +77,9 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
 
   const onSubmit = ({ comment }: { comment?: string }) => {
     if (delivery && productsPrice && deliveryPrice && currentBuyer) {
-      setCookies("b", currentBuyer.id, {expires: new Date(Date.now() + 1000 * 60 * 30)})
+      setCookies("b", currentBuyer.id, {
+        expires: new Date(Date.now() + 1000 * 60 * 30),
+      });
       setOrderError(false);
       setOrderLoading(true);
       let point_of_delivery = "";
@@ -114,7 +120,9 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
           if (res.id) {
             createPayment({
               amount: finalPrice + deliveryPrice,
-              desc: itemsNprices.map(el => `${el.name} x${el.quantity}`).join("; "),
+              desc: itemsNprices
+                .map((el) => `${el.name} x${el.quantity}`)
+                .join("; "),
               payment: res.id.toString(),
             })
               .unwrap()

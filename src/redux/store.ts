@@ -9,6 +9,7 @@ import { buyerApi } from "./buyer.api";
 import { promoApi } from "./promo.api";
 import { authApi } from "./auth.api";
 import { orderApi } from "./order.api";
+import { emailApi } from "./email.api";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     [promoApi.reducerPath]: promoApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
+    [emailApi.reducerPath]: emailApi.reducer,
     cart: cartReducer,
   },
   middleware: (gdm) =>
@@ -32,6 +34,7 @@ export const store = configureStore({
       .concat(promoApi.middleware)
       .concat(authApi.middleware)
       .concat(orderApi.middleware)
+      .concat(emailApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

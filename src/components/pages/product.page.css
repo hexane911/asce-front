@@ -357,6 +357,13 @@
   opacity: .7;
 }
 
+.product__quantity-max {
+  font-size: 14px;
+  color: #B3B3B3;
+  white-space: nowrap;
+  margin-bottom: 28px;
+}
+
 .product-arrow.prev {
   left: 30px;
   background-image: url("../../assets/img/slider-arrow-left-white.svg");
@@ -474,5 +481,10 @@
   .product__to-cart {
     margin-top: 18px;
     font-size: 14px;
+  }
+
+  .product__quantity-max {
+    white-space: normal;
+
   }
 }

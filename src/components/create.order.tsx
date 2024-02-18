@@ -58,7 +58,7 @@ const CreateOrder = ({ stage, setStage }: Props) => {
     <div className="order">
       <div className="order__list">
         {sorted.map((el, i) => (
-          <CartItem id={el.id} inOrder animationDelay={i * 80}/>
+          <CartItem id={el.id} stage={stage} inOrder animationDelay={i * 80}/>
         ))}
       </div>
       <div className="order__forms">

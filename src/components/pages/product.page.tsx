@@ -27,8 +27,8 @@ type PagProps = {
 
 const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
   const [classN, setClassN] = useState("product__preview-box spawned");
-  const location = useLocation()
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const location = useLocation();
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const goTo = (index: number) => {
     setClassN("product__preview-box spawned");
     sliderRef?.current?.slickGoTo(index);
@@ -39,8 +39,8 @@ const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
   }, [currentSlide, photos]);
 
   useEffect(() => {
-    forceUpdate()
-  }, [location])
+    forceUpdate();
+  }, [location]);
 
   const filtered = photos
     .map((el, i) => ({ el, i }))
@@ -59,8 +59,8 @@ const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
           }}
         >
           <ImageLoader className="product__preview" src={el.el} />
-          
-           {/* <img src={el.el} alt="" className="product__preview" /> */}
+
+          {/* <img src={el.el} alt="" className="product__preview" /> */}
         </div>
       ))}
     </div>
@@ -80,7 +80,7 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const { data: products, isLoading } = useGetProductsQuery();
   const inCart = cart.find((el) => el.id === +(productId || 0))?.quantity || 0;
-  const [isPreviewOpen, setPreviewOpen] = useState(false)
+  const [isPreviewOpen, setPreviewOpen] = useState(false);
   const product = products?.find((el) => el.id === parseInt(productId || "0"));
   const colors = products
     ?.filter((el) => !el.in_development && el.device === product?.device)
@@ -91,7 +91,7 @@ const ProductPage = () => {
       navigate("/");
     }
     if (product?.in_development) {
-      navigate("/")
+      navigate("/");
     }
   }, [products, isLoading, product]);
 
@@ -131,7 +131,11 @@ const ProductPage = () => {
 
   return (
     <div className="product">
-      <ImagePreview src={image_urls[currentSlide] || ""} isOpen={isPreviewOpen} onClose={setPreviewOpen} />
+      <ImagePreview
+        src={image_urls[currentSlide] || ""}
+        isOpen={isPreviewOpen}
+        onClose={setPreviewOpen}
+      />
       <div className="wrapper product__wrapper">
         <Path />
         <div className="product__content">
@@ -145,9 +149,12 @@ const ProductPage = () => {
                 ref={slider}
               >
                 {image_urls?.map((el, i) => (
-                  <div className="product__slide" onClick={() => {
-                    setPreviewOpen(true)
-                  }}>
+                  <div
+                    className="product__slide"
+                    onClick={() => {
+                      setPreviewOpen(true);
+                    }}
+                  >
                     <ImageLoader src={el} className="product__image" />
                     {/* <img src={el} alt="" className="product__image" /> */}
                   </div>
@@ -270,7 +277,13 @@ const ProductPage = () => {
                   <div className="product__avaible">В наличии</div>
                 </>
               )}
+              
             </div>
+            {product && !!product.in_stock_amount && product.in_stock_amount <= inCart && (
+                <p className="product__quantity-max">
+                  Невозможно добавить товар в большем количестве.
+                </p>
+              )}
             <p className="product__delivery">
               <img src={infoIcon} alt="" className="product__delivery-icon" />
               Отправка в течение 7 дней после покупки.

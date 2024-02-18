@@ -50,6 +50,18 @@
     position: relative;
 }
 
+.support__button-form {
+    width: auto;
+    height: auto;
+    background: none;
+    border: none;
+    color: transparent;
+}
+
+.support__button-form:disabled img {
+    pointer-events: none;
+}
+
 .support__input-img {
     position: absolute;
     right: 4px;
@@ -79,6 +91,16 @@
     padding: 0px 29px;
     color: white;
     border: none;
+    transition: .3s;
+}
+
+
+.support__input.success {
+    background: var(--color-good);
+}
+
+.support__input.err {
+    background: var(--color-bad);
 }
 
 .support__input::placeholder {

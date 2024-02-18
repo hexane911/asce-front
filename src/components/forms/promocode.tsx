@@ -15,7 +15,7 @@ type Props = {
 const Promocode = ({ setDiscount, discount }: Props) => {
   const [code, setCode] = useState("");
   const [getPromocode] = useLazyGetPromocodeQuery();
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState<null | "uses" | "error">(null);
   const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
@@ -26,13 +26,13 @@ const Promocode = ({ setDiscount, discount }: Props) => {
         .then((res) => {
           setDiscount(res);
         })
-        .catch(() => setFailed(true))
+        .catch((err) => err.status === 400 ? setFailed("uses") : setFailed("error"))
         .finally(() => setLoading(false));
     }
   };
 
   useEffect(() => {
-    setFailed(false);
+    setFailed(null);
   }, [code])
 
   return (
@@ -68,7 +68,8 @@ const Promocode = ({ setDiscount, discount }: Props) => {
           )}
         </Button>
       </div>
-      {failed && <p className="input__error">Промокод не найден</p>}
+      {failed === "error" && <p className="input__error">Промокод не найден</p>}
+      {failed === "uses" && <p className="input__error">Количество использований промокода истекло</p>}
     </div>
   );
 };
