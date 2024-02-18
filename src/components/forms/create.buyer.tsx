@@ -96,9 +96,9 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
           label="telegram"
           labelToShow="Telegram никнейм"
           placeholder="@username"
-          pattern={/^[A-z0-9_]{5,}$/}
+          // pattern={/^[A-z0-9_]{5,}$/}
           errors={errors}
-          errorMsg="Неверный формат никнейма"
+          // errorMsg="Неверный формат никнейма"
         />
         <Input
           register={register}
