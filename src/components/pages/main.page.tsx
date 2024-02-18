@@ -74,7 +74,7 @@ const MainPage = () => {
           <div className="main-page__card">
             <div className="main-page__card-container">
               <p className="main-page__topic">
-                Идеальная <br /> сходимость
+                Идеальная <br /> совместимость
               </p>
               <img src={fitIcon} alt="" className="main-page__icon" />
             </div>

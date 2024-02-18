@@ -105,7 +105,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
         buyer_id: currentBuyer.id,
         delivery_method_id: delivery.id,
         delivery_price: deliveryPrice,
-        full_price: finalPrice,
+        full_price: finalPrice + deliveryPrice,
         point_of_delivery,
         products_price: productsPrice,
         applied_promo_code_id: discount ? discount.id : null,

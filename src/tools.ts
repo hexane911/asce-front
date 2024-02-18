@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { TCartItem, TDeliveryFinal } from "./types";
 import { useLazyCalculatePriceSdekQuery } from "./redux/sdek.api";
 import { useAuthMutation, useCheckPWQuery } from "./redux/auth.api";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useLazyCalculatePricePostQuery } from "./redux/post.api";
 import { useSelector } from "react-redux";
@@ -88,6 +88,7 @@ export const formatLessThanRuble = (price: number) => {
 };
 
 export const useOnScreen = (ref: any, threshold=1) => {
+  const location = useLocation()
   const [isIntersecting, setIntersecting] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
   const observer = new IntersectionObserver(
@@ -101,6 +102,10 @@ export const useOnScreen = (ref: any, threshold=1) => {
       threshold
     }
   );
+  useEffect(() => {
+    setIntersecting(false)
+    setIsSeen(false)
+  }, [location.pathname])
 
   useEffect(() => {
     observer.observe(ref.current);
