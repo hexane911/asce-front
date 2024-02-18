@@ -58,6 +58,12 @@
     color: transparent;
 }
 
+.support__button img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
 .support__button-form:disabled img {
     pointer-events: none;
 }
@@ -181,5 +187,10 @@
     .support__input-img {
         right: 3px;
         height: calc(100% - 6px);
+    }
+
+    .support__button img {
+        width: 17px;
+        height: 17px;
     }
 }

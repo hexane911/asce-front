@@ -58,7 +58,7 @@ const ProductPag = ({ photos, currentSlide, sliderRef }: PagProps) => {
             setClassN("product__preview-box");
           }}
         >
-          <ImageLoader className="product__preview" src={el.el} />
+          <ImageLoader shine className="product__preview" src={el.el} />
 
           {/* <img src={el.el} alt="" className="product__preview" /> */}
         </div>
@@ -155,7 +155,7 @@ const ProductPage = () => {
                       setPreviewOpen(true);
                     }}
                   >
-                    <ImageLoader src={el} className="product__image" />
+                    <ImageLoader shine src={el} className="product__image" />
                     {/* <img src={el} alt="" className="product__image" /> */}
                   </div>
                 ))}

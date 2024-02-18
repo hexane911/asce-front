@@ -4,12 +4,13 @@ import classNames from "classnames";
 
 type Props = {
   small?: boolean;
+  shine?: boolean
 };
 
-const Loader = ({ small }: Props) => {
+const Loader = ({ small, shine }: Props) => {
   return (
     <div className={classNames("loader", { small })}>
-      <img src={loaderSVG} alt="" className="loader__img" />
+      {shine ? <div className="loader__shine" /> : <img src={loaderSVG} alt="" className="loader__img" />}
     </div>
   );
 };

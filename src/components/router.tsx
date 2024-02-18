@@ -22,6 +22,7 @@ import { setCart } from "../redux/cart.slice";
 import AuthPage from "./pages/auth.page";
 import Loader from "./loader";
 import OrderPage from "./pages/order.page";
+import WeUseCookies from "./we-use-cookies";
 
 type PageProps = {
   outlet?: any;
@@ -68,6 +69,7 @@ const Page = ({ outlet }: PageProps) => {
 
   return (
     <div className="page" id="page">
+      <WeUseCookies />
       <Popup />
       <Header />
       {outlet ? <>{outlet}</> : <Outlet />}

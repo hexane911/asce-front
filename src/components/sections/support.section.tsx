@@ -1,7 +1,7 @@
 import Button from "../button";
 import "./support.section.css";
 
-import tgIcon from "../../assets/img/tg.svg";
+import vkIcon from "../../assets/img/vk.svg";
 import ihpone from "../../assets/img/iphone.png";
 import ihponeMobile from "../../assets/img/iphone-mobile.png";
 import checkmark from "../../assets/img/check_mark.svg";
@@ -48,7 +48,7 @@ const SupportSection = () => {
               Техническая <br /> поддержка
             </p>
             <Button className="support__button" variant="white" onClick={() => window.open("https://vk.com/im?sel=-221571880")}>
-              <img src={tgIcon} />
+              <img src={vkIcon} />
               Смело задавайте ваш вопрос!
             </Button>
           </div>
