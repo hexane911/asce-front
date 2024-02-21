@@ -10,6 +10,7 @@
     justify-content: center;
     align-items: center;
     animation: var(--animation-appear) 0.3s ease;
+    isolation: isolate;
 }
 
 .image-preview__box {

@@ -13,6 +13,7 @@ import {
   useUpdateBuyerMutation,
 } from "../../redux/buyer.api";
 import Loader from "../loader";
+import { formatTelephone } from "../../tools";
 
 type Props = {
   setBuyer: (arg: { id: number } & TBuyerForm) => void;
@@ -35,17 +36,18 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
   const [getExistingBuyer] = useLazyGetBuyerQuery();
   const [loading, setLoading] = useState(false);
   const onSubmit = (data: TBuyerForm) => {
+    const newBuyer = {...data, phone_number: formatTelephone(data.phone_number)}
     setLoading(true);
     getExistingBuyer({ email: data.email })
       .unwrap()
       .then(({ id }) =>
-        updateBuyer(data)
+        updateBuyer(newBuyer)
           .unwrap()
           .then((res) => setBuyer({ id, ...res }))
           .catch(() => setBuyerError(true))
       )
       .catch(() =>
-        createBuyer(data)
+        createBuyer(newBuyer)
           .unwrap()
           .then((res) => setBuyer({ ...res }))
           .catch(() => setBuyerError(true))
