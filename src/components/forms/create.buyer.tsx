@@ -36,7 +36,7 @@ const CreateBuyerForm = ({ currentBuyer, setStage, setBuyer }: Props) => {
   const [getExistingBuyer] = useLazyGetBuyerQuery();
   const [loading, setLoading] = useState(false);
   const onSubmit = (data: TBuyerForm) => {
-    const newBuyer = {...data, phone_number: formatTelephone(data.phone_number)}
+    const newBuyer = {...data, phone_number: formatTelephone(data.phone_number, true)}
     setLoading(true);
     getExistingBuyer({ email: data.email })
       .unwrap()

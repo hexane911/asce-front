@@ -10,7 +10,7 @@ import { useGetProductsQuery } from "./redux/products.api";
 
 export const numToPrice = (num: number): string => {
   if (num < 1000) {
-    return num.toString() + "₽"
+    return num.toString() + "₽";
   }
   const rest = num % 1000;
   const thousands = (num - rest) / 1000;
@@ -49,11 +49,16 @@ export const scrollTo = (id?: string) => {
   }
 };
 
-export const formatTelephone = (tn: string): string => {
+export const formatTelephone = (tn: string, numsOnly?: boolean): string => {
   let arr = tn.split("").filter((c) => !!+c || c === "0");
 
   if (arr.length !== 11) {
     return tn;
+  }
+
+  if (numsOnly) {
+    arr[0] = "7";
+    return arr.join("");
   }
 
   let final =
@@ -87,8 +92,8 @@ export const formatLessThanRuble = (price: number) => {
   return price.toString();
 };
 
-export const useOnScreen = (ref: any, threshold=1) => {
-  const location = useLocation()
+export const useOnScreen = (ref: any, threshold = 1) => {
+  const location = useLocation();
   const [isIntersecting, setIntersecting] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
   const observer = new IntersectionObserver(
@@ -99,13 +104,13 @@ export const useOnScreen = (ref: any, threshold=1) => {
       }
     },
     {
-      threshold
+      threshold,
     }
   );
   useEffect(() => {
-    setIntersecting(false)
-    setIsSeen(false)
-  }, [location.pathname])
+    setIntersecting(false);
+    setIsSeen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     observer.observe(ref.current);
@@ -127,8 +132,7 @@ export const useGetDeliveryPrice = (
   const [isPriceLoading, setLoading] = useState(false);
   const [getSdekPrice] = useLazyCalculatePriceSdekQuery();
   const [getPostPrice] = useLazyCalculatePricePostQuery();
-  const [deliveryError, setDeliveryError] = useState(false)
-
+  const [deliveryError, setDeliveryError] = useState(false);
 
   useEffect(() => {
     if (!skip) {
@@ -142,7 +146,8 @@ export const useGetDeliveryPrice = (
           .then((res) => {
             setPrice(res.total_sum);
             setPriceStr(formatLessThanRuble(res.total_sum));
-          }).catch(() => setDeliveryError(true))
+          })
+          .catch(() => setDeliveryError(true))
           .finally(() => setLoading(false));
       }
       if (delivery?.type === "Почта России" && delivery.office) {
@@ -153,14 +158,15 @@ export const useGetDeliveryPrice = (
           .unwrap()
           .then((res) => {
             if (res.errors && res.errors.includes("TARIFF_ERROR")) {
-              setDeliveryError(true)
-              return
+              setDeliveryError(true);
+              return;
             }
             setPrice(res.delivery_price_in_rub);
             setPriceStr(formatLessThanRuble(res.delivery_price_in_rub));
-          }).catch((err) => {
+          })
+          .catch((err) => {
             if (err.status !== 400) {
-              setDeliveryError(true)
+              setDeliveryError(true);
             }
           })
           .finally(() => setLoading(false));
@@ -168,7 +174,12 @@ export const useGetDeliveryPrice = (
     }
   }, [delivery, cases_amount, skip]);
 
-  return { deliveryPrice, isPriceLoading, deliveryPriceStr: priceStr, deliveryError };
+  return {
+    deliveryPrice,
+    isPriceLoading,
+    deliveryPriceStr: priceStr,
+    deliveryError,
+  };
 };
 
 export const useCheckAuth = () => {
@@ -176,7 +187,6 @@ export const useCheckAuth = () => {
   const [authSuccess, setAuthSuccess] = useState(false);
   const { data: authNeeded, isLoading: isCheckingPw } = useCheckPWQuery();
   const [cookies] = useCookies();
-
 
   useEffect(() => {
     if (authNeeded?.password_required && cookies.auth) {
