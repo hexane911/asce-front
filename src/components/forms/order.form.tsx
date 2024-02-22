@@ -11,6 +11,7 @@ import {
   formatLessThanRuble,
   formatTelephone,
   useGetDeliveryPrice,
+  useGetFinalPrice,
   useGetItemsWithPrices,
 } from "../../tools";
 import { useSelector } from "react-redux";
@@ -23,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import DeliveryErrorModal from "../delivery.error.modal";
 import { useCookies } from "react-cookie";
 import { useGetProductsQuery } from "../../redux/products.api";
+import { useChecksSaleQuery } from "../../redux/sales.api";
 
 type Props = {
   setStage: (arg: number) => void;
@@ -35,10 +37,12 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
   const { itemsNprices, productsLoading } = useGetItemsWithPrices();
   const { refetch: refetchProducts, isFetching: refetchingProducts } =
     useGetProductsQuery();
+  const { finalPrice, finalPriceLoading, discountType, discountAmount } = useGetFinalPrice(
+    itemsNprices,
+    discount
+  );
   const [orderLoading, setOrderLoading] = useState(false);
   const [orderError, setOrderError] = useState(false);
-  const [cookies, setCookies] = useCookies();
-  const navigate = useNavigate();
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const { deliveryPrice, isPriceLoading, deliveryPriceStr, deliveryError } =
     useGetDeliveryPrice(
@@ -55,19 +59,12 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
     0
   );
 
-  let finalPrice = productsPrice;
-  if (discount) {
-    if (discount.absolute_value_discount) {
-      finalPrice -= discount.absolute_value_discount;
-    }
-    if (discount.discount_percentage) {
-      finalPrice -= (discount.discount_percentage / 100) * finalPrice;
-      finalPrice = Math.floor(finalPrice);
-    }
-  }
-
   const totalLoading =
-    productsLoading || isPriceLoading || orderLoading || refetchingProducts;
+    productsLoading ||
+    isPriceLoading ||
+    orderLoading ||
+    refetchingProducts ||
+    finalPriceLoading;
 
   const {
     register,
@@ -146,7 +143,11 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
               labelToShow="Комментарий к заказу"
               register={register}
             />
-            <Promocode discount={discount} setDiscount={setDiscount} />
+            <Promocode
+              disabled={discountType === "sale"}
+              discount={discount}
+              setDiscount={setDiscount}
+            />
           </div>
           <div className="order-form__summary">
             <p className="order-form__item col">
@@ -173,7 +174,7 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
                 );
               })}
             </>
-            {!!discount && (
+            {!!discount && discountType === "promocode" && (
               <p className="order-form__item">
                 <b className="red">Скидка по промокоду:</b>
                 <div className="filler" />
@@ -183,6 +184,13 @@ const OrderForm = ({ currentBuyer, setStage, delivery }: Props) => {
                   {!!discount.absolute_value_discount &&
                     `${discount.absolute_value_discount} руб.`}
                 </b>
+              </p>
+            )}
+            {discountType === "sale" && (
+              <p className="order-form__item">
+                <b className="red">Скидка по акции:</b>
+                <div className="filler" />
+                <b className="red">{discountAmount}%</b>
               </p>
             )}
             <p className="order-form__item">

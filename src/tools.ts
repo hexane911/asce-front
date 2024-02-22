@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { TCartItem, TDeliveryFinal } from "./types";
+import { TCartItem, TDeliveryFinal, TPromoCode } from "./types";
 import { useLazyCalculatePriceSdekQuery } from "./redux/sdek.api";
 import { useAuthMutation, useCheckPWQuery } from "./redux/auth.api";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import { useLazyCalculatePricePostQuery } from "./redux/post.api";
 import { useSelector } from "react-redux";
 import { useGetProductsQuery } from "./redux/products.api";
+import { useChecksSaleQuery } from "./redux/sales.api";
 
 export const numToPrice = (num: number): string => {
   if (num < 1000) {
@@ -211,12 +212,12 @@ export const useCheckAuth = () => {
   return { authNeeded, authSuccess, isCheckingPw };
 };
 
+type INP = { name: string; price: number; quantity: number };
+
 export const useGetItemsWithPrices = () => {
   const cart = useSelector((state: { cart: TCartItem[] }) => state.cart);
   const { data: products, isLoading: productsLoading } = useGetProductsQuery();
-  const [itemsNprices, setInPs] = useState<
-    { name: string; price: number; quantity: number }[]
-  >([]);
+  const [itemsNprices, setInPs] = useState<INP[]>([]);
 
   useEffect(() => {
     if (products && cart.length) {
@@ -240,4 +241,70 @@ export const useGetItemsWithPrices = () => {
   }, [productsLoading, products, cart]);
 
   return { itemsNprices, productsLoading };
+};
+
+export const useGetFinalPrice = (
+  iNps?: INP[],
+  discount?: TPromoCode | null
+): {
+  finalPrice: number;
+  discountType: null | "sale" | "promocode";
+  finalPriceLoading: boolean;
+  discountAmount: number
+} => {
+  const [finalPrice, setFinalPrice] = useState(0);
+  const [discountType, setDiscountType] = useState<"promocode" | "sale" | null>(
+    null
+  );
+  const [discountAmount, setDiscountAmount] = useState(0)
+  const { data: saleInfo, isLoading: isSaleLoading } = useChecksSaleQuery();
+
+  const totalItems = iNps
+    ? iNps.reduce((acc, el) => (acc += el.quantity), 0)
+    : 0;
+  const productsPrice = iNps
+    ? iNps.reduce((acc, el) => (acc += el.quantity * el.price), 0)
+    : 0;
+
+  useEffect(() => {
+    const isSaleActive = saleInfo
+      ? saleInfo.is_sale &&
+        totalItems >= saleInfo.min_amount_of_products_to_trigger_sale &&
+        totalItems <= saleInfo.max_amount_of_products_to_trigger_sale
+      : false;
+    if (!isSaleActive && !discount) {
+      setDiscountType(null)
+      setFinalPrice(productsPrice)
+    }
+    if (totalItems && productsPrice) {
+      if (discount && !isSaleActive) {
+        setDiscountType("promocode");
+        if (discount.absolute_value_discount) {
+          setFinalPrice(productsPrice - discount.absolute_value_discount);
+          setDiscountAmount(discount.absolute_value_discount)
+        }
+        if (discount.discount_percentage) {
+          let newPrice =
+            productsPrice -
+            (discount.discount_percentage / 100) * productsPrice;
+          setFinalPrice(Math.floor(newPrice));
+          setDiscountAmount(discount.discount_percentage)
+        }
+      }
+      if (isSaleActive && saleInfo) {
+        setDiscountType("sale");
+        let newPrice =
+          productsPrice - (saleInfo.sale_discount / 100) * productsPrice;
+        setFinalPrice(Math.floor(newPrice));
+        setDiscountAmount(saleInfo.sale_discount)
+      }
+    }
+  }, [discount, totalItems, saleInfo]);
+
+  return {
+    finalPrice,
+    finalPriceLoading: isSaleLoading,
+    discountType,
+    discountAmount
+  };
 };

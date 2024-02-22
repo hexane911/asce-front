@@ -10,9 +10,10 @@ import { TPromoCode } from "../../types";
 type Props = {
   setDiscount: (arg: TPromoCode) => void;
   discount?: TPromoCode | null;
+  disabled?: boolean
 };
 
-const Promocode = ({ setDiscount, discount }: Props) => {
+const Promocode = ({ setDiscount, discount, disabled }: Props) => {
   const [code, setCode] = useState("");
   const [getPromocode] = useLazyGetPromocodeQuery();
   const [failed, setFailed] = useState<null | "uses" | "error">(null);
@@ -48,7 +49,7 @@ const Promocode = ({ setDiscount, discount }: Props) => {
             success: !!discount,
             error: failed,
           })}
-          disabled={!!discount || loading}
+          disabled={!!discount || loading || disabled}
         />
         <Button
           variant="black"
@@ -56,7 +57,7 @@ const Promocode = ({ setDiscount, discount }: Props) => {
             success: !!discount,
             error: failed,
           })}
-          disabled={!code || loading || !!discount}
+          disabled={!code || loading || !!discount || disabled}
           onClick={handleClick}
         >
           {discount ? (
@@ -70,6 +71,7 @@ const Promocode = ({ setDiscount, discount }: Props) => {
       </div>
       {failed === "error" && <p className="input__error">Промокод не найден</p>}
       {failed === "uses" && <p className="input__error">Количество использований промокода истекло</p>}
+      {disabled && <p className="input__error" style={{filter: "grayscale(1)"}}>Промокод недоступен при действующей акции</p>}
     </div>
   );
 };
