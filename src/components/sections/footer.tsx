@@ -29,11 +29,11 @@ const Footer = () => {
               <img src={vk} /> vk.com/AsceApparel
             </Button>
           </a>
-          <a href="https://instagram.com/AsceApparel">
+          {/* <a href="https://instagram.com/AsceApparel">
             <Button className="footer__button" variant="white">
               <img src={inst} /> instagram.com/AsceApparel
             </Button>
-          </a>
+          </a> */}
         </div>
       </div>
       <div className="footer__bottom">
