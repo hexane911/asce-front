@@ -77,8 +77,8 @@
 }
 
 .footer__logo-img {
-    width: 80px;
-    height: auto;
+    width: auto;
+    height: 50px;
     object-fit: contain;
 }
 

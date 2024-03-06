@@ -2,8 +2,7 @@ import Button from "../button";
 import "./support.section.css";
 
 import vkIcon from "../../assets/img/vk.svg";
-import ihpone from "../../assets/img/iphone.png";
-import ihponeMobile from "../../assets/img/iphone-mobile.png";
+import iphone from "../../assets/img/iphone.png";
 import checkmark from "../../assets/img/check_mark.svg";
 import { useRef, useState } from "react";
 import { useOnScreen } from "../../tools";
@@ -41,8 +40,8 @@ const SupportSection = () => {
           className={classNames("support__block", { refHidden: !supportSeen })}
           ref={supportRef}
         >
-          <img src={ihpone} alt="" className="support__phone" />
-          <img src={ihponeMobile} alt="" className="support__phone-mobile" />
+          <img src={iphone} alt="" className="support__phone" />
+          <img src={iphone} alt="" className="support__phone-mobile" />
           <div className="support__content">
             <p className="support__title gradi inverse">
               Техническая <br /> поддержка

@@ -158,6 +158,7 @@
         left: 50%;
         transform: translateX(-50%);
         bottom: 0px;
+        height: 316px;
     }
 
     .support__bottom {
