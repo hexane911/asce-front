@@ -25,7 +25,11 @@ const Promocode = ({ setDiscount, discount, disabled }: Props) => {
       getPromocode({ promo_code_name: code })
         .unwrap()
         .then((res) => {
-          setDiscount(res);
+          if (res.number_of_uses !== 0) {
+            setDiscount(res);
+          } else {
+            setFailed("uses")
+          }
         })
         .catch((err) => err.status === 400 ? setFailed("uses") : setFailed("error"))
         .finally(() => setLoading(false));

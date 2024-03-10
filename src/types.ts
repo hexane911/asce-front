@@ -103,4 +103,5 @@ export type TPromoCode = {
   name: string;
   discount_percentage?: number;
   absolute_value_discount?: number;
+  number_of_uses?: number;
 };
